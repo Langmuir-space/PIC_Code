@@ -37,7 +37,7 @@ qidx = qi/dx                    # Electric Charge Density
 # ===============================
 # Others
 # ===============================
-save_path = '../../../Result/'
+save_path = 'C:/Users/shimooka/OneDrive - Kyushu University (1)/PIC/Result'
 flag = True
 bounds = [-5, -2]
 seed = 0
