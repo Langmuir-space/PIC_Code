@@ -1,0 +1,21 @@
+# Python
+__pycache__/
+*.py[cod]
+
+# 仮想環境
+.venv/
+venv/
+
+# Jupyter
+.ipynb_checkpoints/
+
+# 計算結果
+output/
+results/
+
+# 動画・画像
+*.gif
+*.mp4
+
+# macOS
+.DS_Store
