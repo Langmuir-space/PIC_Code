@@ -89,47 +89,6 @@ def phase_speed(vx, vy, save_path, title, label, vmin=None, vmax=None):
     fig.savefig(os.path.join(save_path, f"{label}.png"))
     plt.close(fig)
 
-"""
-def animation(x, y, save_name, xlabel='', ylabel='', xmin=None, xmax=None,
-              ymin=None, ymax=None):
-
-    fig, ax = plt.subplots(constrained_layout=True)
-    nt = x.shape[0]
-    if xmin is None:
-        xmin = np.min(x)
-    if xmax is None:
-        xmax = np.max(x)
-    if ymin is None:
-        ymin = np.min(y)
-    if ymax is None:
-        ymax = np.max(y)
-
-    def update(it):
-
-        ax.clear()
-        ax.scatter(x[it], y[it], s=s, color="blue")
-
-        ax.set_xlim(xmin, xmax)
-        ax.set_ylim(ymin, ymax)
-
-        ax.set_xlabel(f"{xlabel}", fontsize=fontsize)
-        ax.set_ylabel(f"{ylabel}", fontsize=fontsize)
-        ax.tick_params(axis='both', which='major', labelsize=fontsize - 2)
-        ax.set_title(f"$t\\omega_{{pe}} = {it*dt*wpe:.2f}$", fontsize=fontsize)
-
-    frames = range(0, nt, dt_skip)
-    ani = FuncAnimation(fig, update, frames=frames, interval=interval)
-
-    if save_name.endswith(".gif"):
-        ani.save(save_name, writer=PillowWriter(fps=fps))
-    else:
-        ani.save(save_name, fps=fps)
-
-    plt.close(fig)
-
-    return ani
-"""
-
 
 def animation(x, y, save_name, xlabel='', ylabel='', xmin=None, xmax=None,
               ymin=None, ymax=None, select='hist'):
