@@ -12,13 +12,13 @@ def setrho(x, qe):
     x = x[valid]
 
     ij = np.floor(x).astype(int)
-    denom = 2*ij + 1
+    ij1 = ij + 1
+    area = ij1**2 - ij**2
+    wL = (x**2-ij**2)/area
+    wR = 1.0 - wL
 
-    wR = (x**2 - ij**2) / denom
-    wL = 1.0 - wR
-
-    np.add.at(rhoj, ij, qe * wL)
-    np.add.at(rhoj, ij + 1, qe * wR)
+    np.add.at(rhoj, ij, qe*wR)
+    np.add.at(rhoj, ij1, qe*wL)
 
     rhoj /= vj
 
