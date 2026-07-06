@@ -57,11 +57,12 @@ def field(jym, jzm, jyp, jzp, rho, eyl, eyr, ezl, ezr):
 def field_ex(rho):
     phi = np.zeros(nx + 1)
     phi[:-1] = tdma_solve(a, bp, cp, rho[:-1])
-    phi[-1] = 0     # Boundary Condition
+    phi[-1] = 0
     ex_half = np.zeros(nx)
     ex_half[:] = - (phi[1:] - phi[:-1])
     ex = np.zeros(nx + 1)
     ex[0] = 0
-    ex[1:-1] = (1 + 1/ij[1:])*ex_half[1:]/2 + (1 - 1/ij[1:])*ex_half[:-1]/2
+    ex[1:-1] = (1 + 1/ij[1:])*ex_half[1:]/2 \
+        + (1 - 1/ij[1:])*ex_half[:-1]/2
     ex[-1] = - (phi[-1] - phi[-2])
     return ex, phi

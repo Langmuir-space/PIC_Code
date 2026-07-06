@@ -40,7 +40,8 @@ qidx = qi/dx                    # Electric Charge Density
 # Others
 # ===============================
 # save_path = r'C:\Users\kasik\OneDrive - Kyushu University\PIC\Result'
-save_path = r'C:\Users\shimooka\OneDrive - Kyushu University (1)\PIC\Result'
+# save_path = r'C:\Users\shimooka\OneDrive - Kyushu University (1)\PIC\Result'
+save_path = r'C:\Users\kasik\OneDrive - Kyushu University\PIC\Result'
 flag = True
 bounds = [-5, -2]
 seed = 0
