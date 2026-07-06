@@ -13,8 +13,8 @@ a = np.zeros(nx)
 b = np.zeros(nx)
 c = np.zeros(nx)
 a[0] = 0
-b[0] = 4
-c[0] = -4
+b[0] = 8
+c[0] = -8
 a[1:] = - (1 - 1/(2*ij[1:]))
 b[1:] = 2
 c[1:] = - (1 + 1/(2*ij[1:]))
@@ -59,9 +59,9 @@ def field_ex(rho):
     phi[:-1] = tdma_solve(a, bp, cp, rho[:-1])
     phi[-1] = 0     # Boundary Condition
     ex_half = np.zeros(nx)
-    ex_half[:] = phi[1:] - phi[:-1]
+    ex_half[:] = - (phi[1:] - phi[:-1])
     ex = np.zeros(nx + 1)
-    ex[0] = ex_half[0]
+    ex[0] = 0
     ex[1:-1] = (1 + 1/ij[1:])*ex_half[1:]/2 + (1 - 1/ij[1:])*ex_half[:-1]/2
-    ex[-1] = 0
+    ex[-1] = - (phi[-1] - phi[-2])
     return ex, phi

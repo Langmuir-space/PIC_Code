@@ -28,32 +28,31 @@ def make_dic(base_save_path):
 def tdma_pre(a, b, c):
     n = len(b)
     cp = np.zeros(n)
-    bp = np.zeros(n)
+    u = np.zeros(n)
 
-    bp[0] = b[0]
-    cp[0] = c[0] / bp[0]
+    u[0] = b[0]
+    cp[0] = c[0] / u[0]
 
     for i in range(1, n):
-        bp[i] = b[i] - a[i] * cp[i - 1]
+        u[i] = b[i] - a[i] * cp[i - 1]
         if i < n - 1:
-            cp[i] = c[i] / bp[i]
+            cp[i] = c[i] / u[i]
         else:
             cp[i] = 0.0
 
-    return bp, cp
+    return u, cp
 
 
-def tdma_solve(a, bp, cp, d):
+def tdma_solve(a, u, cp, d):
     n = len(d)
     x = np.zeros_like(d)
 
     x[0] = d[0]
-
     for i in range(1, n):
-        x[i] = d[i] - a[i] * x[i - 1] / bp[i - 1]
+        x[i] = d[i] - a[i] * x[i - 1] / u[i - 1]
 
-    x[-1] = x[-1]/bp[-1]
+    x[-1] = x[-1]/u[-1]
     for i in range(n - 2, -1, -1):
-        x[i] = x[i]/bp[i] - cp[i] * x[i + 1]
+        x[i] = x[i]/u[i] - cp[i] * x[i + 1]
 
     return x

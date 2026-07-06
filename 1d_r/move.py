@@ -21,7 +21,7 @@ def move(vx0, vy0, vz0, gamma0, ae, tx, tz, x,
 
     ij = np.floor(x).astype(int)
     ij1 = ij + 1
-    area = ij1**2 - ij**2
+    area = 2*ij + 1
     wL = (x**2 - ij**2)/area
     wR = 1.0 - wL
 
