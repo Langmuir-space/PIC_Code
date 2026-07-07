@@ -6,7 +6,7 @@ from current import curnt
 from fields import field, field_energy, field_ex
 from utils import make_dic
 from viz import dispersion_plot, field_plot, phase_speed, animation
-from setrho import setrho
+from setrho import setrho, vj
 import time
 import params
 from utils import tdma_pre, tdma_solve
@@ -273,8 +273,8 @@ def main():
         byt.append(by.copy())
         bzt.append(bz.copy())
         phit.append(phi.copy())
-        rhoet.append(rho_e/qe.copy())
-        rhoit.append(rho_i/qi.copy())
+        rhoet.append(rho_e.copy())
+        rhoit.append(rho_i.copy())
         # vxt.append(vx.copy())
         # vyt.append(vy.copy())
         # vzt.append(vz.copy())
@@ -330,14 +330,22 @@ def main():
     # Make Animation and Save Figures
     # ======================================
     ij = np.arange(nx+1)*dx
-    animation(ij, rhoet, save_name=f"{save_fig_path}/rho_e.gif",
-              xlabel='$x_e(*\\omega_{pe}/c)$', ylabel='$\\rho_e$',
+    animation(ij, vj*rhoet/qe, save_name=f"{save_fig_path}/N_e.gif",
+              xlabel='$x_e(*\\omega_{pe}/c)$', ylabel='$N_e$',
               xmin=None, xmax=None, ymin=None, ymax=None,
               select='raw')
-    animation(ij, rhoit, save_name=f"{save_fig_path}/rho_i.gif",
-              xlabel='$x_i(*\\omega_{pe}/c)$', ylabel='$\\rho_i$',
+    animation(ij, vj*rhoit/qi, save_name=f"{save_fig_path}/N_i.gif",
+              xlabel='$x_i(*\\omega_{pe}/c)$', ylabel='$N_i$',
               xmin=None, xmax=None, ymin=None, ymax=None,
               select='raw')
+    # animation(ij, rhoet/qe, save_name=f"{save_fig_path}/n_e.gif",
+    #           xlabel='$x_e(*\\omega_{pe}/c)$', ylabel='$n_e$',
+    #           xmin=None, xmax=None, ymin=None, ymax=None,
+    #           select='raw')
+    # animation(ij, rhoit/qi, save_name=f"{save_fig_path}/n_i.gif",
+    #           xlabel='$x_i(*\\omega_{pe}/c)$', ylabel='$n_i$',
+    #           xmin=None, xmax=None, ymin=None, ymax=None,
+    #           select='raw')
     animation(ij, ext, save_name=f"{save_fig_path}/ex.gif",
               xlabel='$x_e(*\\omega_{pe}/c)$', ylabel='$E_{x}$',
               xmin=None, xmax=None, ymin=None, ymax=None,

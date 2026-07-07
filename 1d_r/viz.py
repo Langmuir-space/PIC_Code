@@ -103,7 +103,13 @@ def animation(x, y, save_name, xlabel='', ylabel='', xmin=None, xmax=None,
     if ymax is None:
         ymax = np.nanmax(y)
 
-    updates = make_updates(ax, x, y, xmin, xmax, ymin, ymax, xlabel, ylabel)
+    updates = make_updates(fig, ax, x, y, xmin, xmax, ymin, ymax, xlabel,
+                           ylabel, save_name)
+    # save_interval = int(10 / (wpe * dt))
+    # if frame % save_interval == 0:
+    #     fig.savefig(f"frame_{frame:05d}.png", dpi=300)
+    # updates[f"{select}"](0)
+    # fig.savefig(save_name.rsplit(".", 1)[0] + "_t0.png", dpi=300)
 
     frames = range(0, nt, dt_skip)
     ani = FuncAnimation(fig, updates[f"{select}"], frames=frames,
@@ -119,7 +125,9 @@ def animation(x, y, save_name, xlabel='', ylabel='', xmin=None, xmax=None,
     return ani
 
 
-def make_updates(ax, x, y, xmin, xmax, ymin, ymax, xlabel, ylabel):
+def make_updates(fig, ax, x, y, xmin, xmax, ymin, ymax, xlabel, ylabel,
+                 save_name):
+    png_prefix = save_name.rsplit('.', 1)[0]
 
     def update_hist(it):
         ax.clear()
@@ -130,7 +138,14 @@ def make_updates(ax, x, y, xmin, xmax, ymin, ymax, xlabel, ylabel):
         ax.set_xlabel(f"{xlabel}", fontsize=fontsize)
         ax.set_ylabel(f"{ylabel}", fontsize=fontsize)
         ax.tick_params(axis='both', which='major', labelsize=fontsize - 2)
-        ax.set_title(f"$t\\omega_{{pe}} = {it*dt*wpe:.2f}$", fontsize=fontsize)
+        twpe = it * dt * wpe
+        ax.set_title(f"$t\\omega_{{pe}} = {twpe:.2f}$", fontsize=fontsize)
+        # nearest = round(twpe / 10) * 10
+        # if abs(twpe - nearest) <= dt_skip * dt * wpe / 2:
+        #     fig.savefig(
+        #         f"{png_prefix}_{nearest:03.0f}.png",
+        #         dpi=300
+        #         )
 
     def update_raw(it):
         ax.clear()
@@ -141,7 +156,14 @@ def make_updates(ax, x, y, xmin, xmax, ymin, ymax, xlabel, ylabel):
         ax.set_xlabel(f"{xlabel}", fontsize=fontsize)
         ax.set_ylabel(f"{ylabel}", fontsize=fontsize)
         ax.tick_params(axis='both', which='major', labelsize=fontsize - 2)
-        ax.set_title(f"$t\\omega_{{pe}} = {it*dt*wpe:.2f}$", fontsize=fontsize)
+        twpe = it * dt * wpe
+        ax.set_title(f"$t\\omega_{{pe}} = {twpe:.2f}$", fontsize=fontsize)
+        # nearest = round(twpe / 10) * 10
+        # if abs(twpe - nearest) <= dt_skip * dt * wpe / 2:
+        #     fig.savefig(
+        #         f"{png_prefix}_{nearest:03.0f}.png",
+        #         dpi=300
+        #         )
 
     def update_phase(it):
         ax.clear()
@@ -152,7 +174,14 @@ def make_updates(ax, x, y, xmin, xmax, ymin, ymax, xlabel, ylabel):
         ax.set_xlabel(f"{xlabel}", fontsize=fontsize)
         ax.set_ylabel(f"{ylabel}", fontsize=fontsize)
         ax.tick_params(axis='both', which='major', labelsize=fontsize - 2)
-        ax.set_title(f"$t\\omega_{{pe}} = {it*dt*wpe:.2f}$", fontsize=fontsize)
+        twpe = it * dt * wpe
+        ax.set_title(f"$t\\omega_{{pe}} = {twpe:.2f}$", fontsize=fontsize)
+        # nearest = round(twpe / 10) * 10
+        # if abs(twpe - nearest) <= dt_skip * dt * wpe / 2:
+        #     fig.savefig(
+        #         f"{png_prefix}_{nearest:03.0f}.png",
+        #         dpi=300
+        #         )
 
     return {
         "hist": update_hist,

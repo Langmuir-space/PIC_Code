@@ -4,6 +4,7 @@ from params import nx
 vj = 2*np.pi*(np.arange(nx + 1))
 vj[0] = np.pi/4
 
+
 def setrho(x, q):
     rhoj = np.zeros(nx + 1)
     valid = ~np.isnan(x)
