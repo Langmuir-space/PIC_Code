@@ -105,11 +105,6 @@ def animation(x, y, save_name, xlabel='', ylabel='', xmin=None, xmax=None,
 
     updates = make_updates(fig, ax, x, y, xmin, xmax, ymin, ymax, xlabel,
                            ylabel, save_name)
-    # save_interval = int(10 / (wpe * dt))
-    # if frame % save_interval == 0:
-    #     fig.savefig(f"frame_{frame:05d}.png", dpi=300)
-    # updates[f"{select}"](0)
-    # fig.savefig(save_name.rsplit(".", 1)[0] + "_t0.png", dpi=300)
 
     frames = range(0, nt, dt_skip)
     ani = FuncAnimation(fig, updates[f"{select}"], frames=frames,

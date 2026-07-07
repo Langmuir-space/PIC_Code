@@ -3,14 +3,13 @@ import numpy as np
 # ===============================
 # Simulation Setting
 # ===============================
-# nptcl = 4096*4                  # Particle Number
-xmax = 6                    # Plasma Size Normalized By c/wpe
-# nx = 128                      # X-space Grid Number
-nx = 128
+# nptcl = 4096*4                # Particle Number
+xmax = 6                        # Plasma Size Normalized By c/wpe
+nx = 128                        # X-space Grid Number
 k = 1
 ij = 2*np.arange(nx) + 1
 nptcl = ij.sum() * k
-nt = 256*10                    # Time Grid Number
+nt = 256*10                     # Time Grid Number
 dx = xmax / nx                  # X-space Grid Length
 dt = dx                         # Time Grid Length
 theta = 0                       # Propagation Degree
