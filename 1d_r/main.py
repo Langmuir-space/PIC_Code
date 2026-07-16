@@ -1,57 +1,32 @@
 import numpy as np
-from params import nx, nt, nptcl, vth, vthi, qme, qmi, \
-    dt, qe, qi, wce0, theta, seed, xmax, wpe, dx
+from params import nx, nt, qme, qmi, dt, qe, qi, dx
 from move import move
-from current import curnt
-from fields import field, field_energy, field_ex
+from fields import field_energy, field_ex
 from utils import make_dic
-from viz import dispersion_plot, field_plot, phase_speed, animation
-from setrho import setrho, vj
+from viz import field_plot, animation
+from setrho import setrho
 import time
 import params
-from utils import tdma_pre, tdma_solve
+from input import x0, vx0, vy0, vz0, xi0, vxi0, vyi0, vzi0, \
+    gamma0, gammai0, ake0, aki0, bx0, bz0
 
 
 def main():
-    np.random.seed(seed)
     # ====================================
-    # Initial condition For Electron
+    # Load Initial Condition
     # ====================================
-    # x = np.linspace(0, nx, nptcl, endpoint=False)   # Position at t = 0
-    ij = 2*np.arange(nx) + 1
-    x = np.empty(nptcl)
-    k = 0
-    for j in range(nx):
-        n = ij[j]
-        x[k:k+n] = j + np.random.rand(n)
-        k += n
-    vx = np.random.randn(nptcl)*vth                 # Velocity at t = Δt/2
-    vy = np.random.randn(nptcl)*vth
-    vz = np.random.randn(nptcl)*vth
-    gamma = 1. / np.sqrt(1 - vx*vx - vy*vy - vz*vz)
-    ake = np.sum(gamma - 1)                         # Particle Kinetic Energy
-
-    # ====================================
-    # Initial condition For Ion
-    # ====================================
-    # xi = np.linspace(0, nx, nptcl, endpoint=False)
-    xi = np.empty(nptcl)
-    k = 0
-    for j in range(nx):
-        n = ij[j]
-        xi[k:k+n] = j + np.random.rand(n)
-        k += n
-    vxi = np.random.randn(nptcl)*vthi
-    vyi = np.random.randn(nptcl)*vthi
-    vzi = np.random.randn(nptcl)*vthi
-    gammai = 1. / np.sqrt(1 - vxi*vxi - vyi*vyi - vzi*vzi)
-    aki = np.sum(gammai - 1)
-
-    # ====================================
-    # Background Magneticfield
-    # ====================================
-    bx0 = wce0/qme*np.cos(theta/180.*np.pi)
-    bz0 = wce0/qme*np.sin(theta/180.*np.pi)
+    x = x0
+    vx = vx0
+    vy = vy0
+    vz = vz0
+    xi = xi0
+    vxi = vxi0
+    vyi = vyi0
+    vzi = vzi0
+    gamma = gamma0
+    gammai = gammai0
+    ake = ake0
+    aki = aki0
 
     # ====================================
     # Array Initialization
@@ -61,55 +36,32 @@ def main():
     ez = np.zeros(nx + 1)
     by = np.zeros(nx + 1)
     bz = np.zeros(nx + 1)
-    eyl = np.zeros(nx + 1)
-    eyr = np.zeros(nx + 1)
-    ezl = np.zeros(nx + 1)
-    ezr = np.zeros(nx + 1)
+    # eyl = np.zeros(nx + 1)
+    # eyr = np.zeros(nx + 1)
+    # ezl = np.zeros(nx + 1)
+    # ezr = np.zeros(nx + 1)
 
     # ====================================
-    # Make Save Array
+    # Fields at t = 0
     # ====================================
-    ext = []    # Raw electric field
-    eyt = []
-    ezt = []
-    byt = []    # Raw magnetic field
-    bzt = []
-    xt = []    # Raw position
-    vxt = []   # Raw velocity
-    vyt = []
-    vzt = []
-    xit = []    # Raw position
-    vxit = []   # Raw velocity
-    vyit = []
-    vzit = []
-    phit = []
+    rho_e = setrho(x, qe)
+    rho_i = setrho(xi, qi)
+    rho = rho_e + rho_i
+    ex, phi = field_ex(rho)
 
-    aket = []         # Kinetic Energy of electron
-    akit = []         # Kinetic Energy of ion
-    ext2 = []         # Energy of Ex
-    eyt2 = []
-    ezt2 = []
-    byt2 = []
-    bzt2 = []
-    rhoet = []
-    rhoit = []
-
-    xt.append(x.copy())
-    xit.append(xi.copy())
-    ext.append(ex.copy())
-    eyt.append(ey.copy())
-    ezt.append(ez.copy())
-    byt.append(by.copy())
-    bzt.append(bz.copy())
-    vxt.append(vx.copy())
-    vyt.append(vy.copy())
-    vzt.append(vz.copy())
-    vxit.append(vxi.copy())
-    vyit.append(vyi.copy())
-    vzit.append(vzi.copy())
+    # ======================================================
+    # Make Save Array at t = nΔt (veloity at t = (n-1/2)Δt)
+    # ======================================================
+    save = {}
+    for name in [
+        "ex", "ey", "ez", "by", "bz", "x", "vx", "vy", "vz",
+        "xi", "vxi", "vyi", "vzi", "phi", "ake", "aki",
+        "ex2", "ey2", "ez2", "by2", "bz2", "rhoe", "rhoi"
+            ]:
+        save[name] = []
 
     # ====================================
-    # Velocity at t = -Δt/2 For Electron
+    # Velocity at t = -Δt/2
     # ====================================
     ae = 0.5*qme*(-dt/2)
     tx = ae*bx0
@@ -117,9 +69,6 @@ def main():
     vx, vy, vz, gamma, ake = move(
         vx, vy, vz, gamma, ae, tx, tz, x, ex, ey, ez, by, bz)
 
-    # ====================================
-    # Velocity at t = -Δt/2 For Ion
-    # ====================================
     ai = 0.5*qmi*(-dt/2)
     txi = ai*bx0
     tzi = ai*bz0
@@ -133,6 +82,24 @@ def main():
     ai = 0.5*qmi*dt
     txi = ai*bx0
     tzi = ai*bz0
+
+    # ===========================================================
+    # Save positions and fields at t = 0 (veloity at t = -Δt/2)
+    # ===========================================================
+    save["x"].append(x.copy())
+    save["xi"].append(xi.copy())
+    save["ex"].append(ex.copy())
+    save["ey"].append(ey.copy())
+    save["ez"].append(ez.copy())
+    save["by"].append(by.copy())
+    save["bz"].append(bz.copy())
+    save["phi"].append(phi.copy())
+    save["vx"].append(vx.copy())
+    save["vy"].append(vy.copy())
+    save["vz"].append(vz.copy())
+    save["vxi"].append(vxi.copy())
+    save["vyi"].append(vyi.copy())
+    save["vzi"].append(vzi.copy())
 
     # ====================================
     # Make Save Dictionary
@@ -166,54 +133,6 @@ def main():
         vxi, vyi, vzi, gammai, aki = move(
             vxi, vyi, vzi, gammai, ai, txi, tzi, xi, ex, ey, ez, by, bz)
 
-        # ===============================================================
-        # Save Position at t = (n + 1/2)Δt
-        # ===============================================================
-        x2 = x + vx/2
-        y2 = vy/2
-        r2 = np.sqrt(x2**2 + y2**2)
-        alpha = np.arctan2(y2, x2)
-        x_tmp = r2
-        # th += alpha
-        vx_old = vx.copy()
-        vy_old = vy.copy()
-        vz_tmp = vz.copy()
-        vx_tmp = np.cos(alpha)*vx_old + np.sin(alpha)*vy_old
-        vy_tmp = -np.sin(alpha)*vx_old + np.cos(alpha)*vy_old
-
-        mask_out = x_tmp >= nx
-        x_tmp[mask_out] = np.nan
-        vx_tmp[mask_out] = np.nan
-        vy_tmp[mask_out] = np.nan
-        vz_tmp[mask_out] = np.nan
-
-        xt.append(x_tmp.copy())
-        vxt.append(vx_tmp.copy())
-        vyt.append(vy_tmp.copy())
-        vzt.append(vz_tmp.copy())
-
-        x2 = xi + vxi/2
-        y2 = vyi/2
-        r2 = np.sqrt(x2**2 + y2**2)
-        alpha = np.arctan2(y2, x2)
-        xi_tmp = r2
-        # th += alpha
-        vxi_old = vxi.copy()
-        vyi_old = vyi.copy()
-        vzi_tmp = vzi.copy()
-        vxi_tmp = np.cos(alpha)*vxi_old + np.sin(alpha)*vyi_old
-        vyi_tmp = -np.sin(alpha)*vxi_old + np.cos(alpha)*vyi_old
-
-        mask_out = xi_tmp >= nx
-        xi_tmp[mask_out] = np.nan
-        vxi_tmp[mask_out] = np.nan
-        vyi_tmp[mask_out] = np.nan
-        vzi_tmp[mask_out] = np.nan
-
-        xit.append(xi_tmp.copy())
-        vxit.append(vxi_tmp.copy())
-        vyit.append(vyi_tmp.copy())
-        vzit.append(vzi_tmp.copy())
         # ===============================================================
         # Push Particle Position at t = (n + 1)Δt
         # ===============================================================
@@ -280,71 +199,61 @@ def main():
         # ex, ey, ez, by, bz, eyl, eyr, ezl, ezr = field(
         #     jym, jzm, jyp, jzp, rho, eyl, eyr, ezl, ezr)
 
-        # for electrostatic
-        ex, phi = field_ex(rho)
+        ex, phi = field_ex(rho)      # for electrostatic
 
         # ======================================
         # Save Into List
         # ======================================
         ex2, ey2, ez2, by2, bz2 = field_energy(ex, ey, ez, by, bz)
-        ext.append(ex.copy())
-        eyt.append(ey.copy())
-        ezt.append(ez.copy())
-        byt.append(by.copy())
-        bzt.append(bz.copy())
-        phit.append(phi.copy())
-        rhoet.append(rho_e.copy())
-        rhoit.append(rho_i.copy())
-        # vxt.append(vx.copy())
-        # vyt.append(vy.copy())
-        # vzt.append(vz.copy())
-        # vxit.append(vxi.copy())
-        # vyit.append(vyi.copy())
-        # vzit.append(vzi.copy())
+        save["ex"].append(ex.copy())
+        save["ey"].append(ey.copy())
+        save["ez"].append(ez.copy())
+        save["by"].append(by.copy())
+        save["bz"].append(bz.copy())
+        save["phi"].append(phi.copy())
+        save["rho_e"].append(rho_e.copy())
+        save["rho_i"].append(rho_i.copy())
+        save["vx"].append(vx.copy())
+        save["vy"].append(vy.copy())
+        save["vz"].append(vz.copy())
+        save["vxi"].append(vxi.copy())
+        save["vyi"].append(vyi.copy())
+        save["vzi"].append(vzi.copy())
 
-        aket.append(ake.copy())
-        akit.append(aki.copy())
-        ext2.append(ex2.copy())
-        eyt2.append(ey2.copy())
-        ezt2.append(ez2.copy())
-        byt2.append(by2.copy())
-        bzt2.append(bz2.copy())
+        save["ake"].append(ake.copy())
+        save["aki"].append(aki.copy())
+        save["ex2"].append(ex2.copy())
+        save["ey2"].append(ey2.copy())
+        save["ez2"].append(ez2.copy())
+        save["by2"].append(by2.copy())
+        save["bz2"].append(bz2.copy())
 
     # ======================================
     # Convert List to Array
     # ======================================
-
-    ext = np.array(ext)
-    eyt = np.array(eyt)
-    ezt = np.array(ezt)
-    byt = np.array(byt)
-    bzt = np.array(bzt)
-    xt = np.array(xt)
-    vxt = np.array(vxt)
-    vyt = np.array(vyt)
-    vzt = np.array(vzt)
-    xit = np.array(xit)
-    vxit = np.array(vxit)
-    vyit = np.array(vyit)
-    vzit = np.array(vzit)
-    aket = np.array(aket)
-    akit = np.array(akit)
-    ext2 = np.array(ext2)
-    eyt2 = np.array(eyt2)
-    ezt2 = np.array(ezt2)
-    byt2 = np.array(byt2)
-    bzt2 = np.array(bzt2)
-    phit = np.array(phit)
-    rhoet = np.array(rhoet)
-    rhoit = np.array(rhoit)
-
-    # np.savetxt(f"{save_text_path}/vx.txt", vxt)
-    # np.savetxt(f"{save_text_path}/vy.txt", vyt)
-    # np.savetxt(f"{save_text_path}/vz.txt", vzt)
-    # np.savetxt(f"{save_text_path}/x.txt", xt)
-    # np.savetxt(f"{save_text_path}/ex.txt", ext)
-    # np.savetxt(f"{save_text_path}/rho_e.txt", rhoet)
-    # np.savetxt(f"{save_text_path}/rho_i.txt", rhoit)
+    ext = np.array(save["ex"])
+    # eyt = np.array(save["ey"])
+    # ezt = np.array(save["ez"])
+    # byt = np.array(save["by"])
+    # bzt = np.array(save["bz"])
+    # xt = np.array(save["x"])
+    # vxt = np.array(save["vx"])
+    # vyt = np.array(save["vy"])
+    # vzt = np.array(save["vz"])
+    # xit = np.array(save["xi"])
+    # vxit = np.array(save["vxi"])
+    # vyit = np.array(save["vyi"])
+    # vzit = np.array(save["vzi"])
+    # aket = np.array(save["ake"])
+    # akit = np.array(save["aki"])
+    # ext2 = np.array(save["ex2"])
+    # eyt2 = np.array(save["ey2"])
+    # ezt2 = np.array(save["ez2"])
+    # byt2 = np.array(save["by2"])
+    # bzt2 = np.array(save["bz2"])
+    # phit = np.array(save["phi"])
+    rhoet = np.array(save["rho_e"])
+    rhoit = np.array(save["rho_i"])
 
     # ======================================
     # Make Animation and Save Figures
@@ -401,11 +310,16 @@ def main():
     #           xmin=0, xmax=None, ymin=-0.25, ymax=0.25,
     #           select='phase')
 
-    # dispersion_plot(ext, save_fig_path, title=r'$E_x(k,\omega)$', label='Ex_wk')
-    # dispersion_plot(eyt, save_fig_path, title=r'$E_y(k,\omega)$', label='Ey_wk')
-    # dispersion_plot(ezt, save_fig_path, title=r'$E_z(k,\omega)$', label='Ez_wk')
-    # dispersion_plot(byt, save_fig_path, title=r'$B_y(k,\omega)$', label='By_wk')
-    # dispersion_plot(bzt, save_fig_path, title=r'$B_z(k,\omega)$', label='Bz_wk')
+    # dispersion_plot(ext, save_fig_path, title=r'$E_x(k,\omega)$',
+    #                 label='Ex_wk')
+    # dispersion_plot(eyt, save_fig_path, title=r'$E_y(k,\omega)$',
+    #                 label='Ey_wk')
+    # dispersion_plot(ezt, save_fig_path, title=r'$E_z(k,\omega)$',
+    #                 label='Ez_wk')
+    # dispersion_plot(byt, save_fig_path, title=r'$B_y(k,\omega)$',
+    #                 label='By_wk')
+    # dispersion_plot(bzt, save_fig_path, title=r'$B_z(k,\omega)$',
+    #                 label='Bz_wk')
 
     # phase_speed(vx, vy, save_fig_path, title='Electron phase space',
     #             label='Electron_phase', vmin=None, vmax=None)
