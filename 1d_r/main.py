@@ -44,9 +44,9 @@ def main():
     # ====================================
     # Fields at t = 0
     # ====================================
-    rho_e = setrho(x, qe)
-    rho_i = setrho(xi, qi)
-    rho = rho_e + rho_i
+    rhoe = setrho(x, qe)
+    rhoi = setrho(xi, qi)
+    rho = rhoe + rhoi
     ex, phi = field_ex(rho)
 
     ex2, ey2, ez2, by2, bz2 = field_energy(ex, ey, ez, by, bz)
@@ -88,29 +88,34 @@ def main():
     # ===========================================================
     # Save positions and fields at t = 0 (veloity at t = -Δt/2)
     # ===========================================================
-    save["x"].append(x.copy())
-    save["xi"].append(xi.copy())
-    save["ex"].append(ex.copy())
-    save["ey"].append(ey.copy())
-    save["ez"].append(ez.copy())
-    save["by"].append(by.copy())
-    save["bz"].append(bz.copy())
-    save["phi"].append(phi.copy())
-    save["vx"].append(vx.copy())
-    save["vy"].append(vy.copy())
-    save["vz"].append(vz.copy())
-    save["vxi"].append(vxi.copy())
-    save["vyi"].append(vyi.copy())
-    save["vzi"].append(vzi.copy())
-    save["rhoe"].append(rho_e.copy())
-    save["rhoi"].append(rho_i.copy())
-    save["ake"].append(ake.copy())
-    save["aki"].append(aki.copy())
-    save["ex2"].append(ex2.copy())
-    save["ey2"].append(ey2.copy())
-    save["ez2"].append(ez2.copy())
-    save["by2"].append(by2.copy())
-    save["bz2"].append(bz2.copy())
+    save_vars = {
+        "x": x,
+        "xi": xi,
+        "ex": ex,
+        "ey": ey,
+        "ez": ez,
+        "by": by,
+        "bz": bz,
+        "phi": phi,
+        "vx": vx,
+        "vy": vy,
+        "vz": vz,
+        "vxi": vxi,
+        "vyi": vyi,
+        "vzi": vzi,
+        "rhoe": rhoe,
+        "rhoi": rhoi,
+        "ake": ake,
+        "aki": aki,
+        "ex2": ex2,
+        "ey2": ey2,
+        "ez2": ez2,
+        "by2": by2,
+        "bz2": bz2,
+    }
+
+    for key, value in save_vars.items():
+        save[key].append(value.copy())
 
     # ====================================
     # Make Save Dictionary
@@ -189,18 +194,18 @@ def main():
         # Output: J±(n + 1/2)Δt, rho(n + 1)Δt, x(n + 1)Δt
         # ===============================================================
 
-        # jym_e, jzm_e, jyp_e, jzp_e, rho_e, x = \
+        # jym_e, jzm_e, jyp_e, jzp_e, rhoe, x = \
         #     curnt(x, vx, vy, vz, qe)
-        # jym_i, jzm_i, jyp_i, jzp_i, rho_i, xi = \
+        # jym_i, jzm_i, jyp_i, jzp_i, rhoi, xi = \
         #     curnt(xi, vxi, vyi, vzi, qi)
 
         # jym = jym_e + jym_i
         # jzm = jzm_e + jzm_i
         # jyp = jyp_e + jyp_i
         # jzp = jzp_e + jzp_i
-        rho_e = setrho(x, qe)
-        rho_i = setrho(xi, qi)
-        rho = rho_e + rho_i
+        rhoe = setrho(x, qe)
+        rhoi = setrho(xi, qi)
+        rho = rhoe + rhoi
 
         # ======================================
         # Calculate Field at t = (n + 1)Δt
@@ -216,27 +221,34 @@ def main():
         # Save Into List
         # ======================================
         ex2, ey2, ez2, by2, bz2 = field_energy(ex, ey, ez, by, bz)
-        save["ex"].append(ex.copy())
-        save["ey"].append(ey.copy())
-        save["ez"].append(ez.copy())
-        save["by"].append(by.copy())
-        save["bz"].append(bz.copy())
-        save["phi"].append(phi.copy())
-        save["rhoe"].append(rho_e.copy())
-        save["rhoi"].append(rho_i.copy())
-        save["vx"].append(vx.copy())
-        save["vy"].append(vy.copy())
-        save["vz"].append(vz.copy())
-        save["vxi"].append(vxi.copy())
-        save["vyi"].append(vyi.copy())
-        save["vzi"].append(vzi.copy())
-        save["ake"].append(ake.copy())
-        save["aki"].append(aki.copy())
-        save["ex2"].append(ex2.copy())
-        save["ey2"].append(ey2.copy())
-        save["ez2"].append(ez2.copy())
-        save["by2"].append(by2.copy())
-        save["bz2"].append(bz2.copy())
+        save_vars = {
+            "x": x,
+            "xi": xi,
+            "ex": ex,
+            "ey": ey,
+            "ez": ez,
+            "by": by,
+            "bz": bz,
+            "phi": phi,
+            "vx": vx,
+            "vy": vy,
+            "vz": vz,
+            "vxi": vxi,
+            "vyi": vyi,
+            "vzi": vzi,
+            "rhoe": rhoe,
+            "rhoi": rhoi,
+            "ake": ake,
+            "aki": aki,
+            "ex2": ex2,
+            "ey2": ey2,
+            "ez2": ez2,
+            "by2": by2,
+            "bz2": bz2,
+        }
+
+        for key, value in save_vars.items():
+            save[key].append(value.copy())
 
     # ======================================
     # Convert List to Array
