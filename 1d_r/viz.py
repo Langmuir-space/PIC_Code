@@ -122,7 +122,7 @@ def animation(x, y, save_name, xlabel='', ylabel='', xmin=None, xmax=None,
 
 def make_updates(fig, ax, x, y, xmin, xmax, ymin, ymax, xlabel, ylabel,
                  save_name):
-    png_prefix = save_name.rsplit('.', 1)[0]
+    # png_prefix = save_name.rsplit('.', 1)[0]
 
     def update_hist(it):
         ax.clear()

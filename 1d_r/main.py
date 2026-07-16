@@ -49,6 +49,8 @@ def main():
     rho = rho_e + rho_i
     ex, phi = field_ex(rho)
 
+    ex2, ey2, ez2, by2, bz2 = field_energy(ex, ey, ez, by, bz)
+
     # ======================================================
     # Make Save Array at t = nΔt (veloity at t = (n-1/2)Δt)
     # ======================================================
@@ -100,6 +102,15 @@ def main():
     save["vxi"].append(vxi.copy())
     save["vyi"].append(vyi.copy())
     save["vzi"].append(vzi.copy())
+    save["rhoe"].append(rho_e.copy())
+    save["rhoi"].append(rho_i.copy())
+    save["ake"].append(ake.copy())
+    save["aki"].append(aki.copy())
+    save["ex2"].append(ex2.copy())
+    save["ey2"].append(ey2.copy())
+    save["ez2"].append(ez2.copy())
+    save["by2"].append(by2.copy())
+    save["bz2"].append(bz2.copy())
 
     # ====================================
     # Make Save Dictionary
@@ -211,15 +222,14 @@ def main():
         save["by"].append(by.copy())
         save["bz"].append(bz.copy())
         save["phi"].append(phi.copy())
-        save["rho_e"].append(rho_e.copy())
-        save["rho_i"].append(rho_i.copy())
+        save["rhoe"].append(rho_e.copy())
+        save["rhoi"].append(rho_i.copy())
         save["vx"].append(vx.copy())
         save["vy"].append(vy.copy())
         save["vz"].append(vz.copy())
         save["vxi"].append(vxi.copy())
         save["vyi"].append(vyi.copy())
         save["vzi"].append(vzi.copy())
-
         save["ake"].append(ake.copy())
         save["aki"].append(aki.copy())
         save["ex2"].append(ex2.copy())
@@ -252,8 +262,8 @@ def main():
     # byt2 = np.array(save["by2"])
     # bzt2 = np.array(save["bz2"])
     # phit = np.array(save["phi"])
-    rhoet = np.array(save["rho_e"])
-    rhoit = np.array(save["rho_i"])
+    rhoet = np.array(save["rhoe"])
+    rhoit = np.array(save["rhoi"])
 
     # ======================================
     # Make Animation and Save Figures
