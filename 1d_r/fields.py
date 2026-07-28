@@ -64,5 +64,6 @@ def field_ex(rho):
     ex[0] = 0
     ex[1:-1] = (1 + 1/ij[1:])*ex_half[1:]/2 \
         + (1 - 1/ij[1:])*ex_half[:-1]/2
-    ex[-1] = - (phi[-1] - phi[-2])
+    # ex[-1] = - (phi[-1] - phi[-2])
+    ex[-1] = 0
     return ex, phi

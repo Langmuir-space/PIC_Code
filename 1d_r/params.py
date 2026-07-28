@@ -12,7 +12,7 @@ nptcl = ij.sum() * k
 nt = 256*10                     # Time Grid Number
 dx = xmax / nx                  # X-space Grid Length
 dt = dx                         # Time Grid Length
-theta = 0                       # Propagation Degree
+theta = 90                       # Propagation Degree
 
 # ===============================
 # Electron
