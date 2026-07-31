@@ -3,22 +3,21 @@ import numpy as np
 # ===============================
 # Simulation Setting
 # ===============================
-# nptcl = 4096*4                # Particle Number
-xmax = 6*5                        # Plasma Size Normalized By c/wpe
-nx = 128*5                        # X-space Grid Number
+# nptcl = 4096*4               # Particle Number
+xmax = 2**5                       # Plasma Size Normalized By c/wpe
+nx = 2**10                        # X-space Grid Number
 k = 1
 ij = 2*np.arange(nx) + 1
 nptcl = ij.sum() * k
-nt = 256*10                     # Time Grid Number
+nt = 2*11                    # Time Grid Number
 dx = xmax / nx                  # X-space Grid Length
 dt = dx                         # Time Grid Length
 theta = 90                       # Propagation Degree
-print(nptcl, nx, nt, dx, dt, theta)
 
 # ===============================
 # Electron
 # ===============================
-wce0 = -1.0                     # Gyro Frequency
+wce0 = -0.5                     # Gyro Frequency
 wpe = 1.0                       # Plasma Frequency c=wpe=e/m0=0
 vth = 0.1                       # Thermal Speed
 qme = -1.0                      # Electron Standard q/me=1
@@ -42,7 +41,8 @@ qidx = qi/dx                    # Electric Charge Density
 # ===============================
 # save_path = r'C:\Users\kasik\OneDrive - Kyushu University\PIC\Result'
 # save_path = r'C:\Users\shimooka\OneDrive - Kyushu University (1)\PIC\Result'
-save_path = r'C:\Users\kasik\OneDrive - Kyushu University\PIC\Result'
+# save_path = r'C:\Users\kasik\OneDrive - Kyushu University\PIC\Result'
+save_path = './Result'
 flag = True
 bounds = [-5, -2]
 seed = 0

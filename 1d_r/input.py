@@ -5,6 +5,14 @@ np.random.seed(seed)
 # ====================================
 # Position at t = 0 For Electron
 # ====================================
+# w = 2*np.arange(nx) + 1
+# n_real = nptcl * w / w.sum()
+# ij = np.floor(n_real).astype(int)
+# rest = nptcl - ij.sum()
+# if rest > 0:
+#     frac = n_real - ij
+#     idx = np.argsort(frac)[-rest:]
+#     ij[idx] += 1
 ij = 2*np.arange(nx) + 1
 x0 = np.empty(nptcl)
 k = 0
