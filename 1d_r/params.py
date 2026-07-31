@@ -4,8 +4,8 @@ import numpy as np
 # Simulation Setting
 # ===============================
 # nptcl = 4096*4                # Particle Number
-xmax = 6                        # Plasma Size Normalized By c/wpe
-nx = 128                        # X-space Grid Number
+xmax = 60                        # Plasma Size Normalized By c/wpe
+nx = 1280                        # X-space Grid Number
 k = 1
 ij = 2*np.arange(nx) + 1
 nptcl = ij.sum() * k
