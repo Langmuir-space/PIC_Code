@@ -4,8 +4,8 @@ import numpy as np
 # Simulation Setting
 # ===============================
 # nptcl = 4096*4                # Particle Number
-xmax = 60                        # Plasma Size Normalized By c/wpe
-nx = 1280                        # X-space Grid Number
+xmax = 6*5                        # Plasma Size Normalized By c/wpe
+nx = 128*5                        # X-space Grid Number
 k = 1
 ij = 2*np.arange(nx) + 1
 nptcl = ij.sum() * k
@@ -13,6 +13,7 @@ nt = 256*10                     # Time Grid Number
 dx = xmax / nx                  # X-space Grid Length
 dt = dx                         # Time Grid Length
 theta = 90                       # Propagation Degree
+print(nptcl, nx, nt, dx, dt, theta)
 
 # ===============================
 # Electron
