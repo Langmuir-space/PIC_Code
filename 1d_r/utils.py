@@ -2,6 +2,7 @@ import datetime
 import os
 import shutil
 import numpy as np
+from params import dx, xmin
 
 
 def make_dic(base_save_path):
@@ -56,3 +57,8 @@ def tdma_solve(a, u, cp, d):
         x[i] = x[i]/u[i] - cp[i] * x[i + 1]
 
     return x
+
+
+def xpos_to_r(x):
+    return xmin + x*dx
+
