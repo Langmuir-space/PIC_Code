@@ -1,5 +1,5 @@
 import numpy as np
-from params import nx, nptcl, vth, vthi, qme, wce0, theta, seed
+from params import nx, nptcl, vth, vthi, qme, wce0, theta, seed, ij
 
 np.random.seed(seed)
 # ====================================
@@ -13,7 +13,7 @@ np.random.seed(seed)
 #     frac = n_real - ij
 #     idx = np.argsort(frac)[-rest:]
 #     ij[idx] += 1
-ij = 2*np.arange(nx) + 1
+# ij = 2*np.arange(nx) + 1
 x0 = np.empty(nptcl)
 k = 0
 for j in range(nx):

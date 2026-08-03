@@ -1,5 +1,5 @@
 import numpy as np
-from params import nx, dx, dt
+from params import nx, dx, dt, xmin
 from utils import tdma_pre, tdma_solve
 
 k = 2*np.pi*np.fft.fftfreq(nx, d=dx)
@@ -8,16 +8,20 @@ bb = np.sin(k*dx)/dx
 aa[1:nx] = (dx/2/np.sin(k[1:nx]*dx/2))**2
 tem = 0.25*dt
 
-ij = np.arange(nx)
-a = np.zeros(nx)
-b = np.zeros(nx)
-c = np.zeros(nx)
+ij = np.arange(1, nx)
+print("dx:", dx)
+r = xmin + ij*dx
+print("r:", r)
+a = np.zeros(nx-1)
+b = np.zeros(nx-1)
+c = np.zeros(nx-1)
 a[0] = 0
-b[0] = 8
-c[0] = -8
-a[1:] = - (1 - 1/(2*ij[1:]))
-b[1:] = 2
-c[1:] = - (1 + 1/(2*ij[1:]))
+a[1:] = - (1 - 1/(2*r[1:]))
+b[:] = 2
+c[:-1] = - (1 + 1/(2*r[1:]))
+print("a:", a)
+print("b:", b)
+print("c:", c)
 
 bp, cp = tdma_pre(a, b, c)
 
@@ -56,7 +60,8 @@ def field(jym, jzm, jyp, jzp, rho, eyl, eyr, ezl, ezr):
 
 def field_ex(rho):
     phi = np.zeros(nx + 1)
-    phi[:-1] = tdma_solve(a, bp, cp, rho[:-1])
+    phi[0] = 0
+    phi[1:-1] = tdma_solve(a, bp, cp, rho[:-1])
     phi[-1] = 0
     ex_half = np.zeros(nx)
     ex_half[:] = - (phi[1:] - phi[:-1])

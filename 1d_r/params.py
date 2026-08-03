@@ -4,15 +4,19 @@ import numpy as np
 # Simulation Setting
 # ===============================
 # nptcl = 4096*4               # Particle Number
-xmax = 2**5                       # Plasma Size Normalized By c/wpe
-nx = 2**10                        # X-space Grid Number
-k = 1
-ij = 2*np.arange(nx) + 1
-nptcl = ij.sum() * k
-nt = 2**11                    # Time Grid Number
-dx = xmax / nx                  # X-space Grid Length
+xmin = 2**5
+xmax = 2**6                       # Plasma Size Normalized By c/wpe
+nx = 2**8                       # X-space Grid Number
+nt = 2**8                    # Time Grid Number
+dx = (xmax - xmin) / nx         # X-space Grid Length
 dt = dx                         # Time Grid Length
 theta = 90                       # Propagation Degree
+
+r_edge = xmin + np.arange(nx+1)*dx
+N0 = 100                        # most inner cell particle number
+k = N0 / (r_edge[1]**2 - r_edge[0]**2)
+ij = np.round(k * (r_edge[1:]**2 - r_edge[:-1]**2)).astype(int)
+nptcl = ij.sum()
 
 # ===============================
 # Electron
@@ -21,7 +25,7 @@ wce0 = -0.5                     # Gyro Frequency
 wpe = 1.0                       # Plasma Frequency c=wpe=e/m0=0
 vth = 0.1                       # Thermal Speed
 qme = -1.0                      # Electron Standard q/me=1
-qe = xmax*wpe*wpe/(nptcl*qme)   # Electric Charge of an Electron
+qe = (xmax - xmin)*wpe*wpe/(nptcl*qme)   # Electric Charge of an Electron
 qdx = qe/dx                     # Electric Charge Density
 
 # ===============================
