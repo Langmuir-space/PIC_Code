@@ -1,13 +1,12 @@
 import numpy as np
-from params import nx, nt, qme, qmi, dt, qe, qi, dx
+from params import nx, nt, qme, qmi, dt, qe, qi, dx, x0, ij
 from move import move
 from fields import field_energy, field_ex
 from utils import make_dic
 from viz import field_plot, animation, dispersion_plot, phase_speed
 from setrho import setrho
 import time
-import params
-from input import x0, vx0, vy0, vz0, xi0, vxi0, vyi0, vzi0, \
+from input import pos, vx0, vy0, vz0, pos_i, vxi0, vyi0, vzi0, \
     gamma0, gammai0, ake0, aki0, bx0, bz0
 
 
@@ -15,11 +14,11 @@ def main():
     # ====================================
     # Load Initial Condition
     # ====================================
-    x = x0
+    x = pos
     vx = vx0
     vy = vy0
     vz = vz0
-    xi = xi0
+    xi = pos_i
     vxi = vxi0
     vyi = vyi0
     vzi = vzi0
@@ -163,13 +162,14 @@ def main():
         vx = np.cos(alpha)*vx_old + np.sin(alpha)*vy_old
         vy = -np.sin(alpha)*vx_old + np.cos(alpha)*vy_old
 
-        mask_out = x >= nx
-        # x[mask_out] = np.nan
-        # vx[mask_out] = np.nan
-        # vy[mask_out] = np.nan
-        # vz[mask_out] = np.nan
-        # gamma[mask_out] = np.nan
-        x[mask_out] = 2*nx - x[mask_out]
+        mask_in = x <= x0
+        x[mask_in] = 2*x0 - x[mask_in]
+        vx[mask_in] = -vx[mask_in]
+        vy[mask_in] = -vy[mask_in]
+        vz[mask_in] = vz[mask_in]
+
+        mask_out = x >= nx + x0
+        x[mask_out] = 2*(nx + x0) - x[mask_out]
         vx[mask_out] = -vx[mask_out]
         vy[mask_out] = -vy[mask_out]
         vz[mask_out] = vz[mask_out]
@@ -185,13 +185,14 @@ def main():
         vxi = np.cos(alpha)*vxi_old + np.sin(alpha)*vyi_old
         vyi = -np.sin(alpha)*vxi_old + np.cos(alpha)*vyi_old
 
-        mask_out = xi >= nx
-        # xi[mask_out] = np.nan
-        # vxi[mask_out] = np.nan
-        # vyi[mask_out] = np.nan
-        # vzi[mask_out] = np.nan
-        # gammai[mask_out] = np.nan
-        xi[mask_out] = 2*nx - xi[mask_out]
+        mask_in = xi <= x0
+        xi[mask_in] = 2*x0 - xi[mask_in]
+        vxi[mask_in] = -vxi[mask_in]
+        vyi[mask_in] = -vyi[mask_in]
+        vzi[mask_in] = vzi[mask_in]
+
+        mask_out = xi >= nx + x0
+        xi[mask_out] = 2*(nx + x0) - xi[mask_out]
         vxi[mask_out] = -vxi[mask_out]
         vyi[mask_out] = -vyi[mask_out]
         vzi[mask_out] = vzi[mask_out]
@@ -290,7 +291,6 @@ def main():
     # ======================================
     # Make Animation and Save Figures
     # ======================================
-    ij = np.arange(nx+1)*dx
     # animation(ij, vj*rhoet/qe, save_name=f"{save_fig_path}/N_e.gif",
     #           xlabel='$x_e(*\\omega_{pe}/c)$', ylabel='$N_e$',
     #           xmin=None, xmax=None, ymin=None, ymax=None,

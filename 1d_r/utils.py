@@ -61,4 +61,3 @@ def tdma_solve(a, u, cp, d):
 
 def xpos_to_r(x):
     return xmin + x*dx
-

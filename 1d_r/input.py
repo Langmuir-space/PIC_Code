@@ -1,24 +1,16 @@
 import numpy as np
-from params import nx, nptcl, vth, vthi, qme, wce0, theta, seed, ij
+from params import nx, nptcl, vth, vthi, qme, wce0, theta, seed, ij, par
 
 np.random.seed(seed)
 # ====================================
 # Position at t = 0 For Electron
 # ====================================
-# w = 2*np.arange(nx) + 1
-# n_real = nptcl * w / w.sum()
-# ij = np.floor(n_real).astype(int)
-# rest = nptcl - ij.sum()
-# if rest > 0:
-#     frac = n_real - ij
-#     idx = np.argsort(frac)[-rest:]
-#     ij[idx] += 1
-# ij = 2*np.arange(nx) + 1
-x0 = np.empty(nptcl)
+pos = np.empty(nptcl)
 k = 0
 for j in range(nx):
-    n = ij[j]
-    x0[k:k+n] = j + np.random.rand(n)
+    n = par[j]
+    i = ij[j]
+    pos[k:k+n] = i + np.random.rand(n)
     k += n
 
 # ====================================
@@ -33,11 +25,12 @@ ake0 = np.sum(gamma0 - 1)
 # ====================================
 # Position at t = 0 For Ion
 # ====================================
-xi0 = np.empty(nptcl)
+pos_i = np.empty(nptcl)
 k = 0
 for j in range(nx):
-    n = ij[j]
-    xi0[k:k+n] = j + np.random.rand(n)
+    n = par[j]
+    i = ij[j]
+    pos_i[k:k+n] = i + np.random.rand(n)
     k += n
 vxi0 = np.random.randn(nptcl)*vthi
 vyi0 = np.random.randn(nptcl)*vthi

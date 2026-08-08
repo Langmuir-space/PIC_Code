@@ -3,20 +3,20 @@ import numpy as np
 # ===============================
 # Simulation Setting
 # ===============================
-# nptcl = 4096*4               # Particle Number
-xmin = 2**5
-xmax = 2**6                       # Plasma Size Normalized By c/wpe
-nx = 2**8                       # X-space Grid Number
-nt = 2**8                    # Time Grid Number
-dx = (xmax - xmin) / nx         # X-space Grid Length
+xmin = 2**0
+xmax = 2**3                       # Plasma Size Normalized By c/wpe
+nt = 2**11                    # Time Grid Number
+dx = 2**(-3)
+nx = int((xmax - xmin) / dx)        # X-space Grid Length
 dt = dx                         # Time Grid Length
 theta = 90                       # Propagation Degree
-
-r_edge = xmin + np.arange(nx+1)*dx
-N0 = 100                        # most inner cell particle number
-k = N0 / (r_edge[1]**2 - r_edge[0]**2)
-ij = np.round(k * (r_edge[1:]**2 - r_edge[:-1]**2)).astype(int)
-nptcl = ij.sum()
+x0 = int(xmin / dx)
+n0 = 100                        # most inner cell particle number
+ij = np.arange(x0, x0+nx+1, 1)
+ij_r = ij - x0
+ratio = 1 + 2*ij_r[:-1]/(2*x0 + 1)
+par = np.round(n0*ratio).astype(int)
+nptcl = par.sum()
 
 # ===============================
 # Electron

@@ -1,5 +1,5 @@
 import numpy as np
-from params import nx, dx, dt, xmin
+from params import nx, dx, dt, ij
 from utils import tdma_pre, tdma_solve
 
 k = 2*np.pi*np.fft.fftfreq(nx, d=dx)
@@ -8,21 +8,14 @@ bb = np.sin(k*dx)/dx
 aa[1:nx] = (dx/2/np.sin(k[1:nx]*dx/2))**2
 tem = 0.25*dt
 
-ij = np.arange(1, nx)
-print("dx:", dx)
-r = xmin + ij*dx
-print("r:", r)
 a = np.zeros(nx-1)
 b = np.zeros(nx-1)
 c = np.zeros(nx-1)
 a[0] = 0
-a[1:] = - (1 - 1/(2*r[1:]))
+a[1:] = - (1 - 1/(2*ij[2:-1]))
 b[:] = 2
-c[:-1] = - (1 + 1/(2*r[1:]))
-print("a:", a)
-print("b:", b)
-print("c:", c)
-
+c[:-1] = - (1 + 1/(2*ij[1:-2]))
+c[-1] = 0
 bp, cp = tdma_pre(a, b, c)
 
 
