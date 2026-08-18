@@ -3,15 +3,15 @@ import numpy as np
 # ===============================
 # Simulation Setting
 # ===============================
-xmin = 2**0
-xmax = 2**3                       # Plasma Size Normalized By c/wpe
-nt = 2**11                    # Time Grid Number
+xmin = 2**5
+xmax = 2**6                       # Plasma Size Normalized By c/wpe
+nt = 2**12                    # Time Grid Number
 dx = 2**(-3)
 nx = int((xmax - xmin) / dx)        # X-space Grid Length
 dt = dx                         # Time Grid Length
 theta = 90                       # Propagation Degree
 x0 = int(xmin / dx)
-nptcl = 2**13                    # Particle Number
+nptcl = 2**14                    # Particle Number
 
 
 # ===============================

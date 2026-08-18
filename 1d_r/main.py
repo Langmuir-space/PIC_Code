@@ -297,22 +297,22 @@ def main():
     #           xlabel='$x_i(*\\omega_{pe}/c)$', ylabel='$N_i$',
     #           xmin=None, xmax=None, ymin=None, ymax=None,
     #           select='raw')
-    animation(index*dx, rhoet/qe, save_name=f"{save_fig_path}/n_e.gif",
-              xlabel='$x_e(*\\omega_{pe}/c)$', ylabel='$n_e$',
-              xmin=None, xmax=None, ymin=None, ymax=None,
-              select='raw')
-    animation(index*dx, rhoit/qi, save_name=f"{save_fig_path}/n_i.gif",
-              xlabel='$x_i(*\\omega_{pe}/c)$', ylabel='$n_i$',
-              xmin=None, xmax=None, ymin=None, ymax=None,
-              select='raw')
-    animation(index*dx, ext, save_name=f"{save_fig_path}/ex.gif",
-              xlabel='$x_e(*\\omega_{pe}/c)$', ylabel='$E_{x}$',
-              xmin=None, xmax=None, ymin=None, ymax=None,
-              select='raw')
-    animation(index*dx, phit, save_name=f"{save_fig_path}/phi.gif",
-              xlabel='$x_e(*\\omega_{pe}/c)$', ylabel='$\\phi$',
-              xmin=None, xmax=None, ymin=None, ymax=None,
-              select='raw')
+    # animation(index*dx, rhoet/qe, save_name=f"{save_fig_path}/n_e.gif",
+    #           xlabel='$x_e(*\\omega_{pe}/c)$', ylabel='$n_e$',
+    #           xmin=None, xmax=None, ymin=None, ymax=None,
+    #           select='raw')
+    # animation(index*dx, rhoit/qi, save_name=f"{save_fig_path}/n_i.gif",
+    #           xlabel='$x_i(*\\omega_{pe}/c)$', ylabel='$n_i$',
+    #           xmin=None, xmax=None, ymin=None, ymax=None,
+    #           select='raw')
+    # animation(index*dx, ext, save_name=f"{save_fig_path}/ex.gif",
+    #           xlabel='$x_e(*\\omega_{pe}/c)$', ylabel='$E_{x}$',
+    #           xmin=None, xmax=None, ymin=None, ymax=None,
+    #           select='raw')
+    # animation(index*dx, phit, save_name=f"{save_fig_path}/phi.gif",
+    #           xlabel='$x_e(*\\omega_{pe}/c)$', ylabel='$\\phi$',
+    #           xmin=None, xmax=None, ymin=None, ymax=None,
+    #           select='raw')
     # velocity_e = np.sqrt(vxt**2 + vyt**2 + vzt**2)
     # animation(velocity_e, vxt, save_name=f"{save_fig_path}/ve_f.gif",
     #           xlabel='$v_{e}(/c)$', ylabel='$f(v_{e})$',
