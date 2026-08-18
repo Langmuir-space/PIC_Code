@@ -1,4 +1,5 @@
 import numpy as np
+from params import x0
 
 
 def move(vx0, vy0, vz0, gamma0, ae, tx, tz, x,
@@ -24,12 +25,14 @@ def move(vx0, vy0, vz0, gamma0, ae, tx, tz, x,
     area = 2*ij + 1
     wL = (x**2 - ij**2)/area
     wR = 1.0 - wL
+    pos = ij - x0
+    pos1 = pos + 1
 
-    aexpt = wR*aex[ij] + wL*aex[ij1]
-    aeypt = wR*aey[ij] + wL*aey[ij1]
-    aezpt = wR*aez[ij] + wL*aez[ij1]
-    abypt = wR*aby[ij] + wL*aby[ij1]
-    abzpt = wR*abz[ij] + wL*abz[ij1]
+    aexpt = wR*aex[pos] + wL*aex[pos1]
+    aeypt = wR*aey[pos] + wL*aey[pos1]
+    aezpt = wR*aez[pos] + wL*aez[pos1]
+    abypt = wR*aby[pos] + wL*aby[pos1]
+    abzpt = wR*abz[pos] + wL*abz[pos1]
 
     gvxs = vx0*gamma0 + aexpt
     gvys = vy0*gamma0 + aeypt

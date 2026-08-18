@@ -1,6 +1,7 @@
 import numpy as np
-from params import nx, dx, dt, ij
+from params import nx, dx, dt
 from utils import tdma_pre, tdma_solve
+from setrho import index
 
 k = 2*np.pi*np.fft.fftfreq(nx, d=dx)
 aa = np.zeros(nx)
@@ -12,9 +13,9 @@ a = np.zeros(nx-1)
 b = np.zeros(nx-1)
 c = np.zeros(nx-1)
 a[0] = 0
-a[1:] = - (1 - 1/(2*ij[2:-1]))
+a[1:] = - (1 - 1/(2*index[2:-1]))
 b[:] = 2
-c[:-1] = - (1 + 1/(2*ij[1:-2]))
+c[:-1] = - (1 + 1/(2*index[1:-2]))
 c[-1] = 0
 bp, cp = tdma_pre(a, b, c)
 
@@ -54,14 +55,14 @@ def field(jym, jzm, jyp, jzp, rho, eyl, eyr, ezl, ezr):
 def field_ex(rho):
     phi = np.zeros(nx + 1)
     phi[0] = 0
-    phi[1:-1] = tdma_solve(a, bp, cp, rho[:-1])
+    phi[1:-1] = tdma_solve(a, bp, cp, rho[1:-1])
     phi[-1] = 0
     ex_half = np.zeros(nx)
     ex_half[:] = - (phi[1:] - phi[:-1])
     ex = np.zeros(nx + 1)
     ex[0] = 0
-    ex[1:-1] = (1 + 1/ij[1:])*ex_half[1:]/2 \
-        + (1 - 1/ij[1:])*ex_half[:-1]/2
+    ex[1:-1] = (1 + 1/index[1:-1])*ex_half[1:]/2 \
+        + (1 - 1/index[1:-1])*ex_half[:-1]/2
     # ex[-1] = - (phi[-1] - phi[-2])
     ex[-1] = 0
     return ex, phi

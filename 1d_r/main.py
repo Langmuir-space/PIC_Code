@@ -1,12 +1,12 @@
 import numpy as np
-from params import nx, nt, qme, qmi, dt, qe, qi, dx, x0, ij
+from params import nx, nt, qme, qmi, dt, qe, qi, dx, x0, save_path, flag
 from move import move
 from fields import field_energy, field_ex
 from utils import make_dic
 from viz import field_plot, animation, dispersion_plot, phase_speed
-from setrho import setrho
+from setrho import setrho, index
 import time
-from input import pos, vx0, vy0, vz0, pos_i, vxi0, vyi0, vzi0, \
+from input import x_ini, vx0, vy0, vz0, xi_ini, vxi0, vyi0, vzi0, \
     gamma0, gammai0, ake0, aki0, bx0, bz0
 
 
@@ -14,11 +14,11 @@ def main():
     # ====================================
     # Load Initial Condition
     # ====================================
-    x = pos
+    x = x_ini
     vx = vx0
     vy = vy0
     vz = vz0
-    xi = pos_i
+    xi = xi_ini
     vxi = vxi0
     vyi = vyi0
     vzi = vzi0
@@ -119,8 +119,6 @@ def main():
     # ====================================
     # Make Save Dictionary
     # ====================================
-    save_path = params.save_path
-    flag = params.flag
     if flag:
         save_text_path, save_fig_path = make_dic(save_path)
 
@@ -165,13 +163,13 @@ def main():
         mask_in = x <= x0
         x[mask_in] = 2*x0 - x[mask_in]
         vx[mask_in] = -vx[mask_in]
-        vy[mask_in] = -vy[mask_in]
+        vy[mask_in] = vy[mask_in]
         vz[mask_in] = vz[mask_in]
 
         mask_out = x >= nx + x0
         x[mask_out] = 2*(nx + x0) - x[mask_out]
         vx[mask_out] = -vx[mask_out]
-        vy[mask_out] = -vy[mask_out]
+        vy[mask_out] = vy[mask_out]
         vz[mask_out] = vz[mask_out]
 
         x2 = xi + vxi
@@ -188,13 +186,13 @@ def main():
         mask_in = xi <= x0
         xi[mask_in] = 2*x0 - xi[mask_in]
         vxi[mask_in] = -vxi[mask_in]
-        vyi[mask_in] = -vyi[mask_in]
+        vyi[mask_in] = vyi[mask_in]
         vzi[mask_in] = vzi[mask_in]
 
         mask_out = xi >= nx + x0
         xi[mask_out] = 2*(nx + x0) - xi[mask_out]
         vxi[mask_out] = -vxi[mask_out]
-        vyi[mask_out] = -vyi[mask_out]
+        vyi[mask_out] = vyi[mask_out]
         vzi[mask_out] = vzi[mask_out]
 
         # ===============================================================
@@ -299,48 +297,48 @@ def main():
     #           xlabel='$x_i(*\\omega_{pe}/c)$', ylabel='$N_i$',
     #           xmin=None, xmax=None, ymin=None, ymax=None,
     #           select='raw')
-    animation(ij, rhoet/qe, save_name=f"{save_fig_path}/n_e.gif",
+    animation(index*dx, rhoet/qe, save_name=f"{save_fig_path}/n_e.gif",
               xlabel='$x_e(*\\omega_{pe}/c)$', ylabel='$n_e$',
               xmin=None, xmax=None, ymin=None, ymax=None,
               select='raw')
-    animation(ij, rhoit/qi, save_name=f"{save_fig_path}/n_i.gif",
+    animation(index*dx, rhoit/qi, save_name=f"{save_fig_path}/n_i.gif",
               xlabel='$x_i(*\\omega_{pe}/c)$', ylabel='$n_i$',
               xmin=None, xmax=None, ymin=None, ymax=None,
               select='raw')
-    animation(ij, ext, save_name=f"{save_fig_path}/ex.gif",
+    animation(index*dx, ext, save_name=f"{save_fig_path}/ex.gif",
               xlabel='$x_e(*\\omega_{pe}/c)$', ylabel='$E_{x}$',
               xmin=None, xmax=None, ymin=None, ymax=None,
               select='raw')
-    animation(ij, phit, save_name=f"{save_fig_path}/phi.gif",
+    animation(index*dx, phit, save_name=f"{save_fig_path}/phi.gif",
               xlabel='$x_e(*\\omega_{pe}/c)$', ylabel='$\\phi$',
               xmin=None, xmax=None, ymin=None, ymax=None,
               select='raw')
-    velocity_e = np.sqrt(vxt**2 + vyt**2 + vzt**2)
-    animation(velocity_e, vxt, save_name=f"{save_fig_path}/ve_f.gif",
-              xlabel='$v_{e}(/c)$', ylabel='$f(v_{e})$',
-              xmin=None, xmax=None, ymin=None, ymax=None,
-              select='hist')
-    velocity_i = np.sqrt(vxit**2 + vyit**2 + vzit**2)
-    animation(velocity_i, vxit, save_name=f"{save_fig_path}/vi_f.gif",
-              xlabel='$v_{i}(/c)$', ylabel='$f(v_{i})$',
-              xmin=None, xmax=None, ymin=None, ymax=None,
-              select='hist')
-    animation(vxt, vyt, save_name=f"{save_fig_path}/vx-vy.gif",
-              xlabel='$v_{xe}(/c)$', ylabel='$v_{ye}(/c)$',
-              xmin=-0.5, xmax=0.5, ymin=-0.5, ymax=0.5,
-              select='phase')
-    animation(xt*dx, vxt, save_name=f"{save_fig_path}/x-vx.gif",
-              xlabel='$x_e(*\\omega_{pe}/c)$', ylabel='$v_{xe}(/c)$',
-              xmin=0, xmax=None, ymin=-0.5, ymax=0.5,
-              select='phase')
-    animation(vxit, vyit, save_name=f"{save_fig_path}/vxi-vyi.gif",
-              xlabel='$v_{xi}(/c)$', ylabel='$v_{yi}(/c)$',
-              xmin=-0.25, xmax=0.25, ymin=-0.25, ymax=0.25,
-              select='phase')
-    animation(xit*dx, vxit, save_name=f"{save_fig_path}/xi-vxi.gif",
-              xlabel='$x_i(*\\omega_{pe}/c)$', ylabel='$v_{xi}(/c)$',
-              xmin=0, xmax=None, ymin=-0.25, ymax=0.25,
-              select='phase')
+    # velocity_e = np.sqrt(vxt**2 + vyt**2 + vzt**2)
+    # animation(velocity_e, vxt, save_name=f"{save_fig_path}/ve_f.gif",
+    #           xlabel='$v_{e}(/c)$', ylabel='$f(v_{e})$',
+    #           xmin=None, xmax=None, ymin=None, ymax=None,
+    #           select='hist')
+    # velocity_i = np.sqrt(vxit**2 + vyit**2 + vzit**2)
+    # animation(velocity_i, vxit, save_name=f"{save_fig_path}/vi_f.gif",
+    #           xlabel='$v_{i}(/c)$', ylabel='$f(v_{i})$',
+    #           xmin=None, xmax=None, ymin=None, ymax=None,
+    #           select='hist')
+    # animation(vxt, vyt, save_name=f"{save_fig_path}/vx-vy.gif",
+    #           xlabel='$v_{xe}(/c)$', ylabel='$v_{ye}(/c)$',
+    #           xmin=-0.5, xmax=0.5, ymin=-0.5, ymax=0.5,
+    #           select='phase')
+    # animation(xt*dx, vxt, save_name=f"{save_fig_path}/x-vx.gif",
+    #           xlabel='$x_e(*\\omega_{pe}/c)$', ylabel='$v_{xe}(/c)$',
+    #           xmin=0, xmax=None, ymin=-0.5, ymax=0.5,
+    #           select='phase')
+    # animation(vxit, vyit, save_name=f"{save_fig_path}/vxi-vyi.gif",
+    #           xlabel='$v_{xi}(/c)$', ylabel='$v_{yi}(/c)$',
+    #           xmin=-0.25, xmax=0.25, ymin=-0.25, ymax=0.25,
+    #           select='phase')
+    # animation(xit*dx, vxit, save_name=f"{save_fig_path}/xi-vxi.gif",
+    #           xlabel='$x_i(*\\omega_{pe}/c)$', ylabel='$v_{xi}(/c)$',
+    #           xmin=0, xmax=None, ymin=-0.25, ymax=0.25,
+    #           select='phase')
 
     dispersion_plot(ext, save_fig_path, title=r'$E_x(k,\omega)$',
                     label='Ex_wk')
@@ -353,10 +351,10 @@ def main():
     # dispersion_plot(bzt, save_fig_path, title=r'$B_z(k,\omega)$',
     #                 label='Bz_wk')
 
-    # phase_speed(vx, vy, save_fig_path, title='Electron phase space',
-    #             label='Electron_phase', vmin=None, vmax=None)
-    # phase_speed(vxi, vyi, save_fig_path, title='Ion phase space',
-    #             label='Ion_phase', vmin=None, vmax=None)
+    phase_speed(vx, vy, save_fig_path, title='Electron phase space',
+                label='Electron_phase', vmin=None, vmax=None)
+    phase_speed(vxi, vyi, save_fig_path, title='Ion phase space',
+                label='Ion_phase', vmin=None, vmax=None)
 
     field_plot(ext, save_fig_path, title=r'$E_x(x,t)$', label='Ex_xt')
     # field_plot(eyt, save_fig_path, title=r'$E_y(x,t)$', label='Ey_xt')

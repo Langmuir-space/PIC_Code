@@ -11,12 +11,8 @@ nx = int((xmax - xmin) / dx)        # X-space Grid Length
 dt = dx                         # Time Grid Length
 theta = 90                       # Propagation Degree
 x0 = int(xmin / dx)
-n0 = 100                        # most inner cell particle number
-ij = np.arange(x0, x0+nx+1, 1)
-ij_r = ij - x0
-ratio = 1 + 2*ij_r[:-1]/(2*x0 + 1)
-par = np.round(n0*ratio).astype(int)
-nptcl = par.sum()
+nptcl = 2**13                    # Particle Number
+
 
 # ===============================
 # Electron
@@ -48,7 +44,7 @@ qidx = qi/dx                    # Electric Charge Density
 save_path = r'C:\Users\kasik\OneDrive - Kyushu University\PIC\Result'
 # save_path = './Result'
 flag = True
-bounds = [-5, -2]
+bounds = [None, None]
 seed = 0
 dt_skip = 10
 fps = 10
