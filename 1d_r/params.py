@@ -3,16 +3,19 @@ import numpy as np
 # ===============================
 # Simulation Setting
 # ===============================
-xmin = 2**5
-xmax = 2**6                       # Plasma Size Normalized By c/wpe
-nt = 2**12                    # Time Grid Number
-dx = 2**(-3)
+xmin = 2**10/10
+xmax = 2**11/10                       # Plasma Size Normalized By c/wpe
+nt = 2**10                    # Time Grid Number
+# dx = 2**(-3)
+dx = 0.2
 nx = int((xmax - xmin) / dx)        # X-space Grid Length
 dt = dx                         # Time Grid Length
 theta = 90                       # Propagation Degree
 x0 = int(xmin / dx)
 nptcl = 2**14                    # Particle Number
 
+print(xmin, xmax, nx, dx, nt, nx)
+print(nptcl/nx)
 
 # ===============================
 # Electron
@@ -44,7 +47,7 @@ qidx = qi/dx                    # Electric Charge Density
 save_path = r'C:\Users\kasik\OneDrive - Kyushu University\PIC\Result'
 # save_path = './Result'
 flag = True
-bounds = [None, None]
+bounds = [-6, -2]
 seed = 0
 dt_skip = 10
 fps = 10

@@ -173,15 +173,19 @@ def main():
         # Output: J±(n + 1/2)Δt, rho(n + 1)Δt, x(n + 1)Δt
         # ===============================================================
 
-        jym_e, jzm_e, jyp_e, jzp_e, rho_e, x = \
-            curnt(x, vx, vy, vz, qdx)
-        jym_i, jzm_i, jyp_i, jzp_i, rho_i, xi = \
-            curnt(xi, vxi, vyi, vzi, qidx)
+        # jym_e, jzm_e, jyp_e, jzp_e, rho_e, x = \
+        #     curnt(x, vx, vy, vz, qdx)
+        # jym_i, jzm_i, jyp_i, jzp_i, rho_i, xi = \
+        #     curnt(xi, vxi, vyi, vzi, qidx)
 
-        jym = jym_e + jym_i
-        jzm = jzm_e + jzm_i
-        jyp = jyp_e + jyp_i
-        jzp = jzp_e + jzp_i
+        # For electrostatic
+        rho_e, x = curnt(x, vx, vy, vz, qdx)
+        rho_i, xi = curnt(xi, vxi, vyi, vzi, qidx)
+
+        # jym = jym_e + jym_i
+        # jzm = jzm_e + jzm_i
+        # jyp = jyp_e + jyp_i
+        # jzp = jzp_e + jzp_i
         rho = rho_e + rho_i
 
         # ======================================
@@ -189,11 +193,11 @@ def main():
         # Input: J±(n + 1/2)Δt, rho(n + 1)Δt
         # Output: E(n + 1)Δt, B(n + 1)Δt
         # ======================================
-        ex, ey, ez, by, bz, eyl, eyr, ezl, ezr = field(
-            jym, jzm, jyp, jzp, rho, eyl, eyr, ezl, ezr)
+        # ex, ey, ez, by, bz, eyl, eyr, ezl, ezr = field(
+        #     jym, jzm, jyp, jzp, rho, eyl, eyr, ezl, ezr)
 
         # for electrostatic
-        # ex = field(jym, jzm, jyp, jzp, rho, eyl, eyr, ezl, ezr)
+        ex = field(rho, rho, rho, rho, rho, eyl, eyr, ezl, ezr)
         # ex = setrho(rho)
 
         # ======================================

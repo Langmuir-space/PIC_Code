@@ -13,7 +13,8 @@ dx = xmax / nx                  # X-space Grid Length
 dt = dx                         # Time Grid Length
 theta = 90                       # Propagation Degree
 
-print(xmax, dx)
+print(xmax, dx, nx, dt, nt)
+print(nptcl/nx)
 
 # ===============================
 # Electron
