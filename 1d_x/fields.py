@@ -37,5 +37,5 @@ def field(jym, jzm, jyp, jzp, rho, eyl, eyr, ezl, ezr):
     ez = ezr + ezl
     by = ezl - ezr
 
-    # return ex, ey, ez, by, bz, eyl, eyr, ezl, ezr
-    return ex  # for electrostatic
+    return ex, ey, ez, by, bz, eyl, eyr, ezl, ezr
+    # return ex  # for electrostatic

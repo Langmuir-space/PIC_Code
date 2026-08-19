@@ -57,7 +57,7 @@ def main():
     for name in [
         "ex", "ey", "ez", "by", "bz", "x", "vx", "vy", "vz",
         "xi", "vxi", "vyi", "vzi", "phi", "ake", "aki",
-        "ex2", "ey2", "ez2", "by2", "bz2", "rhoe", "rhoi"
+        "ex2", "ey2", "ez2", "by2", "bz2", "rhoe", "rhoi", "rhoei"
             ]:
         save[name] = []
 
@@ -104,6 +104,7 @@ def main():
         "vzi": vzi,
         "rhoe": rhoe,
         "rhoi": rhoi,
+        "rhoei": rho,
         "ake": ake,
         "aki": aki,
         "ex2": ex2,
@@ -159,6 +160,23 @@ def main():
         vy_old = vy.copy()
         vx = np.cos(alpha)*vx_old + np.sin(alpha)*vy_old
         vy = -np.sin(alpha)*vx_old + np.cos(alpha)*vy_old
+
+        xi2 = xi + vxi
+        yi2 = vyi
+        r2 = np.sqrt(xi2**2 + yi2**2)
+        alpha = np.arctan2(yi2, xi2)
+        xi = r2
+        # th += alpha
+        vxi_old = vxi.copy()
+        vyi_old = vyi.copy()
+        vxi = np.cos(alpha)*vxi_old + np.sin(alpha)*vyi_old
+        vyi = -np.sin(alpha)*vxi_old + np.cos(alpha)*vyi_old
+
+        # x[x < x0] += nx
+        # x[x >= nx + x0] -= nx
+
+        # xi[xi < x0] += nx
+        # xi[xi >= nx + x0] -= nx
 
         mask_in = x <= x0
         x[mask_in] = 2*x0 - x[mask_in]
@@ -245,6 +263,7 @@ def main():
             "vzi": vzi,
             "rhoe": rhoe,
             "rhoi": rhoi,
+            "rhoei": rho,
             "ake": ake,
             "aki": aki,
             "ex2": ex2,
@@ -283,6 +302,7 @@ def main():
     phit = np.array(save["phi"])
     rhoet = np.array(save["rhoe"])
     rhoit = np.array(save["rhoi"])
+    rhoei = np.array(save["rhoei"])
 
     # np.savetxt(f"{save_text_path}/ext.txt", ext)
 
@@ -297,14 +317,18 @@ def main():
     #           xlabel='$x_i(*\\omega_{pe}/c)$', ylabel='$N_i$',
     #           xmin=None, xmax=None, ymin=None, ymax=None,
     #           select='raw')
-    # animation(index*dx, rhoet/qe, save_name=f"{save_fig_path}/n_e.gif",
-    #           xlabel='$x_e(*\\omega_{pe}/c)$', ylabel='$n_e$',
+    # animation(index*dx, rhoet, save_name=f"{save_fig_path}/rho_e.gif",
+    #           xlabel='$x_e(*\\omega_{pe}/c)$', ylabel='$\\rho_e$',
     #           xmin=None, xmax=None, ymin=None, ymax=None,
     #           select='raw')
-    # animation(index*dx, rhoit/qi, save_name=f"{save_fig_path}/n_i.gif",
-    #           xlabel='$x_i(*\\omega_{pe}/c)$', ylabel='$n_i$',
+    # animation(index*dx, rhoit, save_name=f"{save_fig_path}/rho_i.gif",
+    #           xlabel='$x_i(*\\omega_{pe}/c)$', ylabel='$\\rho_i$',
     #           xmin=None, xmax=None, ymin=None, ymax=None,
     #           select='raw')
+    animation(index*dx, rhoei, save_name=f"{save_fig_path}/rho.gif",
+              xlabel='$x(*\\omega_{pe}/c)$', ylabel='$\\rho$',
+              xmin=None, xmax=None, ymin=None, ymax=None,
+              select='raw')
     # animation(index*dx, ext, save_name=f"{save_fig_path}/ex.gif",
     #           xlabel='$x_e(*\\omega_{pe}/c)$', ylabel='$E_{x}$',
     #           xmin=None, xmax=None, ymin=None, ymax=None,

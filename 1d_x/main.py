@@ -68,7 +68,6 @@ def main():
     vxit = []   # Raw velocity
     vyit = []
     vzit = []
-    phit = []
 
     aket = []         # Kinetic Energy of electron
     akit = []         # Kinetic Energy of ion
@@ -79,6 +78,7 @@ def main():
     bzt2 = []
     rhoet = []
     rhoit = []
+    rhoei = []
 
     xt.append(x.copy())
     xit.append(xi.copy())
@@ -173,19 +173,19 @@ def main():
         # Output: J±(n + 1/2)Δt, rho(n + 1)Δt, x(n + 1)Δt
         # ===============================================================
 
-        # jym_e, jzm_e, jyp_e, jzp_e, rho_e, x = \
-        #     curnt(x, vx, vy, vz, qdx)
-        # jym_i, jzm_i, jyp_i, jzp_i, rho_i, xi = \
-        #     curnt(xi, vxi, vyi, vzi, qidx)
+        jym_e, jzm_e, jyp_e, jzp_e, rho_e, x = \
+            curnt(x, vx, vy, vz, qdx)
+        jym_i, jzm_i, jyp_i, jzp_i, rho_i, xi = \
+            curnt(xi, vxi, vyi, vzi, qidx)
 
         # For electrostatic
-        rho_e, x = curnt(x, vx, vy, vz, qdx)
-        rho_i, xi = curnt(xi, vxi, vyi, vzi, qidx)
+        # rho_e, x = curnt(x, vx, vy, vz, qdx)
+        # rho_i, xi = curnt(xi, vxi, vyi, vzi, qidx)
 
-        # jym = jym_e + jym_i
-        # jzm = jzm_e + jzm_i
-        # jyp = jyp_e + jyp_i
-        # jzp = jzp_e + jzp_i
+        jym = jym_e + jym_i
+        jzm = jzm_e + jzm_i
+        jyp = jyp_e + jyp_i
+        jzp = jzp_e + jzp_i
         rho = rho_e + rho_i
 
         # ======================================
@@ -193,11 +193,11 @@ def main():
         # Input: J±(n + 1/2)Δt, rho(n + 1)Δt
         # Output: E(n + 1)Δt, B(n + 1)Δt
         # ======================================
-        # ex, ey, ez, by, bz, eyl, eyr, ezl, ezr = field(
-        #     jym, jzm, jyp, jzp, rho, eyl, eyr, ezl, ezr)
+        ex, ey, ez, by, bz, eyl, eyr, ezl, ezr = field(
+            jym, jzm, jyp, jzp, rho, eyl, eyr, ezl, ezr)
 
         # for electrostatic
-        ex = field(rho, rho, rho, rho, rho, eyl, eyr, ezl, ezr)
+        # ex = field(rho, rho, rho, rho, rho, eyl, eyr, ezl, ezr)
         # ex = setrho(rho)
 
         # ======================================
@@ -216,8 +216,9 @@ def main():
         vyit.append(vyi.copy())
         vzit.append(vzi.copy())
         # phit.append(phi.copy())
-        rhoet.append((rho_e/qe).copy())
-        rhoit.append((rho_i/qi).copy())
+        rhoet.append((rho_e).copy())
+        rhoit.append((rho_i).copy())
+        rhoei.append((rho).copy())
 
         aket.append(ake.copy())
         akit.append(aki.copy())
@@ -253,6 +254,7 @@ def main():
     bzt2 = np.array(bzt2)
     rhoet = np.array(rhoet)
     rhoit = np.array(rhoit)
+    rhoei = np.array(rhoei)
 
     # ======================================
     # Make Animation and Save Figures
@@ -267,6 +269,18 @@ def main():
     #           xlabel='$x_i(*\\omega_{pe}/c)$', ylabel='$\\rho_i$',
     #           xmin=None, xmax=None, ymin=None, ymax=None,
     #           select='raw')
+    # animation(ij, rhoet, save_name=f"{save_fig_path}/rho_e.gif",
+    #           xlabel='$x_e(*\\omega_{pe}/c)$', ylabel='$\\rho_e$',
+    #           xmin=None, xmax=None, ymin=None, ymax=None,
+    #           select='raw')
+    # animation(ij, rhoit, save_name=f"{save_fig_path}/rho_i.gif",
+    #           xlabel='$x_i(*\\omega_{pe}/c)$', ylabel='$\\rho_i$',
+    #           xmin=None, xmax=None, ymin=None, ymax=None,
+    #           select='raw')
+    animation(ij, rhoei, save_name=f"{save_fig_path}/rho.gif",
+              xlabel='$x(*\\omega_{pe}/c)$', ylabel='$\\rho$',
+              xmin=None, xmax=None, ymin=None, ymax=None,
+              select='raw')
     # animation(ij, ext, save_name=f"{save_fig_path}/ex.gif",
     #           xlabel='$x_e(*\\omega_{pe}/c)$', ylabel='$E_{x}$',
     #           xmin=None, xmax=None, ymin=None, ymax=None,

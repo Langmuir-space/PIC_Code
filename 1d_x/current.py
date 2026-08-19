@@ -36,5 +36,5 @@ def curnt(x, vx, vy, vz, qdx):
     np.add.at(jzp, ij, (1 - delx)*vz*qdx)
     np.add.at(jzp, ij1, delx*vz*qdx)
 
-    # return jym, jzm, jyp, jzp, rho, x
-    return rho, x   # electrostatic
+    return jym, jzm, jyp, jzp, rho, x
+    # return rho, x   # electrostatic

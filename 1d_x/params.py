@@ -14,7 +14,7 @@ dt = dx                         # Time Grid Length
 theta = 90                       # Propagation Degree
 
 print(xmax, dx, nx, dt, nt)
-print(nptcl/nx)
+print(nptcl)
 
 # ===============================
 # Electron
@@ -45,7 +45,7 @@ save_path = r'C:\Users\kasik\OneDrive - Kyushu University\PIC\Result'
 flag = True
 bounds = [-6, -2]
 seed = 0
-dt_skip = 100
+dt_skip = 10
 fps = 10
 interval = 50
 fontsize = 18
