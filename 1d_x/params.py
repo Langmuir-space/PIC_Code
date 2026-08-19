@@ -11,7 +11,7 @@ nx = 2**9
 nt = 2**10                    # Time Grid Number
 dx = xmax / nx                  # X-space Grid Length
 dt = dx                         # Time Grid Length
-theta = 0                       # Propagation Degree
+theta = 90                       # Propagation Degree
 
 print(xmax, dx)
 
