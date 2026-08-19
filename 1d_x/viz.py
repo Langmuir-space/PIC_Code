@@ -11,10 +11,10 @@ def dispersion_plot(field, save_path, title, label):
     nt, nx = field.shape
     vmin = bounds[0]
     vmax = bounds[1]
-    kmin = -2*np.pi*32/xmax
-    kmax = 2*np.pi*32/xmax
-    wmin = -2*np.pi*64/(nt*dt)
-    wmax = 2*np.pi*64/(nt*dt)
+    kmin = -2*np.pi*64/xmax
+    kmax = 2*np.pi*64/xmax
+    wmin = -2*np.pi*128/(nt*dt)
+    wmax = 2*np.pi*128/(nt*dt)
 
     field_fft = np.fft.fftshift(np.fft.fft2(field))
     field_disp = np.log10(np.abs(field_fft) / nx / nt)

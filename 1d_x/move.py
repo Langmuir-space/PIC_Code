@@ -20,8 +20,8 @@ def move(vx0, vy0, vz0, gamma0, ae, tx, tz, x,
     aeypt = aey[ij] + delx*(aey[ij1] - aey[ij])
     aezpt = aez[ij] + delx*(aez[ij1] - aez[ij])
     abypt = aby[ij] + delx*(aby[ij1] - aby[ij])
-#     abzpt = abz[ij] + delx*(abz[ij1] - abz[ij]) + tz
-    abzpt = abz[ij] + delx*(abz[ij1] - abz[ij])
+    abzpt = abz[ij] + delx*(abz[ij1] - abz[ij]) + tz
+    # abzpt = abz[ij] + delx*(abz[ij1] - abz[ij])
 
     gvxs = vx0*gamma0 + aexpt
     gvys = vy0*gamma0 + aeypt
