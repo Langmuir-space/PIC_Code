@@ -284,7 +284,7 @@ def main():
     rhoet = np.array(save["rhoe"])
     rhoit = np.array(save["rhoi"])
 
-    np.savetxt(f"{save_text_path}/ext.txt", ext)
+    # np.savetxt(f"{save_text_path}/ext.txt", ext)
 
     # ======================================
     # Make Animation and Save Figures
