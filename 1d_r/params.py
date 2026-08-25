@@ -20,11 +20,11 @@ print(nptcl)
 # ===============================
 # Electron
 # ===============================
-wce0 = -0.5                     # Gyro Frequency
+wce0 = -1.0                     # Gyro Frequency
 wpe = 1.0                       # Plasma Frequency c=wpe=e/m0=0
 vth = 0.1                       # Thermal Speed
 qme = -1.0                      # Electron Standard q/me=1
-qe = (xmax - xmin)*wpe*wpe/(nptcl*qme)   # Electric Charge of an Electron
+qe = np.pi*(xmax**2 - xmin**2)*wpe*wpe/(nptcl*qme)  # Electric Charge of an Electron
 qdx = qe/dx                     # Electric Charge Density
 
 # ===============================

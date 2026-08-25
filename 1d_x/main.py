@@ -187,6 +187,7 @@ def main():
         jyp = jyp_e + jyp_i
         jzp = jzp_e + jzp_i
         rho = rho_e + rho_i
+        # print(np.sum(rho_e*dx + rho_i*dx))
 
         # ======================================
         # Calculate Field at t = (n + 1)Δt

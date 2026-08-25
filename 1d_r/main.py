@@ -87,32 +87,11 @@ def main():
     # ===========================================================
     # Save positions and fields at t = 0 (veloity at t = -Δt/2)
     # ===========================================================
-    save_vars = {
-        "x": x,
-        "xi": xi,
-        "ex": ex,
-        "ey": ey,
-        "ez": ez,
-        "by": by,
-        "bz": bz,
-        "phi": phi,
-        "vx": vx,
-        "vy": vy,
-        "vz": vz,
-        "vxi": vxi,
-        "vyi": vyi,
-        "vzi": vzi,
-        "rhoe": rhoe,
-        "rhoi": rhoi,
-        "rhoei": rho,
-        "ake": ake,
-        "aki": aki,
-        "ex2": ex2,
-        "ey2": ey2,
-        "ez2": ez2,
-        "by2": by2,
-        "bz2": bz2,
-    }
+    save_vars = {"x": x, "xi": xi, "ex": ex, "ey": ey, "ez": ez,
+                 "by": by, "bz": bz, "phi": phi, "vx": vx, "vy": vy,
+                 "vz": vz, "vxi": vxi, "vyi": vyi, "vzi": vzi, "rhoe": rhoe,
+                 "rhoi": rhoi, "rhoei": rho, "ake": ake, "aki": aki,
+                 "ex2": ex2, "ey2": ey2, "ez2": ez2, "by2": by2, "bz2": bz2}
 
     for key, value in save_vars.items():
         save[key].append(value.copy())
@@ -246,32 +225,12 @@ def main():
         # Save Into List
         # ======================================
         ex2, ey2, ez2, by2, bz2 = field_energy(ex, ey, ez, by, bz)
-        save_vars = {
-            "x": x,
-            "xi": xi,
-            "ex": ex,
-            "ey": ey,
-            "ez": ez,
-            "by": by,
-            "bz": bz,
-            "phi": phi,
-            "vx": vx,
-            "vy": vy,
-            "vz": vz,
-            "vxi": vxi,
-            "vyi": vyi,
-            "vzi": vzi,
-            "rhoe": rhoe,
-            "rhoi": rhoi,
-            "rhoei": rho,
-            "ake": ake,
-            "aki": aki,
-            "ex2": ex2,
-            "ey2": ey2,
-            "ez2": ez2,
-            "by2": by2,
-            "bz2": bz2,
-        }
+        save_vars = {"x": x, "xi": xi, "ex": ex, "ey": ey, "ez": ez,
+                     "by": by, "bz": bz, "phi": phi, "vx": vx, "vy": vy,
+                     "vz": vz, "vxi": vxi, "vyi": vyi, "vzi": vzi,
+                     "rhoe": rhoe, "rhoi": rhoi, "rhoei": rho, "ake": ake,
+                     "aki": aki, "ex2": ex2, "ey2": ey2, "ez2": ez2,
+                     "by2": by2, "bz2": bz2}
 
         for key, value in save_vars.items():
             save[key].append(value.copy())
