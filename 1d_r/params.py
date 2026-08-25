@@ -3,8 +3,8 @@ import numpy as np
 # ===============================
 # Simulation Setting
 # ===============================
-xmin = 2**10/10
-xmax = 2**11/10                       # Plasma Size Normalized By c/wpe
+xmin = 8
+xmax = 16                       # Plasma Size Normalized By c/wpe
 nt = 2**10                    # Time Grid Number
 # dx = 2**(-3)
 dx = 0.2

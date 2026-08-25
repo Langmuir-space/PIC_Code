@@ -2,16 +2,16 @@ import numpy as np
 import matplotlib.pyplot as plt
 from scipy.special import jv, yv
 from scipy.optimize import brentq
-from params import wpe, wpi, wce0, wci0
+from params import wpe, wpi, wce0, wci0, xmin, xmax
 
-xmax = 6
+# xmax = 6
 ximax = 6
 etamax = 6
 xi = np.linspace(0.001, ximax, 10000)
 eta = np.linspace(0.001, etamax, 10000)
 
 
-def dispersion_relation(Rmin, Rmax, xi, eta, ximax, etamax):
+def dispersion_relation(Rmin, Rmax, xi, eta):
 
     def omega_xi(xi):
 
@@ -91,19 +91,20 @@ def dispersion_relation(Rmin, Rmax, xi, eta, ximax, etamax):
 
 
 w_xi, w_xi_k, w_eta, w_eta_k, xi_k, eta_k = \
-    dispersion_relation(0, xmax, xi, eta, ximax, etamax)
+    dispersion_relation(xmin, xmax, xi, eta)
 plt.scatter(xi, w_xi, s=0.1, c='black')
-plt.scatter(xi_k, w_xi_k, c='r', label='$\\xi_k=j_{0,k}/R_c$')
+plt.scatter(xi_k, w_xi_k, c='r', label='$\\xi_k$')
 plt.scatter(np.repeat(eta, w_eta.shape[1]), w_eta.real.ravel(),
             s=0.1, c='black')
 plt.scatter(np.repeat(eta_k, w_eta_k.shape[1]), w_eta_k.real.ravel(),
-            c='blue', label='$\\eta_k=j_{1,k}/R_c$')
+            c='blue', label='$\\eta_k$')
 plt.xlim(0, None)
 plt.ylim(0, None)
-plt.xlabel('$\\eta (*\\omega_{pe} /c)$', fontsize=15)
+plt.xlabel('$\\xi, \\eta \\,(*c/\\omega_{pe})$', fontsize=15)
 plt.ylabel('$\\omega / \\omega_{pe}$', fontsize=15)
 plt.title(f'$\\omega = \\omega(\\xi), \\omega = \
-          \\omega(\\eta), 0\\leq r \\leq {xmax}$', fontsize=15)
+          \\omega(\\eta), {xmin} \\leq r \\leq {xmax}$', fontsize=15)
 plt.tick_params(labelsize=15)
 plt.legend(fontsize=13)
+plt.tight_layout()
 plt.show()
