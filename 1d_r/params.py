@@ -14,9 +14,6 @@ theta = 90                       # Propagation Degree
 x0 = int(xmin / dx)
 nptcl = 2**14                    # Particle Number
 
-print(xmin, xmax, nx, dx, nt, nx)
-print(nptcl)
-
 # ===============================
 # Electron
 # ===============================
