@@ -116,41 +116,52 @@ w_xi, w_xi_k, w_eta, w_eta_k, xi_k, eta_k = \
 
 ez, bz = fluctuation_profile(xmin, xi_k, eta_k, r)
 
-plt.plot(xi*xmax, jv(0, xi*xmax), c='k', label='$J_{0}$')
-plt.plot(eta*xmax, jv(1, eta*xmax), c='gray', label='$J_{1}$')
-plt.axhline(0, c='black')
-j0_zeros = jn_zeros(0, 11)
-j1_zeros = jn_zeros(1, 11)
-j1_zeros = np.append(0, j1_zeros)
-# plt.scatter(j0_zeros, np.zeros_like(j0_zeros), color='red', zorder=5, label='$j_{0,k}$')
-# plt.scatter(j1_zeros, np.zeros_like(j1_zeros), color='blue', zorder=5, label='$j_{1,k}$')
-plt.tick_params(labelsize=15)
-plt.xlabel('$\\xi R_{max}, \\eta R_{max}$', fontsize=15)
-plt.ylabel('$J_0(\\xi R_{max}), J_1(\\eta R_{max})$', fontsize=15)
-plt.title(f'$0 \\leq r \\leq {xmax}$', fontsize=15)
-plt.legend(fontsize=15)
+# plt.plot(xi*xmax, jv(0, xi*xmax), c='k', label='$J_{0}$')
+# plt.plot(eta*xmax, jv(1, eta*xmax), c='gray', label='$J_{1}$')
+# plt.axhline(0, c='black')
+# j0_zeros = jn_zeros(0, 11)
+# j1_zeros = jn_zeros(1, 11)
+# j1_zeros = np.append(0, j1_zeros)
+# # plt.scatter(j0_zeros, np.zeros_like(j0_zeros), color='red', zorder=5, label='$j_{0,k}$')
+# # plt.scatter(j1_zeros, np.zeros_like(j1_zeros), color='blue', zorder=5, label='$j_{1,k}$')
+# plt.tick_params(labelsize=15)
+# plt.xlabel('$\\xi R_{max}, \\eta R_{max}$', fontsize=15)
+# plt.ylabel('$J_0(\\xi R_{max}), J_1(\\eta R_{max})$', fontsize=15)
+# plt.title(f'$0 \\leq r \\leq {xmax}$', fontsize=15)
+# plt.legend(fontsize=15)
+# plt.tight_layout()
+# plt.show()
+
+
+for i in range(len(xi_k)):
+    plt.plot(r, ez[i], label=f'$k={i+1}$')
+    plt.tick_params(labelsize=15)
+    plt.legend(fontsize=13)
+plt.xlabel('$r\\,(*\\omega_{pe} /c)$', fontsize=15)
+if xmin == 0:
+    plt.ylabel('$J_0(\\xi_k r)$', fontsize=15)
+    plt.title('$\\delta \\hat{E}_z (r) \\propto J_0(\\xi_k r)$', fontsize=15)
+else:
+    plt.ylabel('$J_0(\\xi_k r) - \\frac{J_0(\\xi_k R_{min})}{Y_0(\\xi_k R_{min})} Y_0(\\xi_k r)$', fontsize=15)
+    plt.title('$\\delta \\hat{E}_z (r) \\propto J_0(\\xi_k r) - \\frac{J_0(\\xi_k R_{min})}{Y_0(\\xi_k R_{min})} Y_0(\\xi_k r)$', fontsize=15)
 plt.tight_layout()
-plt.show()
+plt.savefig(rf'\Users\kasik\OneDrive - Kyushu University\PIC\Result\disp\ez_xmin={xmin}_xmax={xmax}.png', dpi=300)
+plt.close()
 
-# for i in range(len(xi_k)):
-#     plt.plot(r, ez[i], label=f'$k={i+1}$')
-#     plt.tick_params(labelsize=15)
-#     plt.legend(fontsize=13)
-# plt.xlabel('$r\\,(*\\omega_{pe} /c)$', fontsize=15)
-# plt.ylabel('$J_0(\\xi_k r)$', fontsize=15)
-# plt.title('$\\delta \\hat{E}_z (r)$', fontsize=15)
-# plt.tight_layout()
-# plt.show()
-
-# for i in range(len(eta_k)):
-#     plt.plot(r, bz[i], label=f'$k={i+1}$')
-#     plt.tick_params(labelsize=15)
-#     plt.legend(fontsize=13)
-# plt.xlabel('$r\\,(*\\omega_{pe} /c)$', fontsize=15)
-# plt.ylabel('$J_0(\\eta_k r)$', fontsize=15)
-# plt.title('$\\delta \\hat{B}_z (r)$', fontsize=15)
-# plt.tight_layout()
-# plt.show()
+for i in range(len(eta_k)):
+    plt.plot(r, bz[i], label=f'$k={i+1}$')
+    plt.tick_params(labelsize=15)
+    plt.legend(fontsize=13)
+plt.xlabel('$r\\,(*\\omega_{pe} /c)$', fontsize=15)
+if xmin == 0:
+    plt.ylabel('$J_0(\\eta_k r)$', fontsize=15)
+    plt.title('$\\delta \\hat{B}_z (r) \\propto J_0(\\eta_k r)$', fontsize=15)
+else:
+    plt.ylabel('$J_0(\\eta_k r) - \\frac{J_0(\\eta_k R_{min})}{Y_0(\\eta_k R_{min})} Y_0(\\eta_k r)$', fontsize=15)
+    plt.title('$\\delta \\hat{B}_z (r) \\propto J_0(\\eta_k r) - \\frac{J_1(\\eta_k R_{min})}{Y_1(\\eta_k R_{min})} Y_0(\\eta_k r)$', fontsize=15)
+plt.tight_layout()
+plt.savefig(rf'\Users\kasik\OneDrive - Kyushu University\PIC\Result\disp\bz_xmin={xmin}_xmax={xmax}.png', dpi=300)
+plt.close()
 
 
 # def tmp(k, eta):

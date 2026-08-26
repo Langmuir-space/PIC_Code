@@ -284,10 +284,10 @@ def main():
     #           xlabel='$x_i(*\\omega_{pe}/c)$', ylabel='$\\rho_i$',
     #           xmin=None, xmax=None, ymin=None, ymax=None,
     #           select='raw')
-    animation(index*dx, rhoei, save_name=f"{save_fig_path}/rho.gif",
-              xlabel='$x(*\\omega_{pe}/c)$', ylabel='$\\rho$',
-              xmin=None, xmax=None, ymin=None, ymax=None,
-              select='raw')
+    # animation(index*dx, rhoei, save_name=f"{save_fig_path}/rho.gif",
+    #           xlabel='$x(*\\omega_{pe}/c)$', ylabel='$\\rho$',
+    #           xmin=None, xmax=None, ymin=None, ymax=None,
+    #           select='raw')
     # animation(index*dx, ext, save_name=f"{save_fig_path}/ex.gif",
     #           xlabel='$x_e(*\\omega_{pe}/c)$', ylabel='$E_{x}$',
     #           xmin=None, xmax=None, ymin=None, ymax=None,

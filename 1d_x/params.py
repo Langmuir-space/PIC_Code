@@ -13,8 +13,6 @@ dx = xmax / nx                  # X-space Grid Length
 dt = dx                         # Time Grid Length
 theta = 90                       # Propagation Degree
 
-print(xmax, dx, nx, dt, nt)
-print(nptcl)
 
 # ===============================
 # Electron
@@ -51,3 +49,6 @@ interval = 50
 fontsize = 18
 s = 1
 bins = 100
+
+print(wce0**2 * wpi**2 / (wpe**2 * wce0**2))
+print(wpe**2 + wce0**2)

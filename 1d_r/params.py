@@ -3,8 +3,8 @@ import numpy as np
 # ===============================
 # Simulation Setting
 # ===============================
-xmin = 0
-xmax = 8                       # Plasma Size Normalized By c/wpe
+xmin = 2**15/10
+xmax = 2**15/10 + 3                      # Plasma Size Normalized By c/wpe
 nt = 2**10                    # Time Grid Number
 # dx = 2**(-3)
 dx = 0.2
@@ -13,6 +13,8 @@ dt = dx                         # Time Grid Length
 theta = 90                       # Propagation Degree
 x0 = int(xmin / dx)
 nptcl = 2**14                    # Particle Number
+
+print(xmin, xmax)
 
 # ===============================
 # Electron
@@ -34,6 +36,9 @@ vthi = vth/np.sqrt(mi)          # Thermal Speed
 qmi = - qme/mi                  # Electron Standard q/mi
 qi = - qe                       # Electric Charge
 qidx = qi/dx                    # Electric Charge Density
+
+print(wce0**2 * wpi**2 / (wpe**2 * wce0**2))
+print(wpe**2 + wce0**2)
 
 
 # ===============================

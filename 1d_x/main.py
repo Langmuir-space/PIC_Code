@@ -194,11 +194,11 @@ def main():
         # Input: J±(n + 1/2)Δt, rho(n + 1)Δt
         # Output: E(n + 1)Δt, B(n + 1)Δt
         # ======================================
-        ex, ey, ez, by, bz, eyl, eyr, ezl, ezr = field(
-            jym, jzm, jyp, jzp, rho, eyl, eyr, ezl, ezr)
+        # ex, ey, ez, by, bz, eyl, eyr, ezl, ezr = field(
+        #     jym, jzm, jyp, jzp, rho, eyl, eyr, ezl, ezr)
 
         # for electrostatic
-        # ex = field(rho, rho, rho, rho, rho, eyl, eyr, ezl, ezr)
+        ex = field(rho, rho, rho, rho, rho, eyl, eyr, ezl, ezr)
         # ex = setrho(rho)
 
         # ======================================
@@ -278,10 +278,10 @@ def main():
     #           xlabel='$x_i(*\\omega_{pe}/c)$', ylabel='$\\rho_i$',
     #           xmin=None, xmax=None, ymin=None, ymax=None,
     #           select='raw')
-    animation(ij, rhoei, save_name=f"{save_fig_path}/rho.gif",
-              xlabel='$x(*\\omega_{pe}/c)$', ylabel='$\\rho$',
-              xmin=None, xmax=None, ymin=None, ymax=None,
-              select='raw')
+    # animation(ij, rhoei, save_name=f"{save_fig_path}/rho.gif",
+    #           xlabel='$x(*\\omega_{pe}/c)$', ylabel='$\\rho$',
+    #           xmin=None, xmax=None, ymin=None, ymax=None,
+    #           select='raw')
     # animation(ij, ext, save_name=f"{save_fig_path}/ex.gif",
     #           xlabel='$x_e(*\\omega_{pe}/c)$', ylabel='$E_{x}$',
     #           xmin=None, xmax=None, ymin=None, ymax=None,
