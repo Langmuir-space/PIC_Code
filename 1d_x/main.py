@@ -194,11 +194,11 @@ def main():
         # Input: J±(n + 1/2)Δt, rho(n + 1)Δt
         # Output: E(n + 1)Δt, B(n + 1)Δt
         # ======================================
-        # ex, ey, ez, by, bz, eyl, eyr, ezl, ezr = field(
-        #     jym, jzm, jyp, jzp, rho, eyl, eyr, ezl, ezr)
+        ex, ey, ez, by, bz, eyl, eyr, ezl, ezr = field(
+            jym, jzm, jyp, jzp, rho, eyl, eyr, ezl, ezr)
 
         # for electrostatic
-        ex = field(rho, rho, rho, rho, rho, eyl, eyr, ezl, ezr)
+        # ex = field(rho, rho, rho, rho, rho, eyl, eyr, ezl, ezr)
         # ex = setrho(rho)
 
         # ======================================

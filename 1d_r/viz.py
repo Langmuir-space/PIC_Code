@@ -11,8 +11,8 @@ def dispersion_plot(field, save_path, title, label):
     nt, nx = field.shape
     vmin = bounds[0]
     vmax = bounds[1]
-    kmin = -2*np.pi*64*100/xmax
-    kmax = 2*np.pi*64*100/xmax
+    kmin = -2*np.pi*64*10/xmax
+    kmax = 2*np.pi*64*10/xmax
     wmin = -2*np.pi*128/(nt*dt)
     wmax = 2*np.pi*128/(nt*dt)
 
