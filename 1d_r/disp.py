@@ -144,8 +144,8 @@ if xmin == 0:
 else:
     plt.ylabel('$J_0(\\xi_k r) - \\frac{J_0(\\xi_k R_{min})}{Y_0(\\xi_k R_{min})} Y_0(\\xi_k r)$', fontsize=15)
     plt.title('$\\delta \\hat{E}_z (r) \\propto J_0(\\xi_k r) - \\frac{J_0(\\xi_k R_{min})}{Y_0(\\xi_k R_{min})} Y_0(\\xi_k r)$', fontsize=15)
-plt.tight_layout()
 plt.savefig(rf'\Users\kasik\OneDrive - Kyushu University\PIC\Result\disp\ez_xmin={xmin}_xmax={xmax}.png', dpi=300)
+plt.tight_layout()
 plt.close()
 
 for i in range(len(eta_k)):
@@ -159,8 +159,8 @@ if xmin == 0:
 else:
     plt.ylabel('$J_0(\\eta_k r) - \\frac{J_0(\\eta_k R_{min})}{Y_0(\\eta_k R_{min})} Y_0(\\eta_k r)$', fontsize=15)
     plt.title('$\\delta \\hat{B}_z (r) \\propto J_0(\\eta_k r) - \\frac{J_1(\\eta_k R_{min})}{Y_1(\\eta_k R_{min})} Y_0(\\eta_k r)$', fontsize=15)
-plt.tight_layout()
 plt.savefig(rf'\Users\kasik\OneDrive - Kyushu University\PIC\Result\disp\bz_xmin={xmin}_xmax={xmax}.png', dpi=300)
+plt.tight_layout()
 plt.close()
 
 
