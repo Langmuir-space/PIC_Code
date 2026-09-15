@@ -13,6 +13,9 @@ dx = xmax / nx                  # X-space Grid Length
 dt = dx                         # Time Grid Length
 theta = 0                       # Propagation Degree
 
+print('xmax:', xmax)
+print('dx:', dx, 'nx:', nx)
+
 
 # ===============================
 # Electron

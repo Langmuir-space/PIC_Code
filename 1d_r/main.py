@@ -151,12 +151,6 @@ def main():
         vxi = np.cos(alpha)*vxi_old + np.sin(alpha)*vyi_old
         vyi = -np.sin(alpha)*vxi_old + np.cos(alpha)*vyi_old
 
-        # x[x < x0] += nx
-        # x[x >= nx + x0] -= nx
-
-        # xi[xi < x0] += nx
-        # xi[xi >= nx + x0] -= nx
-
         mask_in = x <= x0
         x[mask_in] = 2*x0 - x[mask_in]
         vx[mask_in] = -vx[mask_in]
@@ -168,17 +162,6 @@ def main():
         vx[mask_out] = -vx[mask_out]
         vy[mask_out] = vy[mask_out]
         vz[mask_out] = vz[mask_out]
-
-        x2 = xi + vxi
-        y2 = vyi
-        r2 = np.sqrt(x2**2 + y2**2)
-        alpha = np.arctan2(y2, x2)
-        xi = r2
-        # th += alpha
-        vxi_old = vxi.copy()
-        vyi_old = vyi.copy()
-        vxi = np.cos(alpha)*vxi_old + np.sin(alpha)*vyi_old
-        vyi = -np.sin(alpha)*vxi_old + np.cos(alpha)*vyi_old
 
         mask_in = xi <= x0
         xi[mask_in] = 2*x0 - xi[mask_in]
