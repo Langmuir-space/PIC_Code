@@ -39,16 +39,13 @@ qmi = - qme/mi                  # Electron Standard q/mi
 qi = - qe                       # Electric Charge
 qidx = qi/dx                    # Electric Charge Density
 
-print(wce0**2 * wpi**2 / (wpe**2 * wce0**2))
-print(wpe**2 + wce0**2)
-
 
 # ===============================
 # Others
 # ===============================
 # save_path = r'C:\Users\kasik\OneDrive - Kyushu University\PIC\Result'
-# save_path = r'C:\Users\shimooka\OneDrive - Kyushu University (1)\PIC\Result'
-save_path = r'C:\Users\kasik\OneDrive - Kyushu University\PIC\Result'
+save_path = r'C:\Users\shimooka\OneDrive - Kyushu University (1)\PIC\Result'
+# save_path = r'C:\Users\kasik\OneDrive - Kyushu University\PIC\Result'
 # save_path = './Result'
 flag = True
 bounds = [-6, -2]
