@@ -1,7 +1,7 @@
 import numpy as np
 import matplotlib.pyplot as plt
 from params import dx, dt, xmax, wpe, dt_skip, fps, interval, fontsize, \
-    s, bounds, bins, nt
+    s, bounds, bins, nt, xmin
 import os
 from matplotlib.animation import FuncAnimation, PillowWriter
 
@@ -48,7 +48,7 @@ def field_plot(field, save_path, title, label):
 
     fig, ax = plt.subplots(constrained_layout=True)
     nt = field.shape[0]
-    h = ax.imshow(field, extent=[0, xmax, 0, nt*dt], origin='lower',
+    h = ax.imshow(field, extent=[xmin, xmax, 0, nt*dt], origin='lower',
                   cmap='jet', aspect='auto')
 
     ax.set_xlabel(r'$x\,(\omega_{pe}/c)$', fontsize=fontsize)

@@ -27,6 +27,9 @@ qme = -1.0                      # Electron Standard q/me=1
 qe = xmax*wpe*wpe/(nptcl*qme)   # Electric Charge of an Electron
 qdx = qe/dx                     # Electric Charge Density
 
+print('qe:', qe)
+print('qdx:', qdx)
+
 # ===============================
 # Ion
 # ===============================

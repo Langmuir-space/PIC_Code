@@ -7,7 +7,7 @@ from viz import field_plot, animation, dispersion_plot, phase_speed
 from setrho import setrho, index
 import time
 from input import x_ini, vx0, vy0, vz0, xi_ini, vxi0, vyi0, vzi0, \
-    gamma0, gammai0, ake0, aki0, bx0, bz0
+    gamma0, gammai0, ake0, aki0, bx0, bz0, dx
 
 
 def main():
@@ -267,10 +267,10 @@ def main():
     #           xlabel='$x_i(*\\omega_{pe}/c)$', ylabel='$\\rho_i$',
     #           xmin=None, xmax=None, ymin=None, ymax=None,
     #           select='raw')
-    # animation(index*dx, rhoei, save_name=f"{save_fig_path}/rho.gif",
-    #           xlabel='$x(*\\omega_{pe}/c)$', ylabel='$\\rho$',
-    #           xmin=None, xmax=None, ymin=None, ymax=None,
-    #           select='raw')
+    animation(index*dx, rhoei, save_name=f"{save_fig_path}/rho.gif",
+              xlabel='$x(*\\omega_{pe}/c)$', ylabel='$\\rho$',
+              xmin=None, xmax=None, ymin=None, ymax=None,
+              select='raw')
     # animation(index*dx, ext, save_name=f"{save_fig_path}/ex.gif",
     #           xlabel='$x_e(*\\omega_{pe}/c)$', ylabel='$E_{x}$',
     #           xmin=None, xmax=None, ymin=None, ymax=None,

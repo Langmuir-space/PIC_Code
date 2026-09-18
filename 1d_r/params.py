@@ -28,6 +28,8 @@ qme = -1.0                      # Electron Standard q/me=1
 qe = np.pi*(xmax**2 - xmin**2)*wpe*wpe/(nptcl*qme)  # Electric Charge of an Electron
 qdx = qe/dx                     # Electric Charge Density
 
+print(qe)
+
 # ===============================
 # Ion
 # ===============================
@@ -44,8 +46,8 @@ qidx = qi/dx                    # Electric Charge Density
 # Others
 # ===============================
 # save_path = r'C:\Users\kasik\OneDrive - Kyushu University\PIC\Result'
-save_path = r'C:\Users\shimooka\OneDrive - Kyushu University (1)\PIC\Result'
-# save_path = r'C:\Users\kasik\OneDrive - Kyushu University\PIC\Result'
+# save_path = r'C:\Users\shimooka\OneDrive - Kyushu University (1)\PIC\Result'
+save_path = r'C:\Users\kasik\OneDrive - Kyushu University\PIC\Result'
 # save_path = './Result'
 flag = True
 bounds = [-6, -2]
