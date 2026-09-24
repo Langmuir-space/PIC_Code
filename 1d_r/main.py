@@ -1,31 +1,23 @@
 import numpy as np
-from params import nx, nt, qme, qmi, dt, qe, qi, dx, x0, save_path, flag
-from move import move
+from params import nx, nt, qme, qmi, dt, qe, qi, save_path, flag
+from move import move, push
 from fields import field_energy, field_ex
 from utils import make_dic
 from viz import field_plot, animation, dispersion_plot, phase_speed
 from setrho import setrho, index
 import time
 from input import x_ini, vx0, vy0, vz0, xi_ini, vxi0, vyi0, vzi0, \
-    gamma0, gammai0, ake0, aki0, bx0, bz0, dx
+    gamma0, gammai0, ake0, aki0, bx0, bz0
+from boundary import ptcle_bc
+from current import curnt
 
 
 def main():
     # ====================================
     # Load Initial Condition
     # ====================================
-    x = x_ini
-    vx = vx0
-    vy = vy0
-    vz = vz0
-    xi = xi_ini
-    vxi = vxi0
-    vyi = vyi0
-    vzi = vzi0
-    gamma = gamma0
-    gammai = gammai0
-    ake = ake0
-    aki = aki0
+    x, vx, vy, vz, xi, vxi, vyi, vzi, gamma, gammai, ake, aki = \
+        x_ini, vx0, vy0, vz0, xi_ini, vxi0, vyi0, vzi0, gamma0, gammai0, ake0, aki0
 
     # ====================================
     # Array Initialization
@@ -35,10 +27,6 @@ def main():
     ez = np.zeros(nx + 1)
     by = np.zeros(nx + 1)
     bz = np.zeros(nx + 1)
-    # eyl = np.zeros(nx + 1)
-    # eyr = np.zeros(nx + 1)
-    # ezl = np.zeros(nx + 1)
-    # ezr = np.zeros(nx + 1)
 
     # ====================================
     # Fields at t = 0
@@ -64,25 +52,16 @@ def main():
     # ====================================
     # Velocity at t = -Δt/2
     # ====================================
-    ae = 0.5*qme*(-dt/2)
-    tx = ae*bx0
-    tz = ae*bz0
+    ae = 0.5*qme*(-dt/2); tx = ae*bx0; tz = ae*bz0
     vx, vy, vz, gamma, ake = move(
         vx, vy, vz, gamma, ae, tx, tz, x, ex, ey, ez, by, bz)
 
-    ai = 0.5*qmi*(-dt/2)
-    txi = ai*bx0
-    tzi = ai*bz0
+    ai = 0.5*qmi*(-dt/2); txi = ai*bx0; tzi = ai*bz0
     vxi, vyi, vzi, gammai, aki = move(
         vxi, vyi, vzi, gammai, ai, txi, tzi, xi, ex, ey, ez, by, bz)
 
-    ae = 0.5*qme*dt
-    tx = ae*bx0
-    tz = ae*bz0
-
-    ai = 0.5*qmi*dt
-    txi = ai*bx0
-    tzi = ai*bz0
+    ae = 0.5*qme*dt; tx = ae*bx0; tz = ae*bz0
+    ai = 0.5*qmi*dt; txi = ai*bx0; tzi = ai*bz0
 
     # ===========================================================
     # Save positions and fields at t = 0 (veloity at t = -Δt/2)
@@ -115,11 +94,8 @@ def main():
             print(f"Step {it}/{nt}  Elapsed: {elapsed:.2f} s")
 
         # =========================================
-        # Calculate Velocity at t = (n + 1/2)Δt
-        # Input:  v(n - 1/2)Δt, E(n), B(n)
-        # Output: v(n + 1/2)Δt
+        # Velocity at t = (n + 1/2)Δt
         # =========================================
-
         vx, vy, vz, gamma, ake = move(
             vx, vy, vz, gamma, ae, tx, tz, x, ex, ey, ez, by, bz)
 
@@ -129,73 +105,49 @@ def main():
         # ===============================================================
         # Push Particle Position at t = (n + 1)Δt
         # ===============================================================
-        x2 = x + vx
-        y2 = vy
-        r2 = np.sqrt(x2**2 + y2**2)
-        alpha = np.arctan2(y2, x2)
-        x = r2
-        # th += alpha
+        x_old = x.copy()
         vx_old = vx.copy()
         vy_old = vy.copy()
-        vx = np.cos(alpha)*vx_old + np.sin(alpha)*vy_old
-        vy = -np.sin(alpha)*vx_old + np.cos(alpha)*vy_old
+        vz_old = vz.copy()
+        x, vx, vy = push(x_old, vx_old, vy_old)
 
-        xi2 = xi + vxi
-        yi2 = vyi
-        r2 = np.sqrt(xi2**2 + yi2**2)
-        alpha = np.arctan2(yi2, xi2)
-        xi = r2
-        # th += alpha
+        xi_old = xi.copy()
         vxi_old = vxi.copy()
         vyi_old = vyi.copy()
-        vxi = np.cos(alpha)*vxi_old + np.sin(alpha)*vyi_old
-        vyi = -np.sin(alpha)*vxi_old + np.cos(alpha)*vyi_old
-
-        mask_in = x <= x0
-        x[mask_in] = 2*x0 - x[mask_in]
-        vx[mask_in] = -vx[mask_in]
-        vy[mask_in] = vy[mask_in]
-        vz[mask_in] = vz[mask_in]
-
-        mask_out = x >= nx + x0
-        x[mask_out] = 2*(nx + x0) - x[mask_out]
-        vx[mask_out] = -vx[mask_out]
-        vy[mask_out] = vy[mask_out]
-        vz[mask_out] = vz[mask_out]
-
-        mask_in = xi <= x0
-        xi[mask_in] = 2*x0 - xi[mask_in]
-        vxi[mask_in] = -vxi[mask_in]
-        vyi[mask_in] = vyi[mask_in]
-        vzi[mask_in] = vzi[mask_in]
-
-        mask_out = xi >= nx + x0
-        xi[mask_out] = 2*(nx + x0) - xi[mask_out]
-        vxi[mask_out] = -vxi[mask_out]
-        vyi[mask_out] = vyi[mask_out]
-        vzi[mask_out] = vzi[mask_out]
+        vzi_old = vzi.copy()
+        xi, vxi, vyi = push(xi_old, vxi_old, vyi_old)
 
         # ===============================================================
-        # Calculate Current at t = (n + 1/2)Δt and Rho at t = (n + 1)Δt
-        # Input: v(n + 1/2)Δt, x(n)Δt
-        # Output: J±(n + 1/2)Δt, rho(n + 1)Δt, x(n + 1)Δt
+        # Particle Boundary Conditions at t = (n + 1)Δt
         # ===============================================================
+        x, vx, vy, vz = ptcle_bc(x, vx, vy, vz)
+        xi, vxi, vyi, vzi = ptcle_bc(xi, vxi, vyi, vzi)
 
-        # jym_e, jzm_e, jyp_e, jzp_e, rhoe, x = \
-        #     curnt(x, vx, vy, vz, qe)
-        # jym_i, jzm_i, jyp_i, jzp_i, rhoi, xi = \
-        #     curnt(xi, vxi, vyi, vzi, qi)
+        # ===============================================================
+        # Current density at t = (n + 1/2)Δt at x = i
+        # ===============================================================
+        jye_old, jze_old = curnt(x_old, vy_old, vz_old, qe)
+        jye_new, jze_new = curnt(x, vy, vz, qe)
 
-        # jym = jym_e + jym_i
-        # jzm = jzm_e + jzm_i
-        # jyp = jyp_e + jyp_i
-        # jzp = jzp_e + jzp_i
+        jyi_old, jzi_old = curnt(xi_old, vyi_old, vzi_old, qi)
+        jyi_new, jzi_new = curnt(xi, vyi, vzi, qi)
+
+        jy_old = jye_old + jyi_old
+        jz_old = jze_old + jzi_old
+        jy_new = jye_new + jyi_new
+        jz_new = jze_new + jzi_new
+        jy = 0.5*(jy_old + jy_new)
+        jz = 0.5*(jz_old + jz_new)
+
+        # ===============================================================
+        # Charge Density at t = (n + 1/2)Δt at x = i
+        # ===============================================================
         rhoe = setrho(x, qe)
         rhoi = setrho(xi, qi)
         rho = rhoe + rhoi
 
         # ======================================
-        # Calculate Field at t = (n + 1)Δt
+        # Field at t = (n + 1)Δt
         # Input: J±(n + 1/2)Δt, rho(n + 1)Δt
         # Output: E(n + 1)Δt, B(n + 1)Δt
         # ======================================
@@ -267,10 +219,10 @@ def main():
     #           xlabel='$x_i(*\\omega_{pe}/c)$', ylabel='$\\rho_i$',
     #           xmin=None, xmax=None, ymin=None, ymax=None,
     #           select='raw')
-    animation(index*dx, rhoei, save_name=f"{save_fig_path}/rho.gif",
-              xlabel='$x(*\\omega_{pe}/c)$', ylabel='$\\rho$',
-              xmin=None, xmax=None, ymin=None, ymax=None,
-              select='raw')
+    # animation(index*dx, rhoei, save_name=f"{save_fig_path}/rho.gif",
+    #           xlabel='$x(*\\omega_{pe}/c)$', ylabel='$\\rho$',
+    #           xmin=None, xmax=None, ymin=None, ymax=None,
+    #           select='raw')
     # animation(index*dx, ext, save_name=f"{save_fig_path}/ex.gif",
     #           xlabel='$x_e(*\\omega_{pe}/c)$', ylabel='$E_{x}$',
     #           xmin=None, xmax=None, ymin=None, ymax=None,

@@ -9,8 +9,6 @@ if index[0] == 0:
 
 def setrho(x, q):
     rhoj = np.zeros(nx + 1)
-    valid = ~np.isnan(x)
-    x = x[valid]
     ij = np.floor(x).astype(int)
     ij1 = ij + 1
     area = 2*ij + 1

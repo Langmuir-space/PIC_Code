@@ -73,3 +73,15 @@ def move(vx0, vy0, vz0, gamma0, ae, tx, tz, x,
     gamma_out[valid] = gamma
 
     return vx_out, vy_out, vz_out, gamma_out, ake
+
+
+def push(x, vx, vy):
+    x2 = x + vx
+    y2 = vy
+    r2 = np.sqrt(x2**2 + y2**2)
+    alpha = np.arctan2(y2, x2)
+    x_new = r2
+    vx_new = np.cos(alpha)*vx + np.sin(alpha)*vy
+    vy_new = -np.sin(alpha)*vx + np.cos(alpha)*vy
+
+    return x_new, vx_new, vy_new
