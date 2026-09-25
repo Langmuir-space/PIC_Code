@@ -6,6 +6,7 @@ vj = 2*np.pi*index
 if index[0] == 0:
     vj[0] = np.pi/4
 
+
 def curnt(x, vy, vz, q):
 
     jy = np.zeros(nx + 1)
