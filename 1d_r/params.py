@@ -28,8 +28,6 @@ qme = -1.0                      # Electron Standard q/me=1
 qe = np.pi*(xmax**2 - xmin**2)*wpe*wpe/(nptcl*qme)  # Electric Charge of an Electron
 qdx = qe/dx                     # Electric Charge Density
 
-print(qe)
-
 # ===============================
 # Ion
 # ===============================

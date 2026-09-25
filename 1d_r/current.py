@@ -1,42 +1,28 @@
 import numpy as np
-from params import nx, xmax, dx
+from params import nx, x0
 
+index = np.arange(x0, x0+nx+1, 1)
+vj = 2*np.pi*index
+if index[0] == 0:
+    vj[0] = np.pi/4
 
-def curnt(x, vx, vy, vz, qdx):
-    rho = np.zeros(nx)
-    jym = np.zeros(nx)
-    jzm = np.zeros(nx)
-    jyp = np.zeros(nx)
-    jzp = np.zeros(nx)
+def curnt(x, vy, vz, q):
 
+    jy = np.zeros(nx + 1)
+    jz = np.zeros(nx + 1)
     ij = np.floor(x).astype(int)
-    delx = x - ij
-    ij1 = (ij + 1) % nx
+    ij1 = ij + 1
+    area = 2*ij + 1
+    wL = (x**2-ij**2)/area
+    wR = 1.0 - wL
 
-    np.add.at(jym, ij, (1 - delx)*vy*qdx)
-    np.add.at(jym, ij1, delx*vy*qdx)
+    np.add.at(jy, ij-x0, q*wR*vy)
+    np.add.at(jy, ij1-x0, q*wL*vy)
 
-    np.add.at(jzm, ij, (1 - delx)*vz*qdx)
-    np.add.at(jzm, ij1, delx*vz*qdx)
+    np.add.at(jz, ij-x0, q*wR*vz)
+    np.add.at(jz, ij1-x0, q*wL*vz)
 
-    x += vx     # dt = dx   x(n)Δt → x(n + 1)Δt
-    x[x > nx] = 2*nx - x[x > nx]    # Reflective Boundary
-    x[x < 0] = - x[x < 0]
-    eps = 1e-12
-    x[x >= nx] = nx - eps
-    x[x < 0] = eps
+    jy /= vj
+    jz /= vj
 
-    ij = np.floor(x).astype(int)
-    delx = x - ij
-    ij1 = (ij + 1) % nx
-
-    np.add.at(rho, ij, (1 - delx)*qdx)
-    np.add.at(rho, ij1, delx*qdx)
-
-    np.add.at(jyp, ij, (1 - delx)*vy*qdx)
-    np.add.at(jyp, ij1, delx*vy*qdx)
-
-    np.add.at(jzp, ij, (1 - delx)*vz*qdx)
-    np.add.at(jzp, ij1, delx*vz*qdx)
-
-    return jym, jzm, jyp, jzp, rho, x
+    return jy, jz
