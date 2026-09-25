@@ -62,8 +62,8 @@ def field_ex(rho):
     ex_half[:] = - (phi[1:] - phi[:-1])/dx
     ex = np.zeros(nx + 1)
     ex[0] = 0
-    ex[1:-1] = (1 + 1/index[1:-1])*ex_half[1:]/2 \
-        + (1 - 1/index[1:-1])*ex_half[:-1]/2
+    ex[1:-1] = (1 + 1/(2*index[1:-1]))*ex_half[1:]/2 \
+        + (1 - 1/(2*index[1:-1]))*ex_half[:-1]/2
     # ex[-1] = - (phi[-1] - phi[-2])
     ex[-1] = 0
     return ex, phi
