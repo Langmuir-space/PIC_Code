@@ -1,7 +1,7 @@
 import numpy as np
 from params import nx, nt, qme, qmi, dt, qe, qi, save_path, flag, dx
 from move import move, push
-from fields import field_energy, field_ex, field
+from fields import field_energy, field_ex, field, ftdt, convert
 from utils import make_dic
 from viz import field_plot, animation, dispersion_plot, phase_speed
 from setrho import setrho, index
@@ -27,6 +27,8 @@ def main():
     ez = np.zeros(nx + 1)
     by = np.zeros(nx + 1)
     bz = np.zeros(nx + 1)
+    byh = np.zeros(nx)
+    bzh = np.zeros(nx)
 
     # ====================================
     # Fields at t = 0
@@ -146,10 +148,11 @@ def main():
         rho = rhoe + rhoi
 
         # ======================================
-        # Field at t = (n + 1)Δt
+        # Field at t = (n + 1)Δt at x = i
         # ======================================
-        # ex, ey, ez, by, bz = field(jy, jz, rho)
-        ex, phi = field_ex(rho)      # for electrostatic
+        ex, phi = field_ex(rho)
+        ey, ez, byh, bzh = ftdt(ey, ez, byh, bzh, jy, jz)
+        by, bz = convert(byh, bzh)
 
         # ======================================
         # Save Into List
@@ -236,8 +239,8 @@ def main():
     #                 label='Ez_wk')
     # dispersion_plot(save["by"], save_fig_path, title=r'$B_y(k,\omega)$',
     #                 label='By_wk')
-    # dispersion_plot(save["bz"], save_fig_path, title=r'$B_z(k,\omega)$',
-    #                 label='Bz_wk')
+    dispersion_plot(save["bz"], save_fig_path, title=r'$B_z(k,\omega)$',
+                    label='Bz_wk')
 
     phase_speed(vx, vy, save_fig_path, title='Electron phase space',
                 label='Electron_phase', vmin=None, vmax=None)
