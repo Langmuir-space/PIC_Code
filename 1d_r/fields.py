@@ -3,11 +3,7 @@ from params import nx, dx, dt
 from utils import tdma_pre, tdma_solve
 from setrho import index
 
-k = 2*np.pi*np.fft.fftfreq(nx, d=dx)
-aa = np.zeros(nx)
-bb = np.sin(k*dx)/dx
-aa[1:nx] = (dx/2/np.sin(k[1:nx]*dx/2))**2
-tem = 0.25*dt
+dtdr = dt/dx
 
 a = np.zeros(nx-1)
 b = np.zeros(nx-1)
@@ -25,31 +21,29 @@ def field_energy(ex, ey, ez, by, bz):
         np.sum(by**2), np.sum(bz**2)
 
 
-def field(jym, jzm, jyp, jzp, rho, eyl, eyr, ezl, ezr):
-    rhok = np.fft.fft(rho)
-    phik = aa*rhok
-    exk = -1j*bb*phik
-    ex = np.real(np.fft.ifft(exk))
+def field(jy, jz, rho):
+    rhog = rho*(dx**2)
+    phi = np.zeros(nx + 1)
+    phi[0] = 0
+    phi[1:-1] = tdma_solve(a, bp, cp, rhog[1:-1])
+    phi[-1] = 0
+    ex_half = np.zeros(nx)
+    ex_half[:] = - (phi[1:] - phi[:-1])/dx
+    ex = np.zeros(nx + 1)
+    ex[0] = 0
+    ex[1:-1] = (1 + 1/(2*index[1:-1]))*ex_half[1:]/2 \
+        + (1 - 1/(2*index[1:-1]))*ex_half[:-1]/2
+    ex[-1] = 0
 
-    eyl -= tem*jym
-    eyr -= tem*jym
-    ezl -= tem*jzm
-    ezr -= tem*jzm
-    eyl = np.roll(eyl, -1)
-    eyr = np.roll(eyr, 1)
-    ezl = np.roll(ezl, -1)
-    ezr = np.roll(ezr, 1)
-    eyl -= tem*jyp
-    eyr -= tem*jyp
-    ezl -= tem*jzp
-    ezr -= tem*jzp
+    return ex, phi
 
-    ey = eyr + eyl
-    bz = eyr - eyl
-    ez = ezr + ezl
-    by = ezl - ezr
 
-    return ex, ey, ez, by, bz, eyl, eyr, ezl, ezr
+def ftdt(ex, ey, ez, by, bz, jy, jz):
+    by[:-1] += 0.5*dtdr*(ez[1:] - ez[:-1])
+    bz[1:-1] += dtdr*(ey[2:] - ey[:-2])
+    ey[1:-1] -= dtdr*(bz[2:] - bz[:-2]) - dt*jy[1:-1]
+    ez[1:-1] += dtdr*(by[2:] - by[:-2]) - dt*jz[1:-1]
+    return ey, ez, by, bz
 
 
 def field_ex(rho):
