@@ -104,7 +104,7 @@ def main():
             vxi, vyi, vzi, gammai, ai, txi, tzi, xi, ex, ey, ez, by, bz)
 
         # ===============================================================
-        # Push Particle Position at t = (n + 1)Δt
+        # Push and Update Particle Position and Velocity at t = (n + 1)Δt
         # ===============================================================
         x_old = x.copy()
         vx_old = vx.copy()

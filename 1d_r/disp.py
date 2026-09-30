@@ -144,9 +144,9 @@ if xmin == 0:
 else:
     plt.ylabel('$J_0(\\xi_k r) - \\frac{J_0(\\xi_k R_{min})}{Y_0(\\xi_k R_{min})} Y_0(\\xi_k r)$', fontsize=15)
     plt.title('$\\delta \\hat{E}_z (r) \\propto J_0(\\xi_k r) - \\frac{J_0(\\xi_k R_{min})}{Y_0(\\xi_k R_{min})} Y_0(\\xi_k r)$', fontsize=15)
-plt.savefig(rf'\Users\kasik\OneDrive - Kyushu University\PIC\Result\disp\ez_xmin={xmin}_xmax={xmax}.png', dpi=300)
+# plt.savefig(rf'\Users\kasik\OneDrive - Kyushu University\PIC\Result\disp\ez_xmin={xmin}_xmax={xmax}.png', dpi=300)
 plt.tight_layout()
-plt.close()
+plt.show()
 
 for i in range(len(eta_k)):
     plt.plot(r, bz[i], label=f'$k={i+1}$')
@@ -159,9 +159,9 @@ if xmin == 0:
 else:
     plt.ylabel('$J_0(\\eta_k r) - \\frac{J_0(\\eta_k R_{min})}{Y_0(\\eta_k R_{min})} Y_0(\\eta_k r)$', fontsize=15)
     plt.title('$\\delta \\hat{B}_z (r) \\propto J_0(\\eta_k r) - \\frac{J_1(\\eta_k R_{min})}{Y_1(\\eta_k R_{min})} Y_0(\\eta_k r)$', fontsize=15)
-plt.savefig(rf'\Users\kasik\OneDrive - Kyushu University\PIC\Result\disp\bz_xmin={xmin}_xmax={xmax}.png', dpi=300)
+# plt.savefig(rf'\Users\kasik\OneDrive - Kyushu University\PIC\Result\disp\bz_xmin={xmin}_xmax={xmax}.png', dpi=300)
 plt.tight_layout()
-plt.close()
+plt.show()
 
 
 # def tmp(k, eta):
