@@ -141,7 +141,7 @@ def main():
         jz = 0.5*(jz_old + jz_new)
 
         # ===============================================================
-        # Charge Density at t = (n + 1/2)Δt at x = i
+        # Charge Density at t = (n + 1)Δt at x = i
         # ===============================================================
         rhoe = setrho(x, qe)
         rhoi = setrho(xi, qi)

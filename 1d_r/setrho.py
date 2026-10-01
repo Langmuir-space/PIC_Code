@@ -1,10 +1,10 @@
 import numpy as np
-from params import nx, x0
+from params import nx, x0, dx
 
 index = np.arange(x0, x0+nx+1, 1)
-vj = 2*np.pi*index
+vj = 2*np.pi*index*dx**2
 if index[0] == 0:
-    vj[0] = np.pi/4
+    vj[0] = 0.25*np.pi*dx**2
 
 
 def setrho(x, q):

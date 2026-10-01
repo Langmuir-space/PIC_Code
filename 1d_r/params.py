@@ -28,7 +28,6 @@ wpe = 1.0                       # Plasma Frequency c=wpe=e/m0=0
 vth = 0.1                       # Thermal Speed
 qme = -1.0                      # Electron Standard q/me=1
 qe = np.pi*(xmax**2 - xmin**2)*wpe*wpe/(nptcl*qme)  # Electric Charge of an Electron
-qdx = qe/dx                     # Electric Charge Density
 
 # ===============================
 # Ion
@@ -39,7 +38,6 @@ wpi = wpe/np.sqrt(mi)           # Plasma Frequency
 vthi = vth/np.sqrt(mi)          # Thermal Speed
 qmi = - qme/mi                  # Electron Standard q/mi
 qi = - qe                       # Electric Charge
-qidx = qi/dx                    # Electric Charge Density
 
 
 # ===============================
@@ -48,7 +46,6 @@ qidx = qi/dx                    # Electric Charge Density
 # save_path = r'C:\Users\kasik\OneDrive - Kyushu University\PIC\Result'
 save_path = r'C:\Users\shimooka\OneDrive - Kyushu University (1)\PIC\Result'
 # save_path = r'C:\Users\kasik\OneDrive - Kyushu University\PIC\Result'
-# save_path = './Result'
 flag = True
 bounds = [-6, -2]
 seed = 0

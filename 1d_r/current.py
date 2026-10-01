@@ -1,10 +1,6 @@
 import numpy as np
 from params import nx, x0
-
-index = np.arange(x0, x0+nx+1, 1)
-vj = 2*np.pi*index
-if index[0] == 0:
-    vj[0] = np.pi/4
+from setrho import vj
 
 
 def curnt(x, vy, vz, q):
