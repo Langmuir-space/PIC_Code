@@ -205,31 +205,31 @@ def main():
               xlabel='$x_e(*\\omega_{pe}/c)$', ylabel='$\\phi$',
               xmin=None, xmax=None, ymin=None, ymax=None,
               select='raw')
-    velocity_e = np.sqrt(save["vex"]**2 + save["vyt"]**2 + save["vzt"]**2)
-    animation(velocity_e, save["vxt"], save_name=f"{save_fig_path}/ve_f.gif",
+    velocity_e = np.sqrt(save["vx"]**2 + save["vy"]**2 + save["vz"]**2)
+    animation(velocity_e, save["vx"], save_name=f"{save_fig_path}/ve_f.gif",
               xlabel='$v_{e}(/c)$', ylabel='$f(v_{e})$',
               xmin=None, xmax=None, ymin=None, ymax=None,
               select='hist')
-    velocity_i = np.sqrt(save["vxit"]**2 + save["vyit"]**2 + save["vzit"]**2)
-    animation(velocity_i, save["vxit"], save_name=f"{save_fig_path}/vi_f.gif",
+    velocity_i = np.sqrt(save["vxi"]**2 + save["vyi"]**2 + save["vzi"]**2)
+    animation(velocity_i, save["vxi"], save_name=f"{save_fig_path}/vi_f.gif",
               xlabel='$v_{i}(/c)$', ylabel='$f(v_{i})$',
               xmin=None, xmax=None, ymin=None, ymax=None,
               select='hist')
-    animation(save["vxt"], save["vyt"], save_name=f"{save_fig_path}/vx-vy.gif",
+    animation(save["vx"], save["vy"], save_name=f"{save_fig_path}/vx-vy.gif",
               xlabel='$v_{xe}(/c)$', ylabel='$v_{ye}(/c)$',
               xmin=-0.5, xmax=0.5, ymin=-0.5, ymax=0.5,
               select='phase')
-    animation(save["xt"]*dx, save["vxt"], save_name=f"{save_fig_path}/x-vx.gif",
+    animation(save["x"]*dx, save["vx"], save_name=f"{save_fig_path}/x-vx.gif",
               xlabel='$x_e(*\\omega_{pe}/c)$', ylabel='$v_{xe}(/c)$',
-              xmin=0, xmax=None, ymin=-0.5, ymax=0.5,
+              xmin=None, xmax=None, ymin=-0.5, ymax=0.5,
               select='phase')
-    animation(save["vxit"], save["vyit"], save_name=f"{save_fig_path}/vxi-vyi.gif",
+    animation(save["vxi"], save["vyi"], save_name=f"{save_fig_path}/vxi-vyi.gif",
               xlabel='$v_{xi}(/c)$', ylabel='$v_{yi}(/c)$',
               xmin=-0.25, xmax=0.25, ymin=-0.25, ymax=0.25,
               select='phase')
-    animation(save["xit"]*dx, save["vxit"], save_name=f"{save_fig_path}/xi-vxi.gif",
+    animation(save["xi"]*dx, save["vxi"], save_name=f"{save_fig_path}/xi-vxi.gif",
               xlabel='$x_i(*\\omega_{pe}/c)$', ylabel='$v_{xi}(/c)$',
-              xmin=0, xmax=None, ymin=-0.25, ymax=0.25,
+              xmin=None, xmax=None, ymin=-0.25, ymax=0.25,
               select='phase')
 
     Tmax = 5
