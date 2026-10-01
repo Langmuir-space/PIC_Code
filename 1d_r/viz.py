@@ -31,10 +31,10 @@ def dispersion_plot(field, fm, Tm, wt_m, save_path, title, label, flag):
     pcm = ax.pcolormesh(Tm, w, power, shading='nearest')
 
     if flag:
-        ax.scatter(Tm, wt_m, c='black', s=1, label='$\\xi_m$')
+        ax.scatter(Tm, wt_m, c='black', s=10, label='$\\xi_m$')
     elif not flag:
         ax.scatter(np.repeat(Tm, wt_m.shape[1]), wt_m.real.ravel(),
-                    c='black', s=1, label='$\\eta_m$')
+                    c='black', s=10, label='$\\eta_m$')
 
     ax.set_xlabel(r'$T_m c/\omega_{pe}$', fontsize=fontsize)
     ax.set_ylabel(r'$\omega/\omega_{pe}$', fontsize=fontsize)
