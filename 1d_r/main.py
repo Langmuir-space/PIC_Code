@@ -179,7 +179,7 @@ def main():
     # save_animation(save, index, dx, save_fig_path)
     save_dispersion(save, index, dx, save_fig_path)
     # save_phase_speed(vx, vy, vxi,vyi, save_fig_path)
-    # save_field_plot(save, save_fig_path)
+    save_field_plot(save, save_fig_path)
 
 
 if __name__ == "__main__":

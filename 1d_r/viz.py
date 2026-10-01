@@ -1,7 +1,7 @@
 import numpy as np
 import matplotlib.pyplot as plt
 from params import dx, dt, xmax, wpe, dt_skip, fps, interval, fontsize, \
-    s, bounds, bins, nt, xmin, nx, Tmax, wce0, wci0
+    s, bounds, bins, nt, xmin, nx, Tmax, wce0, wci0, Tmax
 import os
 from matplotlib.animation import FuncAnimation, PillowWriter
 from setrho import index
@@ -265,7 +265,6 @@ def save_animation(save, index, dx, save_fig_path):
 
 def save_dispersion(save, index, dx, save_fig_path):
 
-    Tmax = 5
     if xmin == 0:
         xi = np.linspace(0, Tmax, 10000)
         eta = np.linspace(0, Tmax, 10000)
