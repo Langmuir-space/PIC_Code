@@ -3,11 +3,11 @@ import numpy as np
 # ===============================
 # Simulation Setting
 # ===============================
-xmin = 2**15/10
-xmax = 2**15/10 + 2**10/10                      # Plasma Size Normalized By c/wpe
+xmin = 100
+xmax = 110                     # Plasma Size Normalized By c/wpe
 nt = 2**11                    # Time Grid Number
 # dx = 2**(-3)
-dx = 0.2
+dx = 0.1
 nx = int((xmax - xmin) / dx)        # X-space Grid Length
 dt = dx                         # Time Grid Length
 theta = 90                       # Propagation Degree
@@ -18,6 +18,7 @@ dtdr = dt/dx
 print('xmin:', xmin, 'xmax:', xmax)
 print('dx:', dx, 'nx:', nx)
 print('len:', xmax - xmin)
+print('nt:', nt, 'dt:', dt)
 
 # ===============================
 # Electron
@@ -45,8 +46,8 @@ qidx = qi/dx                    # Electric Charge Density
 # Others
 # ===============================
 # save_path = r'C:\Users\kasik\OneDrive - Kyushu University\PIC\Result'
-# save_path = r'C:\Users\shimooka\OneDrive - Kyushu University (1)\PIC\Result'
-save_path = r'C:\Users\kasik\OneDrive - Kyushu University\PIC\Result'
+save_path = r'C:\Users\shimooka\OneDrive - Kyushu University (1)\PIC\Result'
+# save_path = r'C:\Users\kasik\OneDrive - Kyushu University\PIC\Result'
 # save_path = './Result'
 flag = True
 bounds = [-6, -2]
@@ -57,3 +58,4 @@ interval = 50
 fontsize = 18
 s = 1
 bins = 100
+Tmax = 5

@@ -1,15 +1,16 @@
 import numpy as np
-from params import nx, nt, qme, qmi, dt, qe, qi, save_path, flag, dx
+from params import nx, nt, qme, qmi, dt, qe, qi, save_path, flag, dx, xmin, xmax
 from move import move, push
 from fields import field_energy, field_ex, field, ftdt, convert
 from utils import make_dic
-from viz import field_plot, animation, dispersion_plot, phase_speed
+from viz import field_plot, animation, dispersion_plot, phase_speed, theory_plot
 from setrho import setrho, index
 import time
 from input import x_ini, vx0, vy0, vz0, xi_ini, vxi0, vyi0, vzi0, \
     gamma0, gammai0, ake0, aki0, bx0, bz0
 from boundary import ptcle_bc
 from current import curnt
+from disp import dispersion_relation, fluctuation_profile
 
 
 def main():
@@ -176,82 +177,91 @@ def main():
     # ======================================
     # Make Animation and Save Figures
     # ======================================
-    # animation(ij, vj*save["rhoe"]/qe, save_name=f"{save_fig_path}/N_e.gif",
+    # animation(index*dx, vj*save["rhoe"]/qe, save_name=f"{save_fig_path}/N_e.gif",
     #           xlabel='$x_e(*\\omega_{pe}/c)$', ylabel='$N_e$',
     #           xmin=None, xmax=None, ymin=None, ymax=None,
     #           select='raw')
-    # animation(ij, vj*save["rhoi"]/qi, save_name=f"{save_fig_path}/N_i.gif",
+    # animation(index*dx, vj*save["rhoi"]/qi, save_name=f"{save_fig_path}/N_i.gif",
     #           xlabel='$x_i(*\\omega_{pe}/c)$', ylabel='$N_i$',
     #           xmin=None, xmax=None, ymin=None, ymax=None,
     #           select='raw')
-    # animation(index*dx, save["rhoe"], save_name=f"{save_fig_path}/rho_e.gif",
-    #           xlabel='$x_e(*\\omega_{pe}/c)$', ylabel='$\\rho_e$',
-    #           xmin=None, xmax=None, ymin=None, ymax=None,
-    #           select='raw')
-    # animation(index*dx, save["rhoi"], save_name=f"{save_fig_path}/rho_i.gif",
-    #           xlabel='$x_i(*\\omega_{pe}/c)$', ylabel='$\\rho_i$',
-    #           xmin=None, xmax=None, ymin=None, ymax=None,
-    #           select='raw')
-    # animation(index*dx, save["rhoei"], save_name=f"{save_fig_path}/rho.gif",
-    #           xlabel='$x(*\\omega_{pe}/c)$', ylabel='$\\rho$',
-    #           xmin=None, xmax=None, ymin=None, ymax=None,
-    #           select='raw')
+    animation(index*dx, save["rhoe"], save_name=f"{save_fig_path}/rho_e.gif",
+              xlabel='$x_e(*\\omega_{pe}/c)$', ylabel='$\\rho_e$',
+              xmin=None, xmax=None, ymin=None, ymax=None,
+              select='raw')
+    animation(index*dx, save["rhoi"], save_name=f"{save_fig_path}/rho_i.gif",
+              xlabel='$x_i(*\\omega_{pe}/c)$', ylabel='$\\rho_i$',
+              xmin=None, xmax=None, ymin=None, ymax=None,
+              select='raw')
+    animation(index*dx, save["rhoei"], save_name=f"{save_fig_path}/rho.gif",
+              xlabel='$x(*\\omega_{pe}/c)$', ylabel='$\\rho$',
+              xmin=None, xmax=None, ymin=None, ymax=None,
+              select='raw')
     animation(index*dx, save["ex"], save_name=f"{save_fig_path}/ex.gif",
               xlabel='$x_e(*\\omega_{pe}/c)$', ylabel='$E_{x}$',
               xmin=None, xmax=None, ymin=None, ymax=None,
               select='raw')
-    # animation(index*dx, save["phi"], save_name=f"{save_fig_path}/phi.gif",
-    #           xlabel='$x_e(*\\omega_{pe}/c)$', ylabel='$\\phi$',
-    #           xmin=None, xmax=None, ymin=None, ymax=None,
-    #           select='raw')
-    # velocity_e = np.sqrt(save["vex"]**2 + save["vyt"]**2 + save["vzt"]**2)
-    # animation(velocity_e, save["vxt"], save_name=f"{save_fig_path}/ve_f.gif",
-    #           xlabel='$v_{e}(/c)$', ylabel='$f(v_{e})$',
-    #           xmin=None, xmax=None, ymin=None, ymax=None,
-    #           select='hist')
-    # velocity_i = np.sqrt(save["vxit"]**2 + save["vyit"]**2 + save["vzit"]**2)
-    # animation(velocity_i, save["vxit"], save_name=f"{save_fig_path}/vi_f.gif",
-    #           xlabel='$v_{i}(/c)$', ylabel='$f(v_{i})$',
-    #           xmin=None, xmax=None, ymin=None, ymax=None,
-    #           select='hist')
-    # animation(save["vxt"], save["vyt"], save_name=f"{save_fig_path}/vx-vy.gif",
-    #           xlabel='$v_{xe}(/c)$', ylabel='$v_{ye}(/c)$',
-    #           xmin=-0.5, xmax=0.5, ymin=-0.5, ymax=0.5,
-    #           select='phase')
-    # animation(save["xt"]*dx, save["vxt"], save_name=f"{save_fig_path}/x-vx.gif",
-    #           xlabel='$x_e(*\\omega_{pe}/c)$', ylabel='$v_{xe}(/c)$',
-    #           xmin=0, xmax=None, ymin=-0.5, ymax=0.5,
-    #           select='phase')
-    # animation(save["vxit"], save["vyit"], save_name=f"{save_fig_path}/vxi-vyi.gif",
-    #           xlabel='$v_{xi}(/c)$', ylabel='$v_{yi}(/c)$',
-    #           xmin=-0.25, xmax=0.25, ymin=-0.25, ymax=0.25,
-    #           select='phase')
-    # animation(save["xit"]*dx, save["vxit"], save_name=f"{save_fig_path}/xi-vxi.gif",
-    #           xlabel='$x_i(*\\omega_{pe}/c)$', ylabel='$v_{xi}(/c)$',
-    #           xmin=0, xmax=None, ymin=-0.25, ymax=0.25,
-    #           select='phase')
+    animation(index*dx, save["phi"], save_name=f"{save_fig_path}/phi.gif",
+              xlabel='$x_e(*\\omega_{pe}/c)$', ylabel='$\\phi$',
+              xmin=None, xmax=None, ymin=None, ymax=None,
+              select='raw')
+    velocity_e = np.sqrt(save["vex"]**2 + save["vyt"]**2 + save["vzt"]**2)
+    animation(velocity_e, save["vxt"], save_name=f"{save_fig_path}/ve_f.gif",
+              xlabel='$v_{e}(/c)$', ylabel='$f(v_{e})$',
+              xmin=None, xmax=None, ymin=None, ymax=None,
+              select='hist')
+    velocity_i = np.sqrt(save["vxit"]**2 + save["vyit"]**2 + save["vzit"]**2)
+    animation(velocity_i, save["vxit"], save_name=f"{save_fig_path}/vi_f.gif",
+              xlabel='$v_{i}(/c)$', ylabel='$f(v_{i})$',
+              xmin=None, xmax=None, ymin=None, ymax=None,
+              select='hist')
+    animation(save["vxt"], save["vyt"], save_name=f"{save_fig_path}/vx-vy.gif",
+              xlabel='$v_{xe}(/c)$', ylabel='$v_{ye}(/c)$',
+              xmin=-0.5, xmax=0.5, ymin=-0.5, ymax=0.5,
+              select='phase')
+    animation(save["xt"]*dx, save["vxt"], save_name=f"{save_fig_path}/x-vx.gif",
+              xlabel='$x_e(*\\omega_{pe}/c)$', ylabel='$v_{xe}(/c)$',
+              xmin=0, xmax=None, ymin=-0.5, ymax=0.5,
+              select='phase')
+    animation(save["vxit"], save["vyit"], save_name=f"{save_fig_path}/vxi-vyi.gif",
+              xlabel='$v_{xi}(/c)$', ylabel='$v_{yi}(/c)$',
+              xmin=-0.25, xmax=0.25, ymin=-0.25, ymax=0.25,
+              select='phase')
+    animation(save["xit"]*dx, save["vxit"], save_name=f"{save_fig_path}/xi-vxi.gif",
+              xlabel='$x_i(*\\omega_{pe}/c)$', ylabel='$v_{xi}(/c)$',
+              xmin=0, xmax=None, ymin=-0.25, ymax=0.25,
+              select='phase')
 
-    dispersion_plot(save["ex"], save_fig_path, title=r'$E_x(k,\omega)$',
-                    label='Ex_wk')
+    Tmax = 5
+    xi = np.linspace(0, Tmax, 10000)
+    eta = np.linspace(0, Tmax, 10000)
+    w_xi, w_xi_m, w_eta, w_eta_m, xi_m, eta_m = \
+            dispersion_relation(xmin, xmax, xi, eta)
+    ez_m, bz_m = fluctuation_profile(xmin, xi_m, eta_m, index*dx)
+    # dispersion_plot(save["ex"], save_fig_path, title=r'$E_x(k,\omega)$',
+    #                 label='Ex_wk')
     # dispersion_plot(save["ey"], save_fig_path, title=r'$E_y(k,\omega)$',
     #                 label='Ey_wk')
-    # dispersion_plot(save["ez"], save_fig_path, title=r'$E_z(k,\omega)$',
-    #                 label='Ez_wk')
+    dispersion_plot(save["ez"], ez_m, xi_m, w_xi_m, save_fig_path, title=r'$E_z(T_m,\omega)$',
+                    label='Ez_wk', flag=True)
     # dispersion_plot(save["by"], save_fig_path, title=r'$B_y(k,\omega)$',
     #                 label='By_wk')
-    dispersion_plot(save["bz"], save_fig_path, title=r'$B_z(k,\omega)$',
-                    label='Bz_wk')
+    dispersion_plot(save["bz"], bz_m, eta_m, w_eta_m, save_fig_path, title=r'$B_z(T_m,\omega)$',
+                    label='Bz_wk', flag=False)
 
+    theory_plot(xi, w_xi, xi_m, w_xi_m, eta, w_eta, eta_m, w_eta_m, save_fig_path,
+                label='Dis.relation')
+    
     phase_speed(vx, vy, save_fig_path, title='Electron phase space',
                 label='Electron_phase', vmin=None, vmax=None)
     phase_speed(vxi, vyi, save_fig_path, title='Ion phase space',
                 label='Ion_phase', vmin=None, vmax=None)
 
     field_plot(save["ex"], save_fig_path, title=r'$E_x(x,t)$', label='Ex_xt')
-    # field_plot(save["ey"], save_fig_path, title=r'$E_y(x,t)$', label='Ey_xt')
-    # field_plot(save["ez"], save_fig_path, title=r'$E_z(x,t)$', label='Ez_xt')
-    # field_plot(save["by"], save_fig_path, title=r'$B_y(x,t)$', label='By_xt')
-    # field_plot(save["bz"], save_fig_path, title=r'$B_z(x,t)$', label='Bz_xt')
+    field_plot(save["ey"], save_fig_path, title=r'$E_y(x,t)$', label='Ey_xt')
+    field_plot(save["ez"], save_fig_path, title=r'$E_z(x,t)$', label='Ez_xt')
+    field_plot(save["by"], save_fig_path, title=r'$B_y(x,t)$', label='By_xt')
+    field_plot(save["bz"], save_fig_path, title=r'$B_z(x,t)$', label='Bz_xt')
 
 
 if __name__ == "__main__":
