@@ -3,8 +3,8 @@ import numpy as np
 # ===============================
 # Simulation Setting
 # ===============================
-xmin = 100
-xmax = 110                     # Plasma Size Normalized By c/wpe
+xmin = 1
+xmax = 6                     # Plasma Size Normalized By c/wpe
 nt = 2**11                    # Time Grid Number
 # dx = 2**(-3)
 dx = 0.1
@@ -43,9 +43,8 @@ qi = - qe                       # Electric Charge
 # ===============================
 # Others
 # ===============================
-# save_path = r'C:\Users\kasik\OneDrive - Kyushu University\PIC\Result'
-save_path = r'C:\Users\shimooka\OneDrive - Kyushu University (1)\PIC\Result'
-# save_path = r'C:\Users\kasik\OneDrive - Kyushu University\PIC\Result'
+# save_path = r'C:\Users\shimooka\OneDrive - Kyushu University (1)\PIC\Result'
+save_path = r'C:\Users\kasik\OneDrive - Kyushu University\PIC\Result'
 flag = True
 bounds = [-6, -2]
 seed = 0

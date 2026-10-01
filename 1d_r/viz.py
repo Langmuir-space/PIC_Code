@@ -7,7 +7,7 @@ from matplotlib.animation import FuncAnimation, PillowWriter
 from setrho import index
 from disp import dispersion_relation, fluctuation_profile
 
-n = 128
+n = 150
 wmax = 2*np.pi*n/(nt*dt)
 
 
