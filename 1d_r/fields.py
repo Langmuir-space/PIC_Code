@@ -19,23 +19,6 @@ def field_energy(ex, ey, ez, by, bz):
         np.sum(by**2), np.sum(bz**2)
 
 
-def field(jy, jz, rho):
-    rhog = rho*(dx**2)
-    phi = np.zeros(nx + 1)
-    phi[0] = 0
-    phi[1:-1] = tdma_solve(a, bp, cp, rhog[1:-1])
-    phi[-1] = 0
-    ex_half = np.zeros(nx)
-    ex_half[:] = - (phi[1:] - phi[:-1])/dx
-    ex = np.zeros(nx + 1)
-    ex[0] = 0
-    ex[1:-1] = (1 + 1/(2*index[1:-1]))*ex_half[1:]/2 \
-        + (1 - 1/(2*index[1:-1]))*ex_half[:-1]/2
-    ex[-1] = 0
-
-    return ex, phi
-
-
 def ftdt(ey, ez, byh, bzh, jy, jz):
     byh += 0.5*dtdr*(ez[1:] - ez[:-1])
     bzh += - 0.5*dtdr*(index[1:]*ey[1:] - index[:-1]*ey[:-1])/(index[:-1] + 0.5)

@@ -1,7 +1,7 @@
 import numpy as np
-from params import nx, nt, qme, qmi, dt, qe, qi, save_path, flag, dx, xmin, xmax
+from params import nx, nt, qme, qmi, dt, qe, qi, save_path, flag, dx
 from move import move, push
-from fields import field_energy, field_ex, field, ftdt, convert
+from fields import field_energy, field_ex, ftdt, convert
 from utils import make_dic
 from viz import save_field_plot, save_animation, save_phase_speed, save_dispersion
 from setrho import setrho, index
@@ -10,7 +10,6 @@ from input import x_ini, vx0, vy0, vz0, xi_ini, vxi0, vyi0, vzi0, \
     gamma0, gammai0, ake0, aki0, bx0, bz0
 from boundary import ptcle_bc
 from current import curnt
-from disp import dispersion_relation, fluctuation_profile
 
 
 def main():
