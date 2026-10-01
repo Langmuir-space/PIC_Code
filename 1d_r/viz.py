@@ -7,7 +7,7 @@ from matplotlib.animation import FuncAnimation, PillowWriter
 from setrho import index
 from disp import dispersion_relation, fluctuation_profile
 
-n = 150
+n = 100
 wmax = 2*np.pi*n/(nt*dt)
 
 
@@ -266,8 +266,12 @@ def save_animation(save, index, dx, save_fig_path):
 def save_dispersion(save, index, dx, save_fig_path):
 
     Tmax = 5
-    xi = np.linspace(0, Tmax, 10000)
-    eta = np.linspace(0, Tmax, 10000)
+    if xmin == 0:
+        xi = np.linspace(0, Tmax, 10000)
+        eta = np.linspace(0, Tmax, 10000)
+    else:
+        xi = np.linspace(0.01, Tmax, 10000)
+        eta = np.linspace(0.01, Tmax, 10000)
     w_xi, w_xi_m, w_eta, w_eta_m, xi_m, eta_m = \
             dispersion_relation(xmin, xmax, xi, eta)
     ez_m, bz_m = fluctuation_profile(xmin, xi_m, eta_m, index*dx)

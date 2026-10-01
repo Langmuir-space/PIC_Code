@@ -35,6 +35,7 @@ def dispersion_relation(Rmin, Rmax, xi, eta):
 
         return w_eta
 
+
     def boundary_condition(xi, eta, Rmin, Rmax):
 
         if Rmin == 0:
@@ -104,9 +105,13 @@ def fluctuation_profile(xmin, xi_m, eta_m, r):
     ez, bz = np.array(ez), np.array(bz)
     return ez, bz
 
-Tmax = 5
-xi = np.linspace(0, Tmax, 10000)
-eta = np.linspace(0, Tmax, 10000)
+# Tmax = 5
+# if xmin == 0:
+#     xi = np.linspace(0, Tmax, 10000)
+#     eta = np.linspace(0, Tmax, 10000)
+# else:
+#     xi = np.linspace(0.01, Tmax, 10000)
+#     eta = np.linspace(0.01, Tmax, 10000)
 # w_xi, w_xi_m, w_eta, w_eta_m, xi_m, eta_m = \
 #         dispersion_relation(xmin, xmax, xi, eta)
 # ez_m, bz_m = fluctuation_profile(xmin, xi_m, eta_m, index*dx)

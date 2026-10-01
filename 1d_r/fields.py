@@ -42,7 +42,7 @@ def convert(byh, bzh):
 
 
 def field_ex(rho):
-    rhog = rho*(dx**2)
+    rhog = rho*dx**2
     phi = np.zeros(nx + 1)
     phi[0] = 0
     phi[1:-1] = tdma_solve(a, bp, cp, rhog[1:-1])
