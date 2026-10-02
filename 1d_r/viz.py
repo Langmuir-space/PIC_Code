@@ -7,7 +7,7 @@ from matplotlib.animation import FuncAnimation, PillowWriter
 from setrho import index
 from disp import dispersion_relation, fluctuation_profile
 
-n = 100
+n = 128
 wmax = 2*np.pi*n/(nt*dt)
 
 
@@ -31,11 +31,11 @@ def dispersion_plot(field, fm, Tm, wt_m, save_path, title, label, flag):
 
     pcm = ax.pcolormesh(Tm, w, power, shading='nearest')
 
-    if flag:
-        ax.scatter(Tm, wt_m, c='black', s=10, label='$\\xi_m$')
-    elif not flag:
-        ax.scatter(np.repeat(Tm, wt_m.shape[1]), wt_m.real.ravel(),
-                    c='black', s=10, label='$\\eta_m$')
+    # if flag:
+    #     ax.scatter(Tm, wt_m, c='black', s=10, label='$\\xi_m$')
+    # elif not flag:
+    #     ax.scatter(np.repeat(Tm, wt_m.shape[1]), wt_m.real.ravel(),
+    #                 c='black', s=10, label='$\\eta_m$')
 
     ax.set_xlabel(r'$T_m c/\omega_{pe}$', fontsize=fontsize)
     ax.set_ylabel(r'$\omega/\omega_{pe}$', fontsize=fontsize)
@@ -273,16 +273,17 @@ def save_dispersion(save, index, dx, save_fig_path):
         eta = np.linspace(0.01, Tmax, 10000)
     w_xi, w_xi_m, w_eta, w_eta_m, xi_m, eta_m = \
             dispersion_relation(xmin, xmax, xi, eta)
+    ez_c, bz_c = fluctuation_profile(xmin, xi, eta, index*dx)
     ez_m, bz_m = fluctuation_profile(xmin, xi_m, eta_m, index*dx)
     # dispersion_plot(save["ex"], save_fig_path, title=r'$E_x(k,\omega)$',
     #                 label='Ex_wk')
     # dispersion_plot(save["ey"], save_fig_path, title=r'$E_y(k,\omega)$',
     #                 label='Ey_wk')
-    dispersion_plot(save["ez"], ez_m, xi_m, w_xi_m, save_fig_path, title=r'$E_z(T_m,\omega)$',
+    dispersion_plot(save["ez"], ez_c, xi, w_xi, save_fig_path, title=r'$E_z(T_m,\omega)$',
                     label='Ez_wk', flag=True)
     # dispersion_plot(save["by"], save_fig_path, title=r'$B_y(k,\omega)$',
     #                 label='By_wk')
-    dispersion_plot(save["bz"], bz_m, eta_m, w_eta_m, save_fig_path, title=r'$B_z(T_m,\omega)$',
+    dispersion_plot(save["bz"], bz_c, eta, w_eta, save_fig_path, title=r'$B_z(T_m,\omega)$',
                     label='Bz_wk', flag=False)
 
     theory_plot(xi, w_xi, xi_m, w_xi_m, eta, w_eta, eta_m, w_eta_m, save_fig_path,

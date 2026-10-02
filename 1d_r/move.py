@@ -12,7 +12,6 @@ def move(vx0, vy0, vz0, gamma0, ae, tx, tz, x,
     aez = ae*ez
     aby = ae*by
     abz = ae*bz
-    abz2 = ae*bz0
     ake = 0
 
     valid = ~np.isnan(x)
@@ -34,7 +33,7 @@ def move(vx0, vy0, vz0, gamma0, ae, tx, tz, x,
     aeypt = wR*aey[pos] + wL*aey[pos1]
     aezpt = wR*aez[pos] + wL*aez[pos1]
     abypt = wR*aby[pos] + wL*aby[pos1]
-    abzpt = wR*abz[pos] + wL*abz[pos1] + abz2
+    abzpt = wR*abz[pos] + wL*abz[pos1] + tz
 
     gvxs = vx0*gamma0 + aexpt
     gvys = vy0*gamma0 + aeypt

@@ -2,7 +2,8 @@ import numpy as np
 import matplotlib.pyplot as plt
 from scipy.special import jv, yv, jn_zeros
 from scipy.optimize import brentq
-from params import wpe, wpi, wce0, wci0, xmin, xmax, nt, dt, fontsize
+from params import wpe, wpi, wce0, wci0, xmin, xmax, nt, dt, fontsize, dx
+from setrho import index
 
 
 def dispersion_relation(Rmin, Rmax, xi, eta):
@@ -114,7 +115,12 @@ def fluctuation_profile(xmin, xi_m, eta_m, r):
 #     eta = np.linspace(0.01, Tmax, 10000)
 # w_xi, w_xi_m, w_eta, w_eta_m, xi_m, eta_m = \
 #         dispersion_relation(xmin, xmax, xi, eta)
+# ez_c, bz_c = fluctuation_profile(xmin, xi, eta, index*dx)
 # ez_m, bz_m = fluctuation_profile(xmin, xi_m, eta_m, index*dx)
+# print("ez_c.shape:", ez_c.shape)
+# print("bz_c.shape:", bz_c.shape)
+# print("ez_m.shape:", ez_m.shape)
+# print("bz_m.shape:", bz_m.shape)    
 # print('w_xi_m:', w_xi_m.shape)
 # print('w_eta_m:', w_eta_m.shape)
 # print('xi_m:', xi_m.shape)
