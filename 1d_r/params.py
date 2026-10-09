@@ -5,14 +5,14 @@ import numpy as np
 # ===============================
 xmin = 5
 xmax = 10                     # Plasma Size Normalized By c/wpe
-nt = 2**11                    # Time Grid Number
+nt = 2**10                    # Time Grid Number
 # dx = 2**(-3)
 dx = 0.1
 nx = int((xmax - xmin) / dx)        # X-space Grid Length
 dt = dx                         # Time Grid Length
 theta = 90                       # Propagation Degree
 x0 = int(xmin / dx)
-nptcl = 2**16                    # Particle Number
+nptcl = 2**17                    # Particle Number
 dtdr = dt/dx
 
 print('xmin:', xmin, 'xmax:', xmax)
@@ -43,8 +43,8 @@ qi = - qe                       # Electric Charge
 # ===============================
 # Others
 # ===============================
-save_path = r'C:\Users\shimooka\OneDrive - Kyushu University (1)\PIC\Result'
-# save_path = r'C:\Users\kasik\OneDrive - Kyushu University\PIC\Result'
+# save_path = r'C:\Users\shimooka\OneDrive - Kyushu University (1)\PIC\Result'
+save_path = r'C:\Users\kasik\OneDrive - Kyushu University\PIC\Result'
 flag = True
 bounds = [-6, -2]
 seed = 0

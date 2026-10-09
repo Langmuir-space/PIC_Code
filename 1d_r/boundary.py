@@ -1,4 +1,5 @@
 from params import nx, x0
+from setrho import index
 
 
 def ptcle_bc(x, vx, vy, vz):
