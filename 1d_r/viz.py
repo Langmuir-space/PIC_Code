@@ -223,34 +223,34 @@ def save_animation(save, index, dx, save_fig_path):
     #             xlabel='$x_i(*\\omega_{pe}/c)$', ylabel='$\\rho_i$',
     #             xmin=None, xmax=None, ymin=None, ymax=None,
     #             select='raw')
-    # animation(index*dx, save["rhoei"], save_name=f"{save_fig_path}/rho.gif",
-    #             xlabel='$x(*\\omega_{pe}/c)$', ylabel='$\\rho$',
-    #             xmin=None, xmax=None, ymin=None, ymax=None,
-    #             select='raw')
-    animation(index*dx, save["ex"], save_name=f"{save_fig_path}/ex.gif",
-                xlabel='$x_e(*\\omega_{pe}/c)$', ylabel='$E_{x}$',
+    animation(index*dx, save["rhoei"], save_name=f"{save_fig_path}/rho.gif",
+                xlabel='$x(*\\omega_{pe}/c)$', ylabel='$\\rho$',
                 xmin=None, xmax=None, ymin=None, ymax=None,
                 select='raw')
+    # animation(index*dx, save["ex"], save_name=f"{save_fig_path}/ex.gif",
+    #             xlabel='$x_e(*\\omega_{pe}/c)$', ylabel='$E_{x}$',
+    #             xmin=None, xmax=None, ymin=None, ymax=None,
+    #             select='raw')
 
-    animation(index*dx, save["ey"], save_name=f"{save_fig_path}/ey.gif",
-                    xlabel='$x_e(*\\omega_{pe}/c)$', ylabel='$E_{y}$',
-                    xmin=None, xmax=None, ymin=None, ymax=None,
-                    select='raw')
+    # animation(index*dx, save["ey"], save_name=f"{save_fig_path}/ey.gif",
+    #                 xlabel='$x_e(*\\omega_{pe}/c)$', ylabel='$E_{y}$',
+    #                 xmin=None, xmax=None, ymin=None, ymax=None,
+    #                 select='raw')
 
-    animation(index*dx, save["ez"], save_name=f"{save_fig_path}/ez.gif",
-                    xlabel='$x_e(*\\omega_{pe}/c)$', ylabel='$E_{z}$',
-                    xmin=None, xmax=None, ymin=None, ymax=None,
-                    select='raw')
+    # animation(index*dx, save["ez"], save_name=f"{save_fig_path}/ez.gif",
+    #                 xlabel='$x_e(*\\omega_{pe}/c)$', ylabel='$E_{z}$',
+    #                 xmin=None, xmax=None, ymin=None, ymax=None,
+    #                 select='raw')
 
-    animation(index*dx, save["by"], save_name=f"{save_fig_path}/by.gif",
-                    xlabel='$x_e(*\\omega_{pe}/c)$', ylabel='$B_{y}$',
-                    xmin=None, xmax=None, ymin=None, ymax=None,
-                    select='raw')
+    # animation(index*dx, save["by"], save_name=f"{save_fig_path}/by.gif",
+    #                 xlabel='$x_e(*\\omega_{pe}/c)$', ylabel='$B_{y}$',
+    #                 xmin=None, xmax=None, ymin=None, ymax=None,
+    #                 select='raw')
 
-    animation(index*dx, save["bz"], save_name=f"{save_fig_path}/bz.gif",
-                    xlabel='$x_e(*\\omega_{pe}/c)$', ylabel='$B_{z}$',
-                    xmin=None, xmax=None, ymin=None, ymax=None,
-                    select='raw')
+    # animation(index*dx, save["bz"], save_name=f"{save_fig_path}/bz.gif",
+    #                 xlabel='$x_e(*\\omega_{pe}/c)$', ylabel='$B_{z}$',
+    #                 xmin=None, xmax=None, ymin=None, ymax=None,
+    #                 select='raw')
     # animation(index*dx, save["phi"], save_name=f"{save_fig_path}/phi.gif",
     #             xlabel='$x_e(*\\omega_{pe}/c)$', ylabel='$\\phi$',
     #             xmin=None, xmax=None, ymin=None, ymax=None,

@@ -6,6 +6,8 @@ vj = 2*np.pi*index*dx**2
 if index[0] == 0:
     vj[0] = 0.25*np.pi*dx**2
 
+print('vj:', vj)
+
 
 def setrho(x, q):
     rhoj = np.zeros(nx + 1)
