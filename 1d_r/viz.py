@@ -215,52 +215,72 @@ def make_updates(fig, ax, x, y, xmin, xmax, ymin, ymax, xlabel, ylabel,
 
 def save_animation(save, index, dx, save_fig_path):
 
-    animation(index*dx, save["rhoe"], save_name=f"{save_fig_path}/rho_e.gif",
-                xlabel='$x_e(*\\omega_{pe}/c)$', ylabel='$\\rho_e$',
-                xmin=None, xmax=None, ymin=None, ymax=None,
-                select='raw')
-    animation(index*dx, save["rhoi"], save_name=f"{save_fig_path}/rho_i.gif",
-                xlabel='$x_i(*\\omega_{pe}/c)$', ylabel='$\\rho_i$',
-                xmin=None, xmax=None, ymin=None, ymax=None,
-                select='raw')
-    animation(index*dx, save["rhoei"], save_name=f"{save_fig_path}/rho.gif",
-                xlabel='$x(*\\omega_{pe}/c)$', ylabel='$\\rho$',
-                xmin=None, xmax=None, ymin=None, ymax=None,
-                select='raw')
+    # animation(index*dx, save["rhoe"], save_name=f"{save_fig_path}/rho_e.gif",
+    #             xlabel='$x_e(*\\omega_{pe}/c)$', ylabel='$\\rho_e$',
+    #             xmin=None, xmax=None, ymin=None, ymax=None,
+    #             select='raw')
+    # animation(index*dx, save["rhoi"], save_name=f"{save_fig_path}/rho_i.gif",
+    #             xlabel='$x_i(*\\omega_{pe}/c)$', ylabel='$\\rho_i$',
+    #             xmin=None, xmax=None, ymin=None, ymax=None,
+    #             select='raw')
+    # animation(index*dx, save["rhoei"], save_name=f"{save_fig_path}/rho.gif",
+    #             xlabel='$x(*\\omega_{pe}/c)$', ylabel='$\\rho$',
+    #             xmin=None, xmax=None, ymin=None, ymax=None,
+    #             select='raw')
     animation(index*dx, save["ex"], save_name=f"{save_fig_path}/ex.gif",
                 xlabel='$x_e(*\\omega_{pe}/c)$', ylabel='$E_{x}$',
                 xmin=None, xmax=None, ymin=None, ymax=None,
                 select='raw')
-    animation(index*dx, save["phi"], save_name=f"{save_fig_path}/phi.gif",
-                xlabel='$x_e(*\\omega_{pe}/c)$', ylabel='$\\phi$',
-                xmin=None, xmax=None, ymin=None, ymax=None,
-                select='raw')
-    velocity_e = np.sqrt(save["vx"]**2 + save["vy"]**2 + save["vz"]**2)
-    animation(velocity_e, save["vx"], save_name=f"{save_fig_path}/ve_f.gif",
-                xlabel='$v_{e}(/c)$', ylabel='$f(v_{e})$',
-                xmin=None, xmax=None, ymin=None, ymax=None,
-                select='hist')
-    velocity_i = np.sqrt(save["vxi"]**2 + save["vyi"]**2 + save["vzi"]**2)
-    animation(velocity_i, save["vxi"], save_name=f"{save_fig_path}/vi_f.gif",
-                xlabel='$v_{i}(/c)$', ylabel='$f(v_{i})$',
-                xmin=None, xmax=None, ymin=None, ymax=None,
-                select='hist')
-    animation(save["vx"], save["vy"], save_name=f"{save_fig_path}/vx-vy.gif",
-                xlabel='$v_{xe}(/c)$', ylabel='$v_{ye}(/c)$',
-                xmin=-0.5, xmax=0.5, ymin=-0.5, ymax=0.5,
-                select='phase')
-    animation(save["x"]*dx, save["vx"], save_name=f"{save_fig_path}/x-vx.gif",
-                xlabel='$x_e(*\\omega_{pe}/c)$', ylabel='$v_{xe}(/c)$',
-                xmin=None, xmax=None, ymin=-0.5, ymax=0.5,
-                select='phase')
-    animation(save["vxi"], save["vyi"], save_name=f"{save_fig_path}/vxi-vyi.gif",
-                xlabel='$v_{xi}(/c)$', ylabel='$v_{yi}(/c)$',
-                xmin=-0.25, xmax=0.25, ymin=-0.25, ymax=0.25,
-                select='phase')
-    animation(save["xi"]*dx, save["vxi"], save_name=f"{save_fig_path}/xi-vxi.gif",
-                xlabel='$x_i(*\\omega_{pe}/c)$', ylabel='$v_{xi}(/c)$',
-                xmin=None, xmax=None, ymin=-0.25, ymax=0.25,
-                select='phase')
+
+    animation(index*dx, save["ey"], save_name=f"{save_fig_path}/ey.gif",
+                    xlabel='$x_e(*\\omega_{pe}/c)$', ylabel='$E_{y}$',
+                    xmin=None, xmax=None, ymin=None, ymax=None,
+                    select='raw')
+
+    animation(index*dx, save["ez"], save_name=f"{save_fig_path}/ez.gif",
+                    xlabel='$x_e(*\\omega_{pe}/c)$', ylabel='$E_{z}$',
+                    xmin=None, xmax=None, ymin=None, ymax=None,
+                    select='raw')
+
+    animation(index*dx, save["by"], save_name=f"{save_fig_path}/by.gif",
+                    xlabel='$x_e(*\\omega_{pe}/c)$', ylabel='$B_{y}$',
+                    xmin=None, xmax=None, ymin=None, ymax=None,
+                    select='raw')
+
+    animation(index*dx, save["bz"], save_name=f"{save_fig_path}/bz.gif",
+                    xlabel='$x_e(*\\omega_{pe}/c)$', ylabel='$B_{z}$',
+                    xmin=None, xmax=None, ymin=None, ymax=None,
+                    select='raw')
+    # animation(index*dx, save["phi"], save_name=f"{save_fig_path}/phi.gif",
+    #             xlabel='$x_e(*\\omega_{pe}/c)$', ylabel='$\\phi$',
+    #             xmin=None, xmax=None, ymin=None, ymax=None,
+    #             select='raw')
+    # velocity_e = np.sqrt(save["vx"]**2 + save["vy"]**2 + save["vz"]**2)
+    # animation(velocity_e, save["vx"], save_name=f"{save_fig_path}/ve_f.gif",
+    #             xlabel='$v_{e}(/c)$', ylabel='$f(v_{e})$',
+    #             xmin=None, xmax=None, ymin=None, ymax=None,
+    #             select='hist')
+    # velocity_i = np.sqrt(save["vxi"]**2 + save["vyi"]**2 + save["vzi"]**2)
+    # animation(velocity_i, save["vxi"], save_name=f"{save_fig_path}/vi_f.gif",
+    #             xlabel='$v_{i}(/c)$', ylabel='$f(v_{i})$',
+    #             xmin=None, xmax=None, ymin=None, ymax=None,
+    #             select='hist')
+    # animation(save["vx"], save["vy"], save_name=f"{save_fig_path}/vx-vy.gif",
+    #             xlabel='$v_{xe}(/c)$', ylabel='$v_{ye}(/c)$',
+    #             xmin=-0.5, xmax=0.5, ymin=-0.5, ymax=0.5,
+    #             select='phase')
+    # animation(save["x"]*dx, save["vx"], save_name=f"{save_fig_path}/x-vx.gif",
+    #             xlabel='$x_e(*\\omega_{pe}/c)$', ylabel='$v_{xe}(/c)$',
+    #             xmin=None, xmax=None, ymin=-0.5, ymax=0.5,
+    #             select='phase')
+    # animation(save["vxi"], save["vyi"], save_name=f"{save_fig_path}/vxi-vyi.gif",
+    #             xlabel='$v_{xi}(/c)$', ylabel='$v_{yi}(/c)$',
+    #             xmin=-0.25, xmax=0.25, ymin=-0.25, ymax=0.25,
+    #             select='phase')
+    # animation(save["xi"]*dx, save["vxi"], save_name=f"{save_fig_path}/xi-vxi.gif",
+    #             xlabel='$x_i(*\\omega_{pe}/c)$', ylabel='$v_{xi}(/c)$',
+    #             xmin=None, xmax=None, ymin=-0.25, ymax=0.25,
+    #             select='phase')
 
 
 def save_dispersion(save, index, dx, save_fig_path):

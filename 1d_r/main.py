@@ -10,6 +10,7 @@ from input import x_ini, vx0, vy0, vz0, xi_ini, vxi0, vyi0, vzi0, \
     gamma0, gammai0, ake0, aki0, bx0, bz0
 from boundary import ptcle_bc
 from current import curnt
+import matplotlib.pyplot as plt
 
 
 def main():
@@ -29,6 +30,7 @@ def main():
     bz = np.zeros(nx + 1)
     byh = np.zeros(nx)
     bzh = np.zeros(nx)
+    phi = np.zeros(nx + 1)
 
     # ====================================
     # Fields at t = 0
