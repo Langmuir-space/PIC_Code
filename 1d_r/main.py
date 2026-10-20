@@ -38,6 +38,8 @@ def main():
     rhoe = setrho(x, qe)
     rhoi = setrho(xi, qi)
     rho = rhoe + rhoi
+    # plt.plot(index*dx, rho)
+    # plt.show()
     ex, phi = field_ex(rho)
     ex2, ey2, ez2, by2, bz2 = field_energy(ex, ey, ez, by, bz)
 
