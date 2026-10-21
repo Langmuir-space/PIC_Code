@@ -295,18 +295,8 @@ def save_dispersion(save, index, dx, save_fig_path):
             dispersion_relation(xmin, xmax, xi, eta)
     # ez_c, bz_c = fluctuation_profile(xmin, xi, eta, index*dx)
     ez_m, bz_m = fluctuation_profile(xmin, xi_m, eta_m, index*dx)
-    # dispersion_plot(save["ex"], save_fig_path, title=r'$E_x(k,\omega)$',
-    #                 label='Ex_wk')
-    # dispersion_plot(save["ey"], save_fig_path, title=r'$E_y(k,\omega)$',
-    #                 label='Ey_wk')
-    # dispersion_plot(save["ez"], ez_c, xi, w_xi, save_fig_path, title=r'$E_z(T_m,\omega)$',
-    #                 label='Ez_wk', flag=True)
     dispersion_plot(save["ez"], ez_m, xi_m, w_xi_m, save_fig_path, title=r'$E_z(T_m,\omega)$',
                         label='Ez_wk', flag=True)
-    # dispersion_plot(save["by"], save_fig_path, title=r'$B_y(k,\omega)$',
-    #                 label='By_wk')
-    # dispersion_plot(save["bz"], bz_c, eta, w_eta, save_fig_path, title=r'$B_z(T_m,\omega)$',
-    #                 label='Bz_wk', flag=False)
     dispersion_plot(save["bz"], bz_m, eta_m, w_eta_m, save_fig_path, title=r'$B_z(T_m,\omega)$',
                         label='Bz_wk', flag=False)
 

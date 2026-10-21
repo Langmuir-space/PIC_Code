@@ -21,10 +21,10 @@ def move(vx0, vy0, vz0, gamma0, ae, tx, tz, x,
     vz0 = vz0[valid]
     gamma0 = gamma0[valid]
 
-    ij = np.floor(x).astype(int)
-#     ij1 = ij + 1
+    ij = np.floor(x).astype(np.int64)
     area = 2*ij + 1
-    wL = (x**2 - ij**2)/area
+    delta = x - ij
+    wL = delta*(delta + 2*ij)/area
     wR = 1.0 - wL
     pos = ij - x0
     pos1 = pos + 1
@@ -33,7 +33,8 @@ def move(vx0, vy0, vz0, gamma0, ae, tx, tz, x,
     aeypt = wR*aey[pos] + wL*aey[pos1]
     aezpt = wR*aez[pos] + wL*aez[pos1]
     abypt = wR*aby[pos] + wL*aby[pos1]
-    abzpt = wR*abz[pos] + wL*abz[pos1] + tz
+    # abzpt = wR*abz[pos] + wL*abz[pos1] + tz
+    abzpt = wR*abz[pos] + wL*abz[pos1]
 
     gvxs = vx0*gamma0 + aexpt
     gvys = vy0*gamma0 + aeypt

@@ -2,7 +2,6 @@ import numpy as np
 from params import nx, dx, dt, dtdr
 from utils import tdma_pre, tdma_solve
 from setrho import index
-print('index:', index.shape)
 
 if index[0] == 0:
     a = np.zeros(nx)
@@ -43,6 +42,10 @@ def ftdt(ey, ez, byh, bzh, jy, jz):
         ez[0] += - dt*jz[0]
     else:
         ez[0] = 0
+    # ey[0] = (1 + dtdr)*ey[0] - dtdr*ey[1]
+    # ey[-1] = (1 - dtdr)*ey[-1] + dtdr*ey[-2]
+    # ez[0] = (1 + dtdr)*ez[0] - dtdr*ez[1]
+    # ez[-1] = (1 - dtdr)*ez[-1] + dtdr*ez[-2]
     byh += 0.5*dtdr*(ez[1:] - ez[:-1])
     bzh += - 0.5*dtdr*(index[1:]*ey[1:] - index[:-1]*ey[:-1])/(index[:-1] + 0.5)
     return ey, ez, byh, bzh
@@ -53,8 +56,14 @@ def convert(byh, bzh):
     bz = np.zeros(nx + 1)
     by[1:-1] = ((index[1:-1] + 0.5)*byh[1:] + (index[1:-1] - 0.5)*byh[:-1])/(2*index[1:-1])
     bz[1:-1] = (bzh[1:] + bzh[:-1])/2
-    by[0] = by[1]; by[-1] = by[-2]
-    bz[0] = bz[1]; bz[-1] = bz[-2]
+    by[0] = 0; by[-1] = 0
+    bz[0] = 0; bz[-1] = 0
+    # by[0] = by[1]; by[-1] = by[-2]
+    # bz[0] = bz[1]; bz[-1] = bz[-2]
+    # by[0] = (1 + 2*dtdr)*by[0] - 2*dtdr*by[1]
+    # by[-1] = (1 - 2*dtdr)*by[-1] + 2*dtdr*by[-2]
+    # bz[0] = (1 + 2*dtdr)*bz[0] - 2*dtdr*bz[1]
+    # bz[-1] = (1 - 2*dtdr)*bz[-1] + 2*dtdr*bz[-2]
     return by, bz
 
 
@@ -70,7 +79,7 @@ def field_ex(rho):
     ex_half = np.zeros(nx)
     ex_half[:] = - (phi[1:] - phi[:-1])/dx
     ex = np.zeros(nx + 1)
-    ex[0] = 0
     ex[1:-1] = (1 + 1/(2*index[1:-1]))*ex_half[1:]/2 + (1 - 1/(2*index[1:-1]))*ex_half[:-1]/2
+    ex[0] = 0
     ex[-1] = 0
     return ex, phi

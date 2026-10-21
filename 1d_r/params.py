@@ -12,7 +12,7 @@ nx = int((xmax - xmin) / dx)        # X-space Grid Length
 dt = dx                         # Time Grid Length
 theta = 90                       # Propagation Degree
 x0 = int(xmin / dx)
-nptcl = 2**14                    # Particle Number
+nptcl = 2**15                    # Particle Number
 dtdr = dt/dx
 
 print('xmin:', xmin, 'xmax:', xmax)

@@ -7,10 +7,11 @@ def curnt(x, vy, vz, q):
 
     jy = np.zeros(nx + 1)
     jz = np.zeros(nx + 1)
-    ij = np.floor(x).astype(int)
+    ij = np.floor(x).astype(np.int64)
     ij1 = ij + 1
     area = 2*ij + 1
-    wL = (x**2-ij**2)/area
+    delta = x - ij
+    wL = delta*(delta + 2*ij)/area
     wR = 1.0 - wL
 
     np.add.at(jy, ij-x0, q*wR*vy)
