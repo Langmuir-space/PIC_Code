@@ -155,8 +155,8 @@ def main():
         # Field at t = (n + 1)Δt at x = i
         # ======================================
         ex, phi = field_ex(rho)
-        ey, ez, byh, bzh = ftdt(ey, ez, byh, bzh, jy, jz)
-        by, bz = convert(byh, bzh)
+        # ey, ez, byh, bzh = ftdt(ey, ez, byh, bzh, jy, jz)
+        # by, bz = convert(byh, bzh)
 
         # ======================================
         # Save Into List
