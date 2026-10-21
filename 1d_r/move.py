@@ -33,8 +33,8 @@ def move(vx0, vy0, vz0, gamma0, ae, tx, tz, x,
     aeypt = wR*aey[pos] + wL*aey[pos1]
     aezpt = wR*aez[pos] + wL*aez[pos1]
     abypt = wR*aby[pos] + wL*aby[pos1]
-    # abzpt = wR*abz[pos] + wL*abz[pos1] + tz
-    abzpt = wR*abz[pos] + wL*abz[pos1]
+    abzpt = wR*abz[pos] + wL*abz[pos1] + tz
+    # abzpt = wR*abz[pos] + wL*abz[pos1]
 
     gvxs = vx0*gamma0 + aexpt
     gvys = vy0*gamma0 + aeypt
