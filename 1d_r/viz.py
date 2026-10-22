@@ -306,8 +306,8 @@ def save_dispersion(save, index, dx, save_fig_path):
     #                         label='Ex_wk', flag=False)
     # dispersion_plot(save["bz"], bz_c, eta, w_eta, save_fig_path, title=r'$B_z(T_m,\omega)$',
     #                         label='Bz_wk', flag=False)
-    # dispersion_plot(save["ex"], bz_c, eta, w_eta, save_fig_path, title=r'$E_x(T_m,\omega)$',
-    #                             label='Ex_wk', flag=False)
+    dispersion_plot(save["ex"], ez_m, eta_m, w_eta_m, index, save_fig_path, title=r'$E_x(T_m,\omega)$',
+                                label='Ex_wk', flag=False)
 
     theory_plot(xi, w_xi, xi_m, w_xi_m, eta, w_eta, eta_m, w_eta_m, save_fig_path,
                     label='Dis.relation')

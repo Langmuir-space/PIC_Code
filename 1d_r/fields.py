@@ -57,6 +57,12 @@ def ftdt(ey, ez, by, bz, jy, jz):
     return ey, ez, by, bz
 
 
+def ftdt_ex(ex, jx):
+    ex += - dt*jx
+    ex[0] = 0; ex[-1] = 0
+    return ex
+
+
 def convert(byh, bzh):
     by = np.zeros(nx + 1)
     bz = np.zeros(nx + 1)

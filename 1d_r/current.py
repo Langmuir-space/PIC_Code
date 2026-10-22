@@ -3,10 +3,9 @@ from params import nx, x0
 from setrho import vj
 
 
-def curnt(x, vy, vz, q):
+def curnt(x, v, q):
 
-    jy = np.zeros(nx + 1)
-    jz = np.zeros(nx + 1)
+    curnt = np.zeros(nx + 1)
     ij = np.floor(x).astype(np.int64)
     ij1 = ij + 1
     area = 2*ij + 1
@@ -14,13 +13,9 @@ def curnt(x, vy, vz, q):
     wL = delta*(delta + 2*ij)/area
     wR = 1.0 - wL
 
-    np.add.at(jy, ij-x0, q*wR*vy)
-    np.add.at(jy, ij1-x0, q*wL*vy)
+    np.add.at(curnt, ij-x0, q*wR*v)
+    np.add.at(curnt, ij1-x0, q*wL*v)
 
-    np.add.at(jz, ij-x0, q*wR*vz)
-    np.add.at(jz, ij1-x0, q*wL*vz)
+    curnt /= vj
 
-    jy /= vj
-    jz /= vj
-
-    return jy, jz
+    return curnt

@@ -1,7 +1,7 @@
 import numpy as np
 from params import nx, nt, qme, qmi, dt, qe, qi, save_path, flag, dx
 from move import move, push
-from fields import field_energy, field_ex, ftdt, convert
+from fields import field_energy, field_ex, ftdt, convert, ftdt_ex
 from utils import make_dic
 from viz import save_field_plot, save_animation, save_phase_speed, save_dispersion
 from setrho import setrho, index
@@ -131,33 +131,38 @@ def main():
         # ===============================================================
         # Current density at t = (n + 1/2)Δt at x = i
         # ===============================================================
-        jye_old, jze_old = curnt(x_old, vy_old, vz_old, qe)
-        jye_new, jze_new = curnt(x, vy, vz, qe)
 
-        jyi_old, jzi_old = curnt(xi_old, vyi_old, vzi_old, qi)
-        jyi_new, jzi_new = curnt(xi, vyi, vzi, qi)
+        jxe_old, jye_old, jze_old = curnt(x_old, vx_old, qe), curnt(x_old, vy_old, qe), curnt(x_old, vz_old, qe)
+        jxe_new, jye_new, jze_new = curnt(x, vx, qe), curnt(x, vy, qe), curnt(x, vz, qe)
 
+        jxi_old, jyi_old, jzi_old = curnt(xi_old, vxi_old, qi), curnt(xi_old, vyi_old, qi), curnt(xi_old, vzi_old, qi)
+        jxi_new, jyi_new, jzi_new = curnt(xi, vxi, qi), curnt(xi, vyi, qi), curnt(xi, vzi, qi)
+
+        jx_old = jxe_old + jxi_old
         jy_old = jye_old + jyi_old
         jz_old = jze_old + jzi_old
+        jx_new = jxe_new + jxi_new
         jy_new = jye_new + jyi_new
         jz_new = jze_new + jzi_new
+        jx = 0.5*(jx_old + jx_new)
         jy = 0.5*(jy_old + jy_new)
         jz = 0.5*(jz_old + jz_new)
 
         # ===============================================================
         # Charge Density at t = (n + 1)Δt at x = i
         # ===============================================================
-        rhoe = setrho(x, qe)
-        rhoi = setrho(xi, qi)
-        rho = rhoe + rhoi
+        # rhoe = setrho(x, qe)
+        # rhoi = setrho(xi, qi)
+        # rho = rhoe + rhoi
 
         # ======================================
         # Field at t = (n + 1)Δt at x = i
         # ======================================
-        ex, phi = field_ex(rho)
+        # ex, phi = field_ex(rho)
         # ey, ez, byh, bzh = ftdt(ey, ez, byh, bzh, jy, jz)
         # by, bz = convert(byh, bzh)
         ey, ez, by, bz = ftdt(ey, ez, by, bz, jy, jz)
+        ex = ftdt_ex(ex, jx)
 
         # ======================================
         # Save Into List
