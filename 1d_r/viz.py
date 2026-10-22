@@ -5,13 +5,14 @@ from params import dx, dt, xmax, wpe, dt_skip, fps, interval, fontsize, \
 import os
 from matplotlib.animation import FuncAnimation, PillowWriter
 from setrho import index
-from disp import dispersion_relation, fluctuation_profile
+from disp import dispersion_relation, fluctuation_profile, \
+    fluctuation_profile_ez, fluctuation_profile_bz
 
 n = 128
 wmax = 2*np.pi*n/(nt*dt)
 
 
-def dispersion_plot(field, fm, Tm, wt_m, save_path, title, label, flag):
+def dispersion_plot(field, fm, Tm, wt_m, index, save_path, title, label, flag):
 
     def amplitude(field, fm):
         norm = np.sum(index*fm**2, axis=1)
@@ -294,11 +295,13 @@ def save_dispersion(save, index, dx, save_fig_path):
     w_xi, w_xi_m, w_eta, w_eta_m, xi_m, eta_m = \
             dispersion_relation(xmin, xmax, xi, eta)
     # ez_c, bz_c = fluctuation_profile(xmin, xi, eta, index*dx)
-    ez_m, bz_m = fluctuation_profile(xmin, xi_m, eta_m, index*dx)
-    dispersion_plot(save["ez"], ez_m, xi_m, w_xi_m, save_fig_path, title=r'$E_z(T_m,\omega)$',
+    # ez_m, bz_m = fluctuation_profile(xmin, xi_m, eta_m, index*dx)
+    ez_m = fluctuation_profile_ez(xmin, xi_m, index*dx)
+    bz_m = fluctuation_profile_bz(xmin, eta_m, (index[:-1] + 0.5)*dx)
+    dispersion_plot(save["ez"], ez_m, xi_m, w_xi_m, index, save_fig_path, title=r'$E_z(T_m,\omega)$',
                         label='Ez_wk', flag=True)
-    dispersion_plot(save["bz"], bz_m, eta_m, w_eta_m, save_fig_path, title=r'$B_z(T_m,\omega)$',
-                        label='Bz_wk', flag=False)
+    dispersion_plot(save["bz"][:, 1:-1], bz_m, eta_m, w_eta_m, index[:-1] + 0.5, save_fig_path,
+                    title=r'$B_z(T_m,\omega)$', label='Bz_wk', flag=False)
     # dispersion_plot(save["ex"], bz_m, eta_m, w_eta_m, save_fig_path, title=r'$E_x(T_m,\omega)$',
     #                         label='Ex_wk', flag=False)
     # dispersion_plot(save["bz"], bz_c, eta, w_eta, save_fig_path, title=r'$B_z(T_m,\omega)$',

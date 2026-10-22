@@ -106,6 +106,36 @@ def fluctuation_profile(xmin, xi_m, eta_m, r):
     ez, bz = np.array(ez), np.array(bz)
     return ez, bz
 
+
+def fluctuation_profile_ez(xmin, xi_m, r):
+    ez = []
+    if xmin == 0:
+        for i in range(len(xi_m)):
+            ez.append(jv(0, xi_m[i]*r))
+
+    else:
+        for i in range(len(xi_m)):
+            ez.append(jv(0, xi_m[i]*r)
+                      - jv(0, xi_m[i]*xmin)*yv(0, xi_m[i]*r)/yv(0, xi_m[i]*xmin))
+
+    ez = np.array(ez)
+    return ez
+
+
+def fluctuation_profile_bz(xmin ,eta_m, r):
+    bz = []
+    if xmin == 0:
+        for i in range(len(eta_m)):
+            bz.append(jv(0, eta_m[i]*r))
+
+    else:
+        for i in range(len(eta_m)):
+            bz.append(jv(0, eta_m[i]*r)
+                      - jv(1, eta_m[i]*xmin)*yv(0, eta_m[i]*r)/yv(1, eta_m[i]*xmin))
+
+    bz = np.array(bz)
+    return bz
+
 # Tmax = 5
 # if xmin == 0:
 #     xi = np.linspace(0, Tmax, 10000)

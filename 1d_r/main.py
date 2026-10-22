@@ -26,10 +26,10 @@ def main():
     ex = np.zeros(nx + 1)
     ey = np.zeros(nx + 1)
     ez = np.zeros(nx + 1)
-    by = np.zeros(nx + 1)
-    bz = np.zeros(nx + 1)
-    byh = np.zeros(nx)
-    bzh = np.zeros(nx)
+    by = np.zeros(nx + 2)
+    bz = np.zeros(nx + 2)
+    # byh = np.zeros(nx)
+    # bzh = np.zeros(nx)
     phi = np.zeros(nx + 1)
 
     # ====================================
@@ -48,8 +48,7 @@ def main():
     for name in [
         "ex", "ey", "ez", "by", "bz", "x", "vx", "vy", "vz",
         "xi", "vxi", "vyi", "vzi", "phi", "ake", "aki",
-        "ex2", "ey2", "ez2", "by2", "bz2", "rhoe", "rhoi", "rhoei"
-            ]:
+        "ex2", "ey2", "ez2", "by2", "bz2", "rhoe", "rhoi", "rhoei"]:
         save[name] = []
 
     # ====================================
@@ -156,8 +155,9 @@ def main():
         # Field at t = (n + 1)Δt at x = i
         # ======================================
         ex, phi = field_ex(rho)
-        ey, ez, byh, bzh = ftdt(ey, ez, byh, bzh, jy, jz)
-        by, bz = convert(byh, bzh)
+        # ey, ez, byh, bzh = ftdt(ey, ez, byh, bzh, jy, jz)
+        # by, bz = convert(byh, bzh)
+        ey, ez, by, bz = ftdt(ey, ez, by, bz, jy, jz)
 
         # ======================================
         # Save Into List
