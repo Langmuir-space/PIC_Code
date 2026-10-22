@@ -38,10 +38,8 @@ def main():
     rhoe = setrho(x, qe)
     rhoi = setrho(xi, qi)
     rho = rhoe + rhoi
-    # plt.plot(index*dx, rho)
-    # plt.show()
     ex, phi = field_ex(rho)
-    ex2, ey2, ez2, by2, bz2 = field_energy(ex, ey, ez, by, bz)
+    # ex2, ey2, ez2, by2, bz2 = field_energy(ex, ey, ez, by, bz)
 
     # ======================================================
     # Make Save Array at t = nΔt (veloity at t = (n-1/2)Δt)
@@ -71,11 +69,14 @@ def main():
     # ===========================================================
     # Save positions and fields at t = 0 (veloity at t = -Δt/2)
     # ===========================================================
-    save_vars = {"x": x, "xi": xi, "ex": ex, "ey": ey, "ez": ez,
-                 "by": by, "bz": bz, "phi": phi, "vx": vx, "vy": vy,
-                 "vz": vz, "vxi": vxi, "vyi": vyi, "vzi": vzi, "rhoe": rhoe,
-                 "rhoi": rhoi, "rhoei": rho, "ake": ake, "aki": aki,
-                 "ex2": ex2, "ey2": ey2, "ez2": ez2, "by2": by2, "bz2": bz2}
+    # save_vars = {"x": x, "xi": xi, "ex": ex, "ey": ey, "ez": ez,
+    #              "by": by, "bz": bz, "phi": phi, "vx": vx, "vy": vy,
+    #              "vz": vz, "vxi": vxi, "vyi": vyi, "vzi": vzi, "rhoe": rhoe,
+    #              "rhoi": rhoi, "rhoei": rho, "ake": ake, "aki": aki,
+    #              "ex2": ex2, "ey2": ey2, "ez2": ez2, "by2": by2, "bz2": bz2}
+    save_vars = {"ex": ex, "ey": ey, "ez": ez,
+                 "by": by, "bz": bz, "phi": phi, "rhoe": rhoe,
+                 "rhoi": rhoi, "rhoei": rho}
 
     for key, value in save_vars.items():
         save[key].append(value.copy())
@@ -161,13 +162,16 @@ def main():
         # ======================================
         # Save Into List
         # ======================================
-        ex2, ey2, ez2, by2, bz2 = field_energy(ex, ey, ez, by, bz)
-        save_vars = {"x": x, "xi": xi, "ex": ex, "ey": ey, "ez": ez,
-                     "by": by, "bz": bz, "phi": phi, "vx": vx, "vy": vy,
-                     "vz": vz, "vxi": vxi, "vyi": vyi, "vzi": vzi,
-                     "rhoe": rhoe, "rhoi": rhoi, "rhoei": rho, "ake": ake,
-                     "aki": aki, "ex2": ex2, "ey2": ey2, "ez2": ez2,
-                     "by2": by2, "bz2": bz2}
+        # ex2, ey2, ez2, by2, bz2 = field_energy(ex, ey, ez, by, bz)
+        # save_vars = {"x": x, "xi": xi, "ex": ex, "ey": ey, "ez": ez,
+        #              "by": by, "bz": bz, "phi": phi, "vx": vx, "vy": vy,
+        #              "vz": vz, "vxi": vxi, "vyi": vyi, "vzi": vzi,
+        #              "rhoe": rhoe, "rhoi": rhoi, "rhoei": rho, "ake": ake,
+        #              "aki": aki, "ex2": ex2, "ey2": ey2, "ez2": ez2,
+        #              "by2": by2, "bz2": bz2}
+        save_vars = {"ex": ex, "ey": ey, "ez": ez,
+                     "by": by, "bz": bz, "phi": phi, "rhoe": rhoe,
+                     "rhoi": rhoi, "rhoei": rho}
 
         for key, value in save_vars.items():
             save[key].append(value.copy())

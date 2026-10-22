@@ -34,7 +34,7 @@ def field_energy(ex, ey, ez, by, bz):
 
 def ftdt(ey, ez, byh, bzh, jy, jz):
     byh += 0.5*dtdr*(ez[1:] - ez[:-1])
-    # bzh += - 0.5*dtdr*(index[1:]*ey[1:] - index[:-1]*ey[:-1])/(index[:-1] + 0.5)
+    bzh += - 0.5*dtdr*(index[1:]*ey[1:] - index[:-1]*ey[:-1])/(index[:-1] + 0.5)
     ey[1:-1] += - dtdr*(bzh[1:] - bzh[:-1]) - dt*jy[1:-1]
     ez[1:-1] += dtdr*((index[1:-1] + 0.5)*byh[1:] - (index[1:-1] - 0.5)*byh[:-1])/index[1:-1] - dt*jz[1:-1]
     ey[0] = 0; ey[-1] = 0; ez[-1] = 0
@@ -47,7 +47,7 @@ def ftdt(ey, ez, byh, bzh, jy, jz):
     # ez[0] = (1 + dtdr)*ez[0] - dtdr*ez[1]
     # ez[-1] = (1 - dtdr)*ez[-1] + dtdr*ez[-2]
     byh += 0.5*dtdr*(ez[1:] - ez[:-1])
-    # bzh += - 0.5*dtdr*(index[1:]*ey[1:] - index[:-1]*ey[:-1])/(index[:-1] + 0.5)
+    bzh += - 0.5*dtdr*(index[1:]*ey[1:] - index[:-1]*ey[:-1])/(index[:-1] + 0.5)
     return ey, ez, byh, bzh
 
 
@@ -56,9 +56,8 @@ def convert(byh, bzh):
     bz = np.zeros(nx + 1)
     by[1:-1] = ((index[1:-1] + 0.5)*byh[1:] + (index[1:-1] - 0.5)*byh[:-1])/(2*index[1:-1])
     bz[1:-1] = (bzh[1:] + bzh[:-1])/2
-    # by[0] = 0; by[-1] = 0
-    # bz[0] = 0; bz[-1] = 0
-    by[0] = by[1]; by[-1] = by[-2]
+    by[0] = (index[0] - 0.5)/(index[0] + 0.5)*by[1]
+    by[-1] = (index[0] + 0.5)/(index[0] - 0.5)*by[-2]
     bz[0] = bz[1]; bz[-1] = bz[-2]
     # by[0] = (1 + 2*dtdr)*by[0] - 2*dtdr*by[1]
     # by[-1] = (1 - 2*dtdr)*by[-1] + 2*dtdr*by[-2]
