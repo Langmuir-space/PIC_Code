@@ -1,5 +1,5 @@
 import numpy as np
-from params import nx, nt, qme, qmi, dt, qe, qi, save_path, flag, dx
+from params import nx, nt, qme, qmi, dt, qe, qi, save_path, flag, dx, dtdr
 from move import move, push
 from fields import field_energy, field_ex, ftdt, convert, ftdt_ex
 from utils import make_dic
@@ -28,6 +28,14 @@ def main():
     ez = np.zeros(nx + 1)
     by = np.zeros(nx + 2)
     bz = np.zeros(nx + 2)
+    # ez[:] = 0.0
+    # ez[nx // 2] = 1.0
+    # ey[:] = 0.0
+    # ey[nx // 2] = 1.0
+    # bz[:] = 0.0
+    # bz[nx // 2] = 1.0
+    # by[:] = 0.0
+    # by[nx // 2] = 1.0
     # byh = np.zeros(nx)
     # bzh = np.zeros(nx)
     phi = np.zeros(nx + 1)
@@ -38,7 +46,7 @@ def main():
     rhoe = setrho(x, qe)
     rhoi = setrho(xi, qi)
     rho = rhoe + rhoi
-    ex, phi = field_ex(rho)
+    # ex, phi = field_ex(rho)
     # ex2, ey2, ez2, by2, bz2 = field_energy(ex, ey, ez, by, bz)
 
     # ======================================================
@@ -161,8 +169,23 @@ def main():
         # ex, phi = field_ex(rho)
         # ey, ez, byh, bzh = ftdt(ey, ez, byh, bzh, jy, jz)
         # by, bz = convert(byh, bzh)
-        ey, ez, by, bz = ftdt(ey, ez, by, bz, jy, jz)
+        # dummy = np.zeros(nx + 1)
+        # jx = dummy; jy = dummy; jz = dummy
+        if it == 0:
+            by[1:-1] += 0.5*dtdr*(ez[1:] - ez[:-1])
+            by[0] = (index[0] - 0.5)/(index[0] + 0.5)*by[1]
+            by[-1] = (index[-1] + 0.5)/(index[-1] - 0.5)*by[-2]
+            bz[1:-1] += - 0.5*dtdr*(index[1:]*ey[1:] - index[:-1]*ey[:-1])/(index[:-1] + 0.5)
+            bz[0] = bz[1]; bz[-1] = bz[-2]
+            ey[1:-1] += - dtdr*(bz[2:-1] - bz[1:-2]) - dt*jy[1:-1]
+            ez[1:-1] += dtdr*((index[1:-1] + 0.5)*by[2:-1] - (index[1:-1] - 0.5)*by[1:-2])/index[1:-1] - dt*jz[1:-1]
+            ey[0] = 0; ey[-1] = 0
+            ez[-1] = 0
+        else:
+            ey, ez, by, bz = ftdt(ey, ez, by, bz, jy, jz)
         ex = ftdt_ex(ex, jx)
+        # plt.plot(by[nx // 2-15:nx // 2+15])
+        # plt.show()
 
         # ======================================
         # Save Into List
@@ -189,7 +212,7 @@ def main():
     # ======================================
     # Make Animation and Save Figures
     # ======================================
-    # save_animation(save, index, dx, save_fig_path)
+    save_animation(save, index, dx, save_fig_path)
     save_dispersion(save, index, dx, save_fig_path)
     # save_phase_speed(vx, vy, vxi,vyi, save_fig_path)
     save_field_plot(save, save_fig_path)

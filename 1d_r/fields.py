@@ -2,6 +2,7 @@ import numpy as np
 from params import nx, dx, dt, dtdr
 from utils import tdma_pre, tdma_solve
 from setrho import index
+import matplotlib.pyplot as plt
 
 if index[0] == 0:
     a = np.zeros(nx)
@@ -33,24 +34,29 @@ def field_energy(ex, ey, ez, by, bz):
 
 
 def ftdt(ey, ez, by, bz, jy, jz):
-    by[1:-1] += 0.5*dtdr*(ez[1:] - ez[:-1])
+    # by[1:-1] += 0.5*dtdr*(ez[1:] - ez[:-1])
+    # by[0] = (index[0] - 0.5)/(index[0] + 0.5)*by[1]
+    # by[-1] = (index[-1] + 0.5)/(index[-1] - 0.5)*by[-2]
+    # bz[1:-1] += - 0.5*dtdr*(index[1:]*ey[1:] - index[:-1]*ey[:-1])/(index[:-1] + 0.5)
+    # bz[0] = bz[1]; bz[-1] = bz[-2]
+    by[1:-1] += dtdr*(ez[1:] - ez[:-1])
     by[0] = (index[0] - 0.5)/(index[0] + 0.5)*by[1]
     by[-1] = (index[-1] + 0.5)/(index[-1] - 0.5)*by[-2]
-    bz[1:-1] += - 0.5*dtdr*(index[1:]*ey[1:] - index[:-1]*ey[:-1])/(index[:-1] + 0.5)
+    bz[1:-1] += - dtdr*(index[1:]*ey[1:] - index[:-1]*ey[:-1])/(index[:-1] + 0.5)
     bz[0] = bz[1]; bz[-1] = bz[-2]
-    ey += - dtdr*(bz[1:] - bz[:-1]) - dt*jy
-    ez += dtdr*((index + 0.5)*by[1:] - (index - 0.5)*by[:-1])/index - dt*jz
+    ey[1:-1] += - dtdr*(bz[2:-1] - bz[1:-2]) - dt*jy[1:-1]
+    ez[1:-1] += dtdr*((index[1:-1] + 0.5)*by[2:-1] - (index[1:-1] - 0.5)*by[1:-2])/index[1:-1] - dt*jz[1:-1]
     ey[0] = 0; ey[-1] = 0
     ez[-1] = 0
     if index[0] == 0:
         ez[0] += - dt*jz[0]
     else:
         ez[0] = 0
-    by[1:-1] += 0.5*dtdr*(ez[1:] - ez[:-1])
-    by[0] = (index[0] - 0.5)/(index[0] + 0.5)*by[1]
-    by[-1] = (index[-1] + 0.5)/(index[-1] - 0.5)*by[-2]
-    bz[1:-1] += - 0.5*dtdr*(index[1:]*ey[1:] - index[:-1]*ey[:-1])/(index[:-1] + 0.5)
-    bz[0] = bz[1]; bz[-1] = bz[-2]
+    # by[1:-1] += 0.5*dtdr*(ez[1:] - ez[:-1])
+    # by[0] = (index[0] - 0.5)/(index[0] + 0.5)*by[1]
+    # by[-1] = (index[-1] + 0.5)/(index[-1] - 0.5)*by[-2]
+    # bz[1:-1] += - 0.5*dtdr*(index[1:]*ey[1:] - index[:-1]*ey[:-1])/(index[:-1] + 0.5)
+    # bz[0] = bz[1]; bz[-1] = bz[-2]
 
     return ey, ez, by, bz
 
