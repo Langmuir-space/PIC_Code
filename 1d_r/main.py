@@ -38,7 +38,7 @@ def main():
     rhoe = setrho(x, qe)
     rhoi = setrho(xi, qi)
     rho = rhoe + rhoi
-    ex, phi = field_ex(rho)
+    # ex, phi = field_ex(rho)
     # ex2, ey2, ez2, by2, bz2 = field_energy(ex, ey, ez, by, bz)
 
     # ======================================================
@@ -162,7 +162,7 @@ def main():
         # ey, ez, byh, bzh = ftdt(ey, ez, byh, bzh, jy, jz)
         # by, bz = convert(byh, bzh)
         ey, ez, by, bz = ftdt(ey, ez, by, bz, jy, jz)
-        ex = ftdt_ex(ex, jx)
+        # ex = ftdt_ex(ex, jx)
 
         # ======================================
         # Save Into List

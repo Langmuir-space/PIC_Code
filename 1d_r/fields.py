@@ -36,11 +36,12 @@ def ftdt(ey, ez, by, bz, jy, jz):
     by[1:-1] += 0.5*dtdr*(ez[1:] - ez[:-1])
     by[0] = (index[0] - 0.5)/(index[0] + 0.5)*by[1]
     by[-1] = (index[0] + 0.5)/(index[0] - 0.5)*by[-2]
-    bz[1:-1] += - 0.5*dtdr*(index[1:]*ey[1:] - index[:-1]*ey[:-1])/(index[:-1] + 0.5)
-    bz[0] = bz[1]; bz[-1] = bz[-2]
-    ey += - dtdr*(bz[1:] - bz[:-1]) - dt*jy
+    # bz[1:-1] += - 0.5*dtdr*(index[1:]*ey[1:] - index[:-1]*ey[:-1])/(index[:-1] + 0.5)
+    # bz[0] = bz[1]; bz[-1] = bz[-2]
+    # ey += - dtdr*(bz[1:] - bz[:-1]) - dt*jy
     ez += dtdr*((index + 0.5)*by[1:] - (index - 0.5)*by[:-1])/index - dt*jz
-    ey[0] = 0; ey[-1] = 0; ez[-1] = 0
+    # ey[0] = 0; ey[-1] = 0
+    ez[-1] = 0
     if index[0] == 0:
         ez[0] += - dt*jz[0]
     else:
@@ -48,8 +49,8 @@ def ftdt(ey, ez, by, bz, jy, jz):
     by[1:-1] += 0.5*dtdr*(ez[1:] - ez[:-1])
     by[0] = (index[0] - 0.5)/(index[0] + 0.5)*by[1]
     by[-1] = (index[0] + 0.5)/(index[0] - 0.5)*by[-2]
-    bz[1:-1] += - 0.5*dtdr*(index[1:]*ey[1:] - index[:-1]*ey[:-1])/(index[:-1] + 0.5)
-    bz[0] = bz[1]; bz[-1] = bz[-2]
+    # bz[1:-1] += - 0.5*dtdr*(index[1:]*ey[1:] - index[:-1]*ey[:-1])/(index[:-1] + 0.5)
+    # bz[0] = bz[1]; bz[-1] = bz[-2]
     # ey[0] = (1 + dtdr)*ey[0] - dtdr*ey[1]
     # ey[-1] = (1 - dtdr)*ey[-1] + dtdr*ey[-2]
     # ez[0] = (1 + dtdr)*ez[0] - dtdr*ez[1]

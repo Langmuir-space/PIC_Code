@@ -4,7 +4,7 @@ import numpy as np
 # Simulation Setting
 # ===============================
 xmin = 5
-xmax = 10                     # Plasma Size Normalized By c/wpe
+xmax = 11                     # Plasma Size Normalized By c/wpe
 nt = 2**11                    # Time Grid Number
 # dx = 2**(-3)
 dx = 0.1
@@ -12,7 +12,7 @@ nx = int((xmax - xmin) / dx)        # X-space Grid Length
 dt = dx                         # Time Grid Length
 theta = 90                       # Propagation Degree
 x0 = int(xmin / dx)
-nptcl = 2**16                    # Particle Number
+nptcl = 2**16          # Particle Number
 dtdr = dt/dx
 
 print('xmin:', xmin, 'xmax:', xmax)
@@ -23,7 +23,7 @@ print('nt:', nt, 'dt:', dt)
 # ===============================
 # Electron
 # ===============================
-wce0 = 0                     # Gyro Frequency
+wce0 = -1.0                     # Gyro Frequency
 wpe = 1.0                       # Plasma Frequency c=wpe=e/m0=0
 vth = 0.1                       # Thermal Speed
 qme = -1.0                      # Electron Standard q/me=1
