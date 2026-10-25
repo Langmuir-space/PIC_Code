@@ -5,7 +5,7 @@ import numpy as np
 # ===============================
 xmin = 10000
 xmax = 10015                   # Plasma Size Normalized By c/wpe
-nt = 2**12                    # Time Grid Number
+nt = 2**11                    # Time Grid Number
 # dx = 2**(-3)
 dx = 0.1
 nx = int((xmax - xmin) / dx)        # X-space Grid Length

@@ -1,7 +1,7 @@
 import numpy as np
-from params import nx, nt, qme, qmi, dt, qe, qi, save_path, flag, dx, dtdr
+from params import nx, nt, qme, qmi, dt, qe, qi, save_path, flag, dx
 from move import move, push
-from fields import field_energy, field_ex, ftdt, convert, ftdt_ex
+from fields import field_energy, field_ex, ftdt, ftdt_ex, first_b
 from utils import make_dic
 from viz import save_field_plot, save_animation, save_phase_speed, save_dispersion
 from setrho import setrho, index
@@ -28,16 +28,6 @@ def main():
     ez = np.zeros(nx + 1)
     by = np.zeros(nx + 2)
     bz = np.zeros(nx + 2)
-    # ez[:] = 0.0
-    # ez[nx // 2] = 1.0
-    # ey[:] = 0.0
-    # ey[nx // 2] = 1.0
-    # bz[:] = 0.0
-    # bz[nx // 2] = 1.0
-    # by[:] = 0.0
-    # by[nx // 2] = 1.0
-    # byh = np.zeros(nx)
-    # bzh = np.zeros(nx)
     phi = np.zeros(nx + 1)
 
     # ====================================
@@ -46,7 +36,7 @@ def main():
     rhoe = setrho(x, qe)
     rhoi = setrho(xi, qi)
     rho = rhoe + rhoi
-    # ex, phi = field_ex(rho)
+    ex, phi = field_ex(rho)
     # ex2, ey2, ez2, by2, bz2 = field_energy(ex, ey, ez, by, bz)
 
     # ======================================================
@@ -140,11 +130,15 @@ def main():
         # Current density at t = (n + 1/2)Δt at x = i
         # ===============================================================
 
-        jxe_old, jye_old, jze_old = curnt(x_old, vx_old, qe), curnt(x_old, vy_old, qe), curnt(x_old, vz_old, qe)
-        jxe_new, jye_new, jze_new = curnt(x, vx, qe), curnt(x, vy, qe), curnt(x, vz, qe)
+        jxe_old, jye_old, jze_old = \
+            curnt(x_old, vx_old, qe),curnt(x_old, vy_old, qe), curnt(x_old, vz_old, qe)
+        jxe_new, jye_new, jze_new = \
+            curnt(x, vx, qe), curnt(x, vy, qe), curnt(x, vz, qe)
 
-        jxi_old, jyi_old, jzi_old = curnt(xi_old, vxi_old, qi), curnt(xi_old, vyi_old, qi), curnt(xi_old, vzi_old, qi)
-        jxi_new, jyi_new, jzi_new = curnt(xi, vxi, qi), curnt(xi, vyi, qi), curnt(xi, vzi, qi)
+        jxi_old, jyi_old, jzi_old = \
+            curnt(xi_old, vxi_old, qi), curnt(xi_old, vyi_old, qi), curnt(xi_old, vzi_old, qi)
+        jxi_new, jyi_new, jzi_new = \
+            curnt(xi, vxi, qi), curnt(xi, vyi, qi), curnt(xi, vzi, qi)
 
         jx_old = jxe_old + jxi_old
         jy_old = jye_old + jyi_old
@@ -167,25 +161,13 @@ def main():
         # Field at t = (n + 1)Δt at x = i
         # ======================================
         # ex, phi = field_ex(rho)
-        # ey, ez, byh, bzh = ftdt(ey, ez, byh, bzh, jy, jz)
-        # by, bz = convert(byh, bzh)
-        # dummy = np.zeros(nx + 1)
-        # jx = dummy; jy = dummy; jz = dummy
         if it == 0:
-            by[1:-1] += 0.5*dtdr*(ez[1:] - ez[:-1])
-            by[0] = (index[0] - 0.5)/(index[0] + 0.5)*by[1]
-            by[-1] = (index[-1] + 0.5)/(index[-1] - 0.5)*by[-2]
-            bz[1:-1] += - 0.5*dtdr*(index[1:]*ey[1:] - index[:-1]*ey[:-1])/(index[:-1] + 0.5)
-            bz[0] = bz[1]; bz[-1] = bz[-2]
-            ey[1:-1] += - dtdr*(bz[2:-1] - bz[1:-2]) - dt*jy[1:-1]
-            ez[1:-1] += dtdr*((index[1:-1] + 0.5)*by[2:-1] - (index[1:-1] - 0.5)*by[1:-2])/index[1:-1] - dt*jz[1:-1]
-            ey[0] = 0; ey[-1] = 0
-            ez[-1] = 0
-        else:
-            ey, ez, by, bz = ftdt(ey, ez, by, bz, jy, jz)
+            by_new, bz_new = first_b(by, bz, ey, ez)
+        by_old, bz_old = by_new.copy(), bz_new.copy()
+        ey, ez, by_new, bz_new = ftdt(ey, ez, by_new, bz_new, jy, jz)
+        by = 0.5*(by_old + by_new)
+        bz = 0.5*(bz_old + bz_new)
         ex = ftdt_ex(ex, jx)
-        # plt.plot(by[nx // 2-15:nx // 2+15])
-        # plt.show()
 
         # ======================================
         # Save Into List
@@ -212,7 +194,7 @@ def main():
     # ======================================
     # Make Animation and Save Figures
     # ======================================
-    save_animation(save, index, dx, save_fig_path)
+    # save_animation(save, index, dx, save_fig_path)
     save_dispersion(save, index, dx, save_fig_path)
     # save_phase_speed(vx, vy, vxi,vyi, save_fig_path)
     save_field_plot(save, save_fig_path)

@@ -8,7 +8,7 @@ from setrho import index
 from disp import dispersion_relation, fluctuation_profile, \
     fluctuation_profile_ez, fluctuation_profile_bz
 
-n = 128
+n = 128/2
 wmax = 2*np.pi*n/(nt*dt)
 
 
@@ -32,11 +32,11 @@ def dispersion_plot(field, fm, Tm, wt_m, index, save_path, title, label, flag):
 
     pcm = ax.pcolormesh(Tm, w, power, shading='nearest')
 
-    if flag:
-        ax.scatter(Tm, wt_m, c='black', s=10, label='$\\xi_m$')
-    elif not flag:
-        ax.scatter(np.repeat(Tm, wt_m.shape[1]), wt_m.real.ravel(),
-                    c='black', s=10, label='$\\eta_m$')
+    # if flag:
+    #     ax.scatter(Tm, wt_m, c='black', s=10, label='$\\xi_m$')
+    # elif not flag:
+    #     ax.scatter(np.repeat(Tm, wt_m.shape[1]), wt_m.real.ravel(),
+    #                 c='black', s=10, label='$\\eta_m$')
 
     ax.set_xlabel(r'$T_m c/\omega_{pe}$', fontsize=fontsize)
     ax.set_ylabel(r'$\omega/\omega_{pe}$', fontsize=fontsize)
@@ -301,6 +301,8 @@ def save_dispersion(save, index, dx, save_fig_path):
     bz_m_h = fluctuation_profile_bz(xmin, eta_m, (index[:-1] + 0.5)*dx)
     dispersion_plot(save["ez"], ez_m, xi_m, w_xi_m, index, save_fig_path, title=r'$E_z(T_m,\omega)$',
                         label='Ez_wk', flag=True)
+    dispersion_plot(save["ex"], bz_m, eta_m, w_eta_m, index, save_fig_path, title=r'$E_x(T_m,\omega)$',
+                            label='Ex_wk', flag=False)
     dispersion_plot(save["ey"], bz_m, eta_m, w_eta_m, index, save_fig_path, title=r'$E_y(T_m,\omega)$',
                         label='Ey_wk', flag=False)
     dispersion_plot(save["by"][:, 1:-1], ez_m_h, xi_m, w_xi_m, index[:-1] + 0.5, save_fig_path,
