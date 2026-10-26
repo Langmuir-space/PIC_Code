@@ -1,5 +1,5 @@
 import numpy as np
-from params import x0
+from params import x0, dtdr
 from input import bz0
 
 
@@ -86,8 +86,8 @@ def move(vx0, vy0, vz0, gamma0, ae, tx, tz, x,
 
 
 def push(x, vx, vy):
-    x2 = x + vx
-    y2 = vy
+    x2 = x + vx*dtdr
+    y2 = vy*dtdr
     r2 = np.sqrt(x2**2 + y2**2)
     alpha = np.arctan2(y2, x2)
     x_new = r2
