@@ -1,9 +1,8 @@
 import numpy as np
 import matplotlib.pyplot as plt
-from scipy.special import jv, yv, jn_zeros
+from scipy.special import jv, yv
 from scipy.optimize import brentq
-from params import wpe, wpi, wce0, wci0, xmin, xmax, nt, dt, fontsize, dx
-from setrho import index
+from params import wpe, wpi, wce0, wci0
 
 
 def dispersion_relation(Rmin, Rmax, xi, eta):
@@ -136,6 +135,10 @@ def fluctuation_profile_bz(xmin ,eta_m, r):
     bz = np.array(bz)
     return bz
 
+
+# xmin = 10
+# xmax = 20
+
 # Tmax = 5
 # if xmin == 0:
 #     xi = np.linspace(0, Tmax, 10000)
@@ -145,125 +148,68 @@ def fluctuation_profile_bz(xmin ,eta_m, r):
 #     eta = np.linspace(0.01, Tmax, 10000)
 # w_xi, w_xi_m, w_eta, w_eta_m, xi_m, eta_m = \
 #         dispersion_relation(xmin, xmax, xi, eta)
-# ez_c, bz_c = fluctuation_profile(xmin, xi, eta, index*dx)
-# ez_m, bz_m = fluctuation_profile(xmin, xi_m, eta_m, index*dx)
-# print("ez_c.shape:", ez_c.shape)
-# print("bz_c.shape:", bz_c.shape)
-# print("ez_m.shape:", ez_m.shape)
-# print("bz_m.shape:", bz_m.shape)    
-# print('w_xi_m:', w_xi_m.shape)
-# print('w_eta_m:', w_eta_m.shape)
-# print('xi_m:', xi_m.shape)
-# print('eta_m:', eta_m.shape)
+# # ez_c, bz_c = fluctuation_profile(xmin, xi, eta, index*dx)
+# index = np.linspace(xmin, xmax, 10000)
+# ez_m, bz_m = fluctuation_profile(xmin, xi_m, eta_m, index)
+# for i in range(5,6):
+#     plt.plot(index, ez_m[i], linewidth=2.5, label=f'$T_{{m,{i+1}}}$')
+#     plt.tick_params(labelsize=20)
+#     plt.xlabel('$r(*\\omega_{pe}/c)$', fontsize=20)
+#     # plt.ylabel('$J_0(\\xi R_{max}), J_1(\\eta R_{max})$', fontsize=15)
+#     plt.title('$E_z(r)$', fontsize=20)
+#     # plt.legend(fontsize=15)
+#     # plt.legend(fontsize=15, loc='center left', bbox_to_anchor=(1.02, 0.5))
+#     # plt.tight_layout(rect=[0, 0, 0.80, 1])
+#     plt.tight_layout()
+#     plt.savefig(rf'C:\Users\kasik\OneDrive - Kyushu University\myseminar\seminar_20261028\dispersion_relation8.png', dpi=300)
+# plt.close()
 
-# ez, bz = fluctuation_profile(xmin, xi_m, eta_m, r)
-
-# plt.plot(xi*xmax, jv(0, xi*xmax), c='k', label='$J_{0}$')
-# plt.plot(eta*xmax, jv(1, eta*xmax), c='gray', label='$J_{1}$')
-# plt.axhline(0, c='black')
-# j0_zeros = jn_zeros(0, 11)
-# j1_zeros = jn_zeros(1, 11)
-# j1_zeros = np.append(0, j1_zeros)
-# # plt.scatter(j0_zeros, np.zeros_like(j0_zeros), color='red', zorder=5, label='$j_{0,k}$')
-# # plt.scatter(j1_zeros, np.zeros_like(j1_zeros), color='blue', zorder=5, label='$j_{1,k}$')
-# plt.tick_params(labelsize=15)
-# plt.xlabel('$\\xi R_{max}, \\eta R_{max}$', fontsize=15)
-# plt.ylabel('$J_0(\\xi R_{max}), J_1(\\eta R_{max})$', fontsize=15)
-# plt.title(f'$0 \\leq r \\leq {xmax}$', fontsize=15)
+# plt.scatter(xi, w_xi, s=0.1, c='black')
+# plt.scatter(xi_m, w_xi_m, c='r', label='$T_m \,\ for \,\ TS$')
+# plt.scatter(np.repeat(eta, w_eta.shape[1]), w_eta.real.ravel(),
+#             s=0.1, c='black')
+# plt.scatter(np.repeat(eta_m, w_eta_m.shape[1]), w_eta_m.real.ravel(),
+#             c='blue', label='$T_m \,\ for \,\ TM$')
+# plt.xlim(0, None)
+# wmax = 5
+# plt.ylim(0, wmax)
+# plt.xlabel('$T (*c/\\omega_{pe})$', fontsize=20)
+# plt.ylabel('$\\omega / \\omega_{pe}$', fontsize=20)
+# plt.title(f'$\\omega_{{ce}}/\\omega_{{pe}}={wce0}, \
+#         \\omega_{{ci}}/\\omega_{{pe}}={wci0}, \
+#         {xmin} \\leq r \\leq {xmax}$', fontsize=18)
+# plt.tick_params(labelsize=20)
 # plt.legend(fontsize=15)
 # plt.tight_layout()
+# plt.savefig(rf'C:\Users\kasik\OneDrive - Kyushu University\myseminar\seminar_20261028\dispersion_relation6.png', dpi=300)
 # plt.show()
 
-
-# for i in range(len(xi_m)):
-#     plt.plot(r, ez[i], label=f'$k={i+1}$')
-#     plt.tick_params(labelsize=15)
-#     plt.legend(fontsize=13)
-# plt.xlabel('$r\\,(*\\omega_{pe} /c)$', fontsize=15)
-# if xmin == 0:
-#     plt.ylabel('$J_0(\\xi_m r)$', fontsize=15)
-#     plt.title('$\\delta \\hat{E}_z (r) \\propto J_0(\\xi_m r)$', fontsize=15)
-# else:
-#     plt.ylabel('$J_0(\\xi_m r) - \\frac{J_0(\\xi_m R_{min})}{Y_0(\\xi_m R_{min})} Y_0(\\xi_m r)$', fontsize=15)
-#     plt.title('$\\delta \\hat{E}_z (r) \\propto J_0(\\xi_m r) - \\frac{J_0(\\xi_m R_{min})}{Y_0(\\xi_m R_{min})} Y_0(\\xi_m r)$', fontsize=15)
-# # plt.savefig(rf'\Users\kasik\OneDrive - Kyushu University\PIC\Result\disp\ez_xmin={xmin}_xmax={xmax}.png', dpi=300)
+# plt.plot(xi, jv(0, xi*xmax), linewidth=1.5, c='black')
+# plt.plot(eta, jv(1, eta*xmax), linewidth=1.5, c='black')
+# plt.plot(xi, jv(0, xi*xmax)*yv(0, xi*xmin) - jv(0, xi*xmin)*yv(0, xi*xmax), linewidth=1.5, c='black')
+# plt.plot(eta, jv(1, xi*xmax)*yv(1, xi*xmin) - jv(1, xi*xmin)*yv(1, xi*xmax), linewidth=1.5, c='black')
+# plt.scatter(xi_m, np.zeros_like(xi_m), color='red', zorder=5, label='$T_m \,\ for \,\ TS$')
+# plt.scatter(eta_m, np.zeros_like(eta_m), color='blue', zorder=5, label='$T_m \,\ for \,\ TM$')
+# plt.axhline(y=0, color='black', linewidth=1)
+# plt.tick_params(labelsize=20)
+# plt.xlabel('$T(*c/\\omega_{pe})$', fontsize=20)
+# # plt.ylabel('$J_0(\\xi R_{max}), J_1(\\eta R_{max})$', fontsize=15)
+# # plt.title('$J_0(T R_{max}), J_1(T R_{max})$', fontsize=20)
+# plt.legend(fontsize=15)
 # plt.tight_layout()
+# plt.savefig(rf'C:\Users\kasik\OneDrive - Kyushu University\myseminar\seminar_20261028\dispersion_relation7.png', dpi=300)
 # plt.show()
 
-# for i in range(len(eta_m)):
-#     plt.plot(r, bz[i], label=f'$k={i+1}$')
-#     plt.tick_params(labelsize=15)
-#     plt.legend(fontsize=13)
-# plt.xlabel('$r\\,(*\\omega_{pe} /c)$', fontsize=15)
-# if xmin == 0:
-#     plt.ylabel('$J_0(\\eta_m r)$', fontsize=15)
-#     plt.title('$\\delta \\hat{B}_z (r) \\propto J_0(\\eta_m r)$', fontsize=15)
-# else:
-#     plt.ylabel('$J_0(\\eta_m r) - \\frac{J_0(\\eta_m R_{min})}{Y_0(\\eta_m R_{min})} Y_0(\\eta_m r)$', fontsize=15)
-#     plt.title('$\\delta \\hat{B}_z (r) \\propto J_0(\\eta_m r) - \\frac{J_1(\\eta_m R_{min})}{Y_1(\\eta_m R_{min})} Y_0(\\eta_m r)$', fontsize=15)
-# # plt.savefig(rf'\Users\kasik\OneDrive - Kyushu University\PIC\Result\disp\bz_xmin={xmin}_xmax={xmax}.png', dpi=300)
+
+# plt.plot(xi, jv(0, xi*xmax)*yv(0, xi*xmin) - jv(0, xi*xmin)*yv(0, xi*xmax), linewidth=2.5)
+# plt.scatter(xi_m, np.zeros_like(xi_m), color='red', zorder=5, label='$T_m$')
+# plt.axhline(y=0, color='black', linewidth=1)
+# plt.tick_params(labelsize=20)
+# plt.xlabel('$T(*c/\\omega_{pe})$', fontsize=20)
+# # plt.ylabel('$J_0(\\xi R_{max}), J_1(\\eta R_{max})$', fontsize=15)
+# plt.title('$J_0(T R_{max})Y_0(T R_{min}) - Y_0(T R_{max})J_0(T R_{min})$', fontsize=20)
+# plt.legend(fontsize=20)
 # plt.tight_layout()
+# plt.savefig(rf'C:\Users\kasik\OneDrive - Kyushu University\myseminar\seminar_20261028\dispersion_relation3.png', dpi=300)
 # plt.show()
 
-
-# def tmp(k, eta):
-#     return (
-#         jv(k, eta * xmin) * yv(k, eta * xmax)
-#         - yv(k, eta * xmin) * jv(k, eta * xmax)
-#     )
-
-
-# for i in range(xmin, xmax):
-#     w_xi, w_xi_m, w_eta, w_eta_m, xi_m, eta_m = \
-#             dispersion_relation(i, xmax, xi, eta)
-
-#     plt.plot(xi, tmp(0, xi), label='$f\\,(\\xi)$', color='black')
-#     plt.plot(eta, tmp(1, eta), label='$f\\,(\\eta)$', color='blue')
-#     plt.axhline(0, color='black')
-#     plt.xlabel('$\\xi \\, (*\\omega_{pe} /c)$', fontsize=15)
-#     plt.ylabel('$f\\,(\\xi), f\\,(\\eta)$', fontsize=15)
-#     plt.title(f'${i} \\leq r \\leq {xmax}$', fontsize=15)
-#     plt.tick_params(labelsize=15)
-#     plt.legend(fontsize=13)
-#     plt.tight_layout()
-#     # plt.savefig(rf'\Users\kasik\OneDrive - Kyushu University\PIC\Result\disp\{i}.png', dpi=300)
-#     plt.show()
-
-# for i in range(xmin, xmax):
-#     w_xi, w_xi_m, w_eta, w_eta_m, xi_m, eta_m = \
-#         dispersion_relation(i, xmax, xi, eta)
-#     plt.scatter(xi, w_xi, s=0.1, c='black')
-#     plt.scatter(xi_m, w_xi_m, c='r', label='$\\xi_m$')
-#     plt.scatter(np.repeat(eta, w_eta.shape[1]), w_eta.real.ravel(),
-#                 s=0.1, c='black')
-#     plt.scatter(np.repeat(eta_m, w_eta_m.shape[1]), w_eta_m.real.ravel(),
-#                 c='blue', label='$\\eta_m$')
-#     plt.xlim(0, None)
-#     plt.ylim(0, None)
-#     plt.xlabel('$\\xi, \\eta \\,(*c/\\omega_{pe})$', fontsize=15)
-#     plt.ylabel('$\\omega / \\omega_{pe}$', fontsize=15)
-#     plt.title(f'$\\omega_{{ce}}/\\omega_{{pe}}={wce0}, \
-#             \\omega_{{ci}}/\\omega_{{pe}}={wci0}, \
-#             {i} \\leq r \\leq {xmax}$', fontsize=15)
-#     plt.tick_params(labelsize=15)
-#     plt.legend(fontsize=13)
-#     plt.tight_layout()
-#     # plt.savefig(rf'\Users\kasik\OneDrive - Kyushu University\PIC\Result\disp\{i}_{xmax}.png', dpi=300)
-#     plt.show()
-
-    # fig, ax = plt.subplots(constrained_layout=True)
-
-    # ax.plot(T, w)
-    # ax.scatter(Tm, wm)
-    # n = 128
-    # wmax = 2*np.pi*n/(nt*dt)
-    # ax.set_xlabel(r'$T_m c/\omega_{pe}$', fontsize=fontsize)
-    # ax.set_ylabel(r'$\omega/\omega_{pe}$', fontsize=fontsize)
-    # ax.set_title(rf'{title}', fontsize=fontsize)
-    # ax.set_xlim(0, Tmax)
-    # ax.set_ylim(0, wmax)
-    # ax.tick_params(axis='x', labelsize=fontsize - 2)
-    # ax.tick_params(axis='y', labelsize=fontsize - 2)
-
-    # fig.savefig(os.path.join(save_path, f"{label}.png"))
-    # plt.close(fig)
