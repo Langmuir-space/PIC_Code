@@ -136,22 +136,22 @@ def fluctuation_profile_bz(xmin ,eta_m, r):
     return bz
 
 
-# xmin = 10
-# xmax = 20
+xmin = 10000
+xmax = 10015
 
-# Tmax = 5
-# if xmin == 0:
-#     xi = np.linspace(0, Tmax, 10000)
-#     eta = np.linspace(0, Tmax, 10000)
-# else:
-#     xi = np.linspace(0.01, Tmax, 10000)
-#     eta = np.linspace(0.01, Tmax, 10000)
-# w_xi, w_xi_m, w_eta, w_eta_m, xi_m, eta_m = \
-#         dispersion_relation(xmin, xmax, xi, eta)
-# # ez_c, bz_c = fluctuation_profile(xmin, xi, eta, index*dx)
-# index = np.linspace(xmin, xmax, 10000)
-# ez_m, bz_m = fluctuation_profile(xmin, xi_m, eta_m, index)
-# for i in range(5,6):
+Tmax = 10
+if xmin == 0:
+    xi = np.linspace(0, Tmax, 10000)
+    eta = np.linspace(0, Tmax, 10000)
+else:
+    xi = np.linspace(0.01, Tmax, 10000)
+    eta = np.linspace(0.01, Tmax, 10000)
+w_xi, w_xi_m, w_eta, w_eta_m, xi_m, eta_m = \
+        dispersion_relation(xmin, xmax, xi, eta)
+# ez_c, bz_c = fluctuation_profile(xmin, xi, eta, index*dx)
+index = np.linspace(xmin, xmax, 10000)
+ez_m, bz_m = fluctuation_profile(xmin, xi_m, eta_m, index)
+# for i in range(13,14):
 #     plt.plot(index, ez_m[i], linewidth=2.5, label=f'$T_{{m,{i+1}}}$')
 #     plt.tick_params(labelsize=20)
 #     plt.xlabel('$r(*\\omega_{pe}/c)$', fontsize=20)
@@ -161,28 +161,28 @@ def fluctuation_profile_bz(xmin ,eta_m, r):
 #     # plt.legend(fontsize=15, loc='center left', bbox_to_anchor=(1.02, 0.5))
 #     # plt.tight_layout(rect=[0, 0, 0.80, 1])
 #     plt.tight_layout()
-#     plt.savefig(rf'C:\Users\kasik\OneDrive - Kyushu University\myseminar\seminar_20261028\dispersion_relation8.png', dpi=300)
+#     plt.savefig(rf'C:\Users\kasik\OneDrive - Kyushu University\myseminar\seminar_20261028\dispersion_relation12.png', dpi=300)
 # plt.close()
 
 # plt.scatter(xi, w_xi, s=0.1, c='black')
-# plt.scatter(xi_m, w_xi_m, c='r', label='$T_m \,\ for \,\ TS$')
+plt.scatter(xi_m, w_xi_m, c='r', label='$T_m \,\ for \,\ TS$')
 # plt.scatter(np.repeat(eta, w_eta.shape[1]), w_eta.real.ravel(),
 #             s=0.1, c='black')
-# plt.scatter(np.repeat(eta_m, w_eta_m.shape[1]), w_eta_m.real.ravel(),
-#             c='blue', label='$T_m \,\ for \,\ TM$')
-# plt.xlim(0, None)
-# wmax = 5
-# plt.ylim(0, wmax)
-# plt.xlabel('$T (*c/\\omega_{pe})$', fontsize=20)
-# plt.ylabel('$\\omega / \\omega_{pe}$', fontsize=20)
-# plt.title(f'$\\omega_{{ce}}/\\omega_{{pe}}={wce0}, \
-#         \\omega_{{ci}}/\\omega_{{pe}}={wci0}, \
-#         {xmin} \\leq r \\leq {xmax}$', fontsize=18)
-# plt.tick_params(labelsize=20)
-# plt.legend(fontsize=15)
-# plt.tight_layout()
-# plt.savefig(rf'C:\Users\kasik\OneDrive - Kyushu University\myseminar\seminar_20261028\dispersion_relation6.png', dpi=300)
-# plt.show()
+plt.scatter(np.repeat(eta_m, w_eta_m.shape[1]), w_eta_m.real.ravel(),
+            c='blue', label='$T_m \,\ for \,\ TM$')
+plt.xlim(0, None)
+wmax = 5
+plt.ylim(0, wmax)
+plt.xlabel('$T (*c/\\omega_{pe})$', fontsize=20)
+plt.ylabel('$\\omega / \\omega_{pe}$', fontsize=20)
+plt.title(f'$\\omega_{{ce}}/\\omega_{{pe}}={wce0}, \
+        \\omega_{{ci}}/\\omega_{{pe}}={wci0}, \
+        {xmin} \\leq r \\leq {xmax}$', fontsize=18)
+plt.tick_params(labelsize=20)
+plt.legend(fontsize=15)
+plt.tight_layout()
+plt.savefig(rf'C:\Users\kasik\OneDrive - Kyushu University\myseminar\seminar_20261028\dispersion_relation14.png', dpi=300)
+plt.close()
 
 # plt.plot(xi, jv(0, xi*xmax), linewidth=1.5, c='black')
 # plt.plot(eta, jv(1, eta*xmax), linewidth=1.5, c='black')

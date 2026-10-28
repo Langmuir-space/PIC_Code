@@ -8,11 +8,11 @@ from setrho import index
 from disp import dispersion_relation, fluctuation_profile, \
     fluctuation_profile_ez, fluctuation_profile_bz
 
-n = 128/2
+n = 128
 wmax = 2*np.pi*n/(nt*dt)
 
 
-def dispersion_plot(field, fm, Tm, wt_m, index, save_path, title, label, flag):
+def dispersion_plot(field, fm, Tm, Tm2, wt_m, index, save_path, title, label, flag):
 
     def amplitude(field, fm):
         norm = np.sum(index*fm**2, axis=1)
@@ -32,11 +32,11 @@ def dispersion_plot(field, fm, Tm, wt_m, index, save_path, title, label, flag):
 
     pcm = ax.pcolormesh(Tm, w, power, shading='nearest')
 
-    # if flag:
-    #     ax.scatter(Tm, wt_m, c='black', s=10, label='$\\xi_m$')
-    # elif not flag:
-    #     ax.scatter(np.repeat(Tm, wt_m.shape[1]), wt_m.real.ravel(),
-    #                 c='black', s=10, label='$\\eta_m$')
+    if flag:
+        ax.scatter(Tm2, wt_m, c='black', s=1, label='$\\xi_m$')
+    elif not flag:
+        ax.scatter(np.repeat(Tm2, wt_m.shape[1]), wt_m.real.ravel(),
+                    c='black', s=1, label='$\\eta_m$')
 
     ax.set_xlabel(r'$T_m c/\omega_{pe}$', fontsize=fontsize)
     ax.set_ylabel(r'$\omega/\omega_{pe}$', fontsize=fontsize)
@@ -46,7 +46,7 @@ def dispersion_plot(field, fm, Tm, wt_m, index, save_path, title, label, flag):
     ax.tick_params(axis='x', labelsize=fontsize - 2)
     ax.tick_params(axis='y', labelsize=fontsize - 2)
     cbar = fig.colorbar(pcm, ax=ax)
-    cbar.ax.tick_params(labelsize=fontsize - 2)
+    cbar.ax.tick_params(labelsize=fontsize - 8)
     fig.savefig(os.path.join(save_path, f"{label}.png"))
     plt.close(fig)
 
@@ -80,14 +80,14 @@ def field_plot(field, save_path, title, label):
     h = ax.imshow(field, extent=[xmin, xmax, 0, nt*dt], origin='lower',
                   cmap='jet', aspect='auto')
 
-    ax.set_xlabel(r'$x\,(\omega_{pe}/c)$', fontsize=fontsize)
+    ax.set_xlabel(r'$r\,(\omega_{pe}/c)$', fontsize=fontsize)
     ax.set_ylabel(r'$\omega_{pe} t$', fontsize=fontsize)
     ax.set_title(rf'{title}', fontsize=fontsize)
     ax.tick_params(axis='x', labelsize=fontsize - 2)
     ax.tick_params(axis='y', labelsize=fontsize - 2)
 
     cbar = fig.colorbar(h, ax=ax)
-    cbar.ax.tick_params(labelsize=fontsize - 2)
+    cbar.ax.tick_params(labelsize=fontsize - 8)
 
     fig.savefig(os.path.join(save_path, f"{label}.png"))
     plt.close(fig)
@@ -295,20 +295,34 @@ def save_dispersion(save, index, dx, save_fig_path):
             dispersion_relation(xmin, xmax, xi, eta)
     # ez_c, bz_c = fluctuation_profile(xmin, xi, eta, index*dx)
     # ez_m, bz_m = fluctuation_profile(xmin, xi_m, eta_m, index*dx)
+    ez_c = fluctuation_profile_ez(xmin, xi, index*dx)
+    ez_c_h = fluctuation_profile_ez(xmin, xi, (index[:-1] + 0.5)*dx)
+    bz_c = fluctuation_profile_bz(xmin, eta, index*dx)
+    bz_c_h = fluctuation_profile_bz(xmin, eta, (index[:-1] + 0.5)*dx)
     ez_m = fluctuation_profile_ez(xmin, xi_m, index*dx)
     ez_m_h = fluctuation_profile_ez(xmin, xi_m, (index[:-1] + 0.5)*dx)
     bz_m = fluctuation_profile_bz(xmin, eta_m, index*dx)
     bz_m_h = fluctuation_profile_bz(xmin, eta_m, (index[:-1] + 0.5)*dx)
-    dispersion_plot(save["ez"], ez_m, xi_m, w_xi_m, index, save_fig_path, title=r'$E_z(T_m,\omega)$',
+    dispersion_plot(save["ez"], ez_m, xi_m, xi_m, w_xi_m, index, save_fig_path, title=r'$E_z(T_m,\omega)$',
                         label='Ez_wk', flag=True)
-    dispersion_plot(save["ex"], bz_m, eta_m, w_eta_m, index, save_fig_path, title=r'$E_x(T_m,\omega)$',
+    dispersion_plot(save["ex"], bz_m, eta_m, eta_m, w_eta_m, index, save_fig_path, title=r'$E_r(T_m,\omega)$',
                             label='Ex_wk', flag=False)
-    dispersion_plot(save["ey"], bz_m, eta_m, w_eta_m, index, save_fig_path, title=r'$E_y(T_m,\omega)$',
+    dispersion_plot(save["ey"], bz_m, eta_m, eta_m, w_eta_m, index, save_fig_path, title=r'$E_\theta(T_m,\omega)$',
                         label='Ey_wk', flag=False)
-    dispersion_plot(save["by"][:, 1:-1], ez_m_h, xi_m, w_xi_m, index[:-1] + 0.5, save_fig_path,
-                        title=r'$B_y(T_m,\omega)$', label='By_wk', flag=True)
-    dispersion_plot(save["bz"][:, 1:-1], bz_m_h, eta_m, w_eta_m, index[:-1] + 0.5, save_fig_path,
+    dispersion_plot(save["by"][:, 1:-1], ez_m_h, xi_m, xi_m, w_xi_m, index[:-1] + 0.5, save_fig_path,
+                        title=r'$B_\theta(T_m,\omega)$', label='By_wk', flag=True)
+    dispersion_plot(save["bz"][:, 1:-1], bz_m_h, eta_m, eta_m, w_eta_m, index[:-1] + 0.5, save_fig_path,
                     title=r'$B_z(T_m,\omega)$', label='Bz_wk', flag=False)
+    dispersion_plot(save["ez"], ez_c, xi, xi_m, w_xi_m, index, save_fig_path, title=r'$E_z(T_m,\omega)$',
+                            label='Ez_wk_c', flag=True)
+    dispersion_plot(save["ex"], bz_c, eta, eta_m, w_eta_m, index, save_fig_path, title=r'$E_r(T_m,\omega)$',
+                            label='Ex_wk_c', flag=False)
+    dispersion_plot(save["ey"], bz_c, eta, eta_m, w_eta_m, index, save_fig_path, title=r'$E_\theta(T_m,\omega)$',
+                        label='Ey_wk_c', flag=False)
+    dispersion_plot(save["by"][:, 1:-1], ez_c_h, xi, xi_m, w_xi_m, index[:-1] + 0.5, save_fig_path,
+                        title=r'$B_\theta(T_m,\omega)$', label='By_wk_c', flag=True)
+    dispersion_plot(save["bz"][:, 1:-1], bz_c_h, eta, eta_m, w_eta_m, index[:-1] + 0.5, save_fig_path,
+                    title=r'$B_z(T_m,\omega)$', label='Bz_wk_c', flag=False)
     # dispersion_plot(save["ex"], bz_m, eta_m, w_eta_m, save_fig_path, title=r'$E_x(T_m,\omega)$',
     #                         label='Ex_wk', flag=False)
     # dispersion_plot(save["bz"], bz_c, eta, w_eta, save_fig_path, title=r'$B_z(T_m,\omega)$',
@@ -330,8 +344,8 @@ def save_phase_speed(vx, vy, vxi, vyi, save_fig_path):
 
 def save_field_plot(save, save_fig_path):
 
-    field_plot(save["ex"], save_fig_path, title=r'$E_x(x,t)$', label='Ex_xt')
-    field_plot(save["ey"], save_fig_path, title=r'$E_y(x,t)$', label='Ey_xt')
+    field_plot(save["ex"], save_fig_path, title=r'$E_r(x,t)$', label='Ex_xt')
+    field_plot(save["ey"], save_fig_path, title=r'$E_\theta(x,t)$', label='Ey_xt')
     field_plot(save["ez"], save_fig_path, title=r'$E_z(x,t)$', label='Ez_xt')
-    field_plot(save["by"], save_fig_path, title=r'$B_y(x,t)$', label='By_xt')
+    field_plot(save["by"], save_fig_path, title=r'$B_\theta(x,t)$', label='By_xt')
     field_plot(save["bz"], save_fig_path, title=r'$B_z(x,t)$', label='Bz_xt')

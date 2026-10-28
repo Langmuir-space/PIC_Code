@@ -167,6 +167,7 @@ def main():
         ey, ez, by_new, bz_new = ftdt(ey, ez, by_new, bz_new, jy, jz)
         by = 0.5*(by_old + by_new)
         bz = 0.5*(bz_old + bz_new)
+        # ey, ez, by, bz = ftdt(ey, ez, by, bz, jy, jz)
         ex = ftdt_ex(ex, jx)
 
         # ======================================
