@@ -4,7 +4,7 @@ import numpy as np
 # Simulation Setting
 # ===============================
 xmin = 10000
-xmax = 10015                   # Plasma Size Normalized By c/wpe
+xmax = 10100                   # Plasma Size Normalized By c/wpe
 nt = 2**12                    # Time Grid Number
 # dx = 2**(-3)
 dx = 0.1
@@ -12,7 +12,7 @@ nx = int((xmax - xmin) / dx)        # X-space Grid Length
 dt = 0.5*dx                         # Time Grid Length
 theta = 90                       # Propagation Degree
 x0 = int(xmin / dx)
-nptcl = 2**16          # Particle Number
+nptcl = 2**17          # Particle Number
 dtdr = dt/dx
 
 print('xmin:', xmin, 'xmax:', xmax)
