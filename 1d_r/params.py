@@ -39,7 +39,6 @@ vthi = vth/np.sqrt(mi)          # Thermal Speed
 qmi = - qme/mi                  # Electron Standard q/mi
 qi = - qe                       # Electric Charge
 
-
 # ===============================
 # Others
 # ===============================
