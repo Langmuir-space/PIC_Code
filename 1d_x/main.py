@@ -312,20 +312,20 @@ def main():
     #           select='phase')
 
     dispersion_plot(ext, save_fig_path, title=r'$E_x(k,\omega)$', label='Ex_wk')
-    # dispersion_plot(eyt, save_fig_path, title=r'$E_y(k,\omega)$', label='Ey_wk')
-    # dispersion_plot(ezt, save_fig_path, title=r'$E_z(k,\omega)$', label='Ez_wk')
-    # dispersion_plot(byt, save_fig_path, title=r'$B_y(k,\omega)$', label='By_wk')
+    dispersion_plot(eyt, save_fig_path, title=r'$E_y(k,\omega)$', label='Ey_wk')
+    dispersion_plot(ezt, save_fig_path, title=r'$E_z(k,\omega)$', label='Ez_wk')
+    dispersion_plot(byt, save_fig_path, title=r'$B_y(k,\omega)$', label='By_wk')
     dispersion_plot(bzt, save_fig_path, title=r'$B_z(k,\omega)$', label='Bz_wk')
 
-    phase_speed(vx, vy, save_fig_path, title='Electron phase space',
-                label='Electron_phase', vmin=None, vmax=None)
-    phase_speed(vxi, vyi, save_fig_path, title='Ion phase space',
-                label='Ion_phase', vmin=None, vmax=None)
+    # phase_speed(vx, vy, save_fig_path, title='Electron phase space',
+    #             label='Electron_phase', vmin=None, vmax=None)
+    # phase_speed(vxi, vyi, save_fig_path, title='Ion phase space',
+    #             label='Ion_phase', vmin=None, vmax=None)
 
     field_plot(ext, save_fig_path, title=r'$E_x(x,t)$', label='Ex_xt')
-    # field_plot(eyt, save_fig_path, title=r'$E_y(x,t)$', label='Ey_xt')
-    # field_plot(ezt, save_fig_path, title=r'$E_z(x,t)$', label='Ez_xt')
-    # field_plot(byt, save_fig_path, title=r'$B_y(x,t)$', label='By_xt')
+    field_plot(eyt, save_fig_path, title=r'$E_y(x,t)$', label='Ey_xt')
+    field_plot(ezt, save_fig_path, title=r'$E_z(x,t)$', label='Ez_xt')
+    field_plot(byt, save_fig_path, title=r'$B_y(x,t)$', label='By_xt')
     field_plot(bzt, save_fig_path, title=r'$B_z(x,t)$', label='Bz_xt')
 
 
