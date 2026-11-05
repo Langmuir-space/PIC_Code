@@ -33,10 +33,10 @@ def dispersion_plot(field, fm, Tm, Tm2, wt_m, index, save_path, title, label, fl
     pcm = ax.pcolormesh(Tm, w, power, shading='nearest')
 
     if flag:
-        ax.scatter(Tm2, wt_m, c='black', s=1, label='$\\xi_m$')
+        ax.scatter(Tm2, wt_m, c='black', s=3, label='$\\xi_m$')
     elif not flag:
         ax.scatter(np.repeat(Tm2, wt_m.shape[1]), wt_m.real.ravel(),
-                    c='black', s=1, label='$\\eta_m$')
+                    c='black', s=3, label='$\\eta_m$')
 
     ax.set_xlabel(r'$T_m c/\omega_{pe}$', fontsize=fontsize)
     ax.set_ylabel(r'$\omega/\omega_{pe}$', fontsize=fontsize)
@@ -313,16 +313,16 @@ def save_dispersion(save, index, dx, save_fig_path):
                         title=r'$B_\theta(T_m,\omega)$', label='By_wk', flag=True)
     dispersion_plot(save["bz"][:, 1:-1], bz_m_h, eta_m, eta_m, w_eta_m, index[:-1] + 0.5, save_fig_path,
                     title=r'$B_z(T_m,\omega)$', label='Bz_wk', flag=False)
-    dispersion_plot(save["ez"], ez_c, xi, xi_m, w_xi_m, index, save_fig_path, title=r'$E_z(T_m,\omega)$',
-                            label='Ez_wk_c', flag=True)
-    dispersion_plot(save["ex"], bz_c, eta, eta_m, w_eta_m, index, save_fig_path, title=r'$E_r(T_m,\omega)$',
-                            label='Ex_wk_c', flag=False)
-    dispersion_plot(save["ey"], bz_c, eta, eta_m, w_eta_m, index, save_fig_path, title=r'$E_\theta(T_m,\omega)$',
-                        label='Ey_wk_c', flag=False)
-    dispersion_plot(save["by"][:, 1:-1], ez_c_h, xi, xi_m, w_xi_m, index[:-1] + 0.5, save_fig_path,
-                        title=r'$B_\theta(T_m,\omega)$', label='By_wk_c', flag=True)
-    dispersion_plot(save["bz"][:, 1:-1], bz_c_h, eta, eta_m, w_eta_m, index[:-1] + 0.5, save_fig_path,
-                    title=r'$B_z(T_m,\omega)$', label='Bz_wk_c', flag=False)
+    # dispersion_plot(save["ez"], ez_c, xi, xi_m, w_xi_m, index, save_fig_path, title=r'$E_z(T_m,\omega)$',
+    #                         label='Ez_wk_c', flag=True)
+    # dispersion_plot(save["ex"], bz_c, eta, eta_m, w_eta_m, index, save_fig_path, title=r'$E_r(T_m,\omega)$',
+    #                         label='Ex_wk_c', flag=False)
+    # dispersion_plot(save["ey"], bz_c, eta, eta_m, w_eta_m, index, save_fig_path, title=r'$E_\theta(T_m,\omega)$',
+    #                     label='Ey_wk_c', flag=False)
+    # dispersion_plot(save["by"][:, 1:-1], ez_c_h, xi, xi_m, w_xi_m, index[:-1] + 0.5, save_fig_path,
+    #                     title=r'$B_\theta(T_m,\omega)$', label='By_wk_c', flag=True)
+    # dispersion_plot(save["bz"][:, 1:-1], bz_c_h, eta, eta_m, w_eta_m, index[:-1] + 0.5, save_fig_path,
+    #                 title=r'$B_z(T_m,\omega)$', label='Bz_wk_c', flag=False)
     # dispersion_plot(save["ex"], bz_m, eta_m, w_eta_m, save_fig_path, title=r'$E_x(T_m,\omega)$',
     #                         label='Ex_wk', flag=False)
     # dispersion_plot(save["bz"], bz_c, eta, w_eta, save_fig_path, title=r'$B_z(T_m,\omega)$',
