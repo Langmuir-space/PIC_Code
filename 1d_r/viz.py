@@ -8,7 +8,7 @@ from setrho import index
 from disp import dispersion_relation, fluctuation_profile, \
     fluctuation_profile_ez, fluctuation_profile_bz
 
-n = 128
+n = 128*4
 wmax = 2*np.pi*n/(nt*dt)
 
 

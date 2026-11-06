@@ -1,4 +1,5 @@
 import numpy as np
+import os
 from params import nx, nt, qme, qmi, dt, qe, qi, save_path, flag, dx
 from move import move, push
 from fields import field_energy, field_ex, ftdt, ftdt_ex, first_b
@@ -199,6 +200,7 @@ def main():
     save_dispersion(save, index, dx, save_fig_path)
     # save_phase_speed(vx, vy, vxi,vyi, save_fig_path)
     save_field_plot(save, save_fig_path)
+    # np.savetxt(os.path.join(save_fig_path, 'params.txt'), save['ex'], fmt='%.6e')
 
 
 if __name__ == "__main__":
