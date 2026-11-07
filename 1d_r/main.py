@@ -154,14 +154,14 @@ def main():
         # ===============================================================
         # Charge Density at t = (n + 1)Δt at x = i
         # ===============================================================
-        # rhoe = setrho(x, qe)
-        # rhoi = setrho(xi, qi)
-        # rho = rhoe + rhoi
+        rhoe = setrho(x, qe)
+        rhoi = setrho(xi, qi)
+        rho = rhoe + rhoi
 
         # ======================================
         # Field at t = (n + 1)Δt at x = i
         # ======================================
-        # ex, phi = field_ex(rho)
+        ex, phi = field_ex(rho)
         if it == 0:
             by_new, bz_new = first_b(by, bz, ey, ez)
         by_old, bz_old = by_new.copy(), bz_new.copy()
@@ -169,7 +169,7 @@ def main():
         by = 0.5*(by_old + by_new)
         bz = 0.5*(bz_old + bz_new)
         # ey, ez, by, bz = ftdt(ey, ez, by, bz, jy, jz)
-        ex = ftdt_ex(ex, jx)
+        # ex = ftdt_ex(ex, jx)
 
         # ======================================
         # Save Into List

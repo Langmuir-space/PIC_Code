@@ -53,4 +53,4 @@ interval = 50
 fontsize = 24
 s = 1
 bins = 100
-Tmax = 30
+Tmax = 10
